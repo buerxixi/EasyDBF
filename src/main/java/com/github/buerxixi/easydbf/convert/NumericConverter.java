@@ -12,7 +12,7 @@ import java.math.RoundingMode;
  *
  * @author liujiaqiang <liujiaqiang@outlook.com>
  */
-public class NumericConverter extends AbstractConverter {
+public class NumericConverter extends AbstractTypeConverter {
 
     @Override
     public byte[] toBytes(String s, DBFField field) {

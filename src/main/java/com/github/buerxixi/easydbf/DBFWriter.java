@@ -1,11 +1,10 @@
 package com.github.buerxixi.easydbf;
 
-import com.github.buerxixi.easydbf.convert.AbstractConverter;
+import com.github.buerxixi.easydbf.convert.AbstractTypeConverter;
 import com.github.buerxixi.easydbf.convert.CharacterConverter;
 import com.github.buerxixi.easydbf.convert.DateConverter;
 import com.github.buerxixi.easydbf.convert.NumericConverter;
 import lombok.SneakyThrows;
-import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -13,6 +12,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class DBFWriter {
 
-    static Map<String, AbstractConverter> strategyMap = new ConcurrentHashMap<>();
+    static Map<String, AbstractTypeConverter> strategyMap = new ConcurrentHashMap<>();
 
     static {
         strategyMap.put(DBFConstant.CHARACTER, new CharacterConverter());
@@ -63,7 +63,20 @@ public class DBFWriter {
         updateHeader();
     }
 
-    public boolean create() {
+    @SneakyThrows
+    public boolean create(ArrayList<DBFField> list) {
+
+        // 创建上级目录
+         Files.createDirectories(Paths.get(this.table.getFilename()));
+
+        DBFHeader header = new DBFHeader();
+
+        // 获取header
+        // 获取fields
+        // 写入
+//        DBFConstant.END_OF_FIELD;
+//        DBFConstant.END_OF_DATA;
+
         // 创建包含表结构
         return false;
     }

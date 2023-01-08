@@ -7,7 +7,7 @@ import com.github.buerxixi.easydbf.DBFField;
  *
  * @author liujiaqiang <liujiaqiang@outlook.com>
  */
-public abstract class AbstractConverter {
+public abstract class AbstractTypeConverter {
 
       /**
        * 数据库读取字段转String

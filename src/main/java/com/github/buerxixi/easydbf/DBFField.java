@@ -1,5 +1,6 @@
 package com.github.buerxixi.easydbf;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +12,7 @@ import java.nio.charset.Charset;
  * @author liujiaqiang <liujiaqiang@outlook.com>
  */
 @Data
-@NoArgsConstructor
+@Builder
 public class DBFField {
 
     /**

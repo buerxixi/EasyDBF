@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author liujiaqiang <liujiaqiang@outlook.com>
  */
-public class DateConverter extends AbstractConverter {
+public class DateConverter extends AbstractTypeConverter {
 
     @Override
     public byte[] toBytes(String s, DBFField field) {

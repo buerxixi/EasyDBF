@@ -3,6 +3,7 @@ package com.github.buerxixi.easydbf;
 import org.junit.Test;
 
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.Assert.*;
@@ -24,6 +25,13 @@ public class DBFWriterTest {
 
     @Test
     public void create() {
+
+        ArrayList<DBFField> list = new ArrayList<>();
+        // 数据结构 然后去扩展
+        DBFField AAA = new DBFField.DBFFieldBuilder().name("AAA").size(1).type("C").build();
+        list.add(AAA);
+        DBFWriter writer = new DBFWriter("C:\\Users\\fangs\\Desktop\\开源项目\\EasyDBF\\测试文件1.dbf", Charset.forName("GBK"));
+        writer.create(list);
     }
 
     @Test
