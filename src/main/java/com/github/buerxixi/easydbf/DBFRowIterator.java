@@ -1,20 +1,19 @@
 package com.github.buerxixi.easydbf;
 
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.ArrayUtils;
+
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * DBFFieldIterator
  * <p>
  * @author liujiaqiang <liujiaqiang@outlook.com>
  */
-public class DBFFieldIterator implements Iterator<DBFRecord>, AutoCloseable {
+public class DBFRowIterator implements Iterator<DBFRow>, AutoCloseable {
 
     /**
      * table数据
@@ -46,7 +45,7 @@ public class DBFFieldIterator implements Iterator<DBFRecord>, AutoCloseable {
 
 
     @SneakyThrows
-    public DBFFieldIterator(DBFTable table) {
+    public DBFRowIterator(DBFTable table) {
         this.table = table;
         raf = new RandomAccessFile(table.getFilename(), "rw");
     }
@@ -98,7 +97,7 @@ public class DBFFieldIterator implements Iterator<DBFRecord>, AutoCloseable {
      */
     @SneakyThrows
     @Override
-    public DBFRecord next() {
+    public DBFRow next() {
 
         if(this.index < 0) {
             throw new RuntimeException("请先获取next,当前游标为 " + this.index);
@@ -118,7 +117,7 @@ public class DBFFieldIterator implements Iterator<DBFRecord>, AutoCloseable {
 
         byte[] bytes = new byte[header.getRecordLength()];
         raf.read(bytes);
-        return new DBFRecord(this.index, bytes, fields);
+        return new DBFRow(this.index, bytes, fields);
 
     }
 

@@ -1,16 +1,13 @@
 package com.github.buerxixi.easydbf;
 
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import lombok.Data;
 import org.apache.commons.collections4.IteratorUtils;
-import org.apache.commons.collections4.ListUtils;
 
 /**
  * DBFReader
@@ -18,7 +15,7 @@ import org.apache.commons.collections4.ListUtils;
  * @author liujiaqiang <liujiaqiang@outlook.com>
  */
 @Data
-public class DBFReader implements Iterable<DBFRecord> {
+public class DBFReader implements Iterable<DBFRow> {
 
     final private DBFTable table;
 
@@ -31,9 +28,9 @@ public class DBFReader implements Iterable<DBFRecord> {
      * <p>
      * TODO:该处可以通过迭代器实现 减少内存使用情况
      */
-    public List<DBFRecord> find(String pk, String value){
+    public List<DBFRow> find(String pk, String value){
         Optional<DBFField> filed = this.table.getFields().stream().filter(field -> field.getName().equals(pk)).findFirst();
-        return filed.map(field -> this.findAll().stream().filter(record -> record.rows.get(field.getIndex()).getString().equals(value))
+        return filed.map(field -> this.findAll().stream().filter(record -> record.records.get(field.getIndex()).getString().equals(value))
                 .collect(Collectors.toList()))
                 // 获取空置
                 .orElseGet(ArrayList::new);
@@ -44,8 +41,8 @@ public class DBFReader implements Iterable<DBFRecord> {
      *
      * @return
      */
-    public List<DBFRecord> findAll() {
-        try (DBFFieldIterator iterator = this.iterator()) {
+    public List<DBFRow> findAll() {
+        try (DBFRowIterator iterator = this.iterator()) {
             return IteratorUtils.toList(iterator);
         }
     }
@@ -56,7 +53,7 @@ public class DBFReader implements Iterable<DBFRecord> {
      * @return
      */
     @Override
-    public DBFFieldIterator iterator() {
-        return new DBFFieldIterator(this.table);
+    public DBFRowIterator iterator() {
+        return new DBFRowIterator(this.table);
     }
 }

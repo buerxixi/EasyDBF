@@ -12,7 +12,6 @@ import java.nio.charset.Charset;
  * @author liujiaqiang <liujiaqiang@outlook.com>
  */
 @Data
-@Builder
 public class DBFField {
 
     /**

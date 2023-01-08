@@ -2,6 +2,17 @@
 
 > 当前仅仅是dome，预计会在2023年春节完成。第一次写开源感觉力不从心，但肯定会有一个完结结果
 
+## DBF数据结构
+
+```
+数据结构
+
+Tab = Header(32bit) + n*Field(32bit) + 0x0D + n*Row() + 0x1A
+Header(32bit) = bytes[0](版本信息) + bytes[1:3](年月日) + bytes[4:7](记录条数) + bytes[8:9](头文件长度)
+Field(32bit) = bytes[0:10](字段名称) + bytes[11](数据类型) + bytes[16](字段长度) + bytes[17](字段精度)
+Row = 0x20/0x2A + n*Record
+```
+
 ## 支持类型
 
 | 名称           | 类型      | Java类型         | 示例     |

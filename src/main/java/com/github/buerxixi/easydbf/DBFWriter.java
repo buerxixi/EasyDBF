@@ -113,13 +113,13 @@ public class DBFWriter {
 
         // 先查询 TODO:此处可以改为直接遍历修改 减少内存使用
         DBFReader reader = new DBFReader(this.table.getFilename(), this.table.getCharset());
-        List<DBFRecord> records = reader.find(pk, value);
+        List<DBFRow> records = reader.find(pk, value);
         if (records.isEmpty()) return;
         Integer index = this.table.getFields().subList(0, pkFiled.get().getIndex()).stream().map(DBFField::getSize).reduce(0, Integer::sum);
         // 直接修改
         DBFHeader header = reader.getTable().getHeader();
         try (RandomAccessFile raf = new RandomAccessFile(this.table.getFilename(), "rw")) {
-            for (DBFRecord record : records) {
+            for (DBFRow record : records) {
                 raf.seek(header.getHeaderLength() + (long) header.getRecordLength() * record.getIndex() + index + 1 );
                 raf.write(strategyMap.get(updateFiled.get().getType()).toBytes(updateValue, updateFiled.get()));
             }
@@ -135,10 +135,10 @@ public class DBFWriter {
 
         // 先查询 TODO:此处可以改为直接遍历修改 减少内存使用
         DBFReader reader = new DBFReader(this.table.getFilename(), this.table.getCharset());
-        List<DBFRecord> records = reader.find(key, value);
+        List<DBFRow> records = reader.find(key, value);
         DBFHeader header = reader.getTable().getHeader();
         try (RandomAccessFile raf = new RandomAccessFile(this.table.getFilename(), "rw")) {
-            for (DBFRecord record : records) {
+            for (DBFRow record : records) {
                 raf.seek(header.getHeaderLength() + (long) header.getRecordLength() * record.getIndex());
                 raf.write(DBFConstant.DELETED_OF_FIELD);
             }

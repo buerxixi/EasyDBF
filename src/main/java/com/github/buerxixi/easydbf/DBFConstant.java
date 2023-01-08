@@ -62,4 +62,14 @@ public class DBFConstant {
      * 日期
      */
     final static public String DATE = "D";
+
+    /**
+     * 最大列数量
+     */
+    final static Integer MAX_FIELDS = 255;
+
+    /**
+     * 最大文件数量
+     */
+    final static Long MAX_RECORDS = 4294967296L;
 }

@@ -1,47 +1,39 @@
 package com.github.buerxixi.easydbf;
 
-import lombok.Data;
-import org.apache.commons.lang3.ArrayUtils;
-
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import lombok.Getter;
+import java.nio.charset.Charset;
 
 /**
- * DBFRecord
+ * DBFRow
  * <p>
  * @author liujiaqiang <liujiaqiang@outlook.com>
  */
-@Data
+@Getter
 public class DBFRecord {
 
-    /**
-     * 索引
-     */
-    private Integer index;
+    private final Integer index;
 
-    /**
-     * 是否删除
-     */
-    private Boolean deleted;
+    private final byte[] bytes;
 
-    /**
-     * 列元素
-     */
-    final public List<DBFRow> rows = new ArrayList<>();
+    private final Charset charset;
 
-    public DBFRecord(Integer index, byte[] bytes, List<DBFField> fields){
+    private final String type;
+
+    private  DBFField field;
+
+    public DBFRecord(Integer index, String type, Charset charset, byte[]bytes) {
         this.index = index;
-        this.deleted = bytes[0] == DBFConstant.DELETED_OF_FIELD;
+        this.type = type;
+        this.charset = charset;
+        this.bytes = bytes;
+    }
 
-        // 跳过第一个字符位删除位
-        int startIndex = 1;
-        for (DBFField field : fields) {
-            byte[] subarray = ArrayUtils.subarray(bytes, startIndex, startIndex + field.getSize());
-            // 数据叠加
-            startIndex += field.getSize();
-            this.rows.add(new DBFRow(field.getIndex(), field.getType(), field.getCharset(), subarray));
-        }
+    public String getString(){
+        return new String(this.bytes, this.charset).trim();
+    }
+
+    @Override
+    public String toString(){
+        return this.getString();
     }
 }

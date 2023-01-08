@@ -1,39 +1,45 @@
 package com.github.buerxixi.easydbf;
 
-import lombok.Getter;
-import java.nio.charset.Charset;
+import lombok.Data;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * DBFRow
+ * DBFRecord
  * <p>
  * @author liujiaqiang <liujiaqiang@outlook.com>
  */
-@Getter
+@Data
 public class DBFRow {
 
-    private final Integer index;
+    /**
+     * 索引
+     */
+    private Integer index;
 
-    private final byte[] bytes;
+    /**
+     * 是否删除
+     */
+    private Boolean deleted;
 
-    private final Charset charset;
+    /**
+     * 列元素
+     */
+    final public List<DBFRecord> records = new ArrayList<>();
 
-    private final String type;
-
-    private  DBFField field;
-
-    public DBFRow(Integer index, String type, Charset charset, byte[]bytes) {
+    public DBFRow(Integer index, byte[] bytes, List<DBFField> fields){
         this.index = index;
-        this.type = type;
-        this.charset = charset;
-        this.bytes = bytes;
-    }
+        this.deleted = bytes[0] == DBFConstant.DELETED_OF_FIELD;
 
-    public String getString(){
-        return new String(this.bytes, this.charset).trim();
-    }
-
-    @Override
-    public String toString(){
-        return this.getString();
+        // 跳过第一个字符位删除位
+        int startIndex = 1;
+        for (DBFField field : fields) {
+            byte[] subarray = ArrayUtils.subarray(bytes, startIndex, startIndex + field.getSize());
+            // 数据叠加
+            startIndex += field.getSize();
+            this.records.add(new DBFRecord(field.getIndex(), field.getType(), field.getCharset(), subarray));
+        }
     }
 }
