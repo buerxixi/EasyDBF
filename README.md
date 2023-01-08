@@ -58,6 +58,10 @@ writer.create(fileds);
 
 - 是否可以通过注解实现更为简单的功能（数据与对象的平稳转换）
 - 待完善测试用例
+- 金额符号问题
+- 简化语言和内部逻辑
+  - https://mp.weixin.qq.com/s/jwZ4jfE4Rn-RLVWSe_eGog
+  - https://mp.weixin.qq.com/s/zDghbgqjv0qTrDn9SYAODw
 
 ## 源码构建
 
