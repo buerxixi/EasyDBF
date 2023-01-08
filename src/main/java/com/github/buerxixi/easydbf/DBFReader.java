@@ -32,7 +32,7 @@ public class DBFReader implements Iterable<DBFRecord> {
      * TODO:该处可以通过迭代器实现 减少内存使用情况
      */
     public List<DBFRecord> find(String pk, String value){
-        Optional<DBFField> filed = this.table.getFields().stream().filter(field -> field.getType().equals(pk)).findFirst();
+        Optional<DBFField> filed = this.table.getFields().stream().filter(field -> field.getName().equals(pk)).findFirst();
         return filed.map(field -> this.findAll().stream().filter(record -> record.rows.get(field.getIndex()).getString().equals(value))
                 .collect(Collectors.toList()))
                 // 获取空置

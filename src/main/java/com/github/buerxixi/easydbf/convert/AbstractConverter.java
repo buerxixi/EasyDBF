@@ -11,11 +11,13 @@ public abstract class AbstractConverter {
 
       /**
        * 数据库读取字段转String
-       *
+       * <p>
+       * TODO:目前类型传入和返回都为String 以后可以针对类型单独处理
        * @param bytes 字节数组
        * @param field 字段类型
        * @return String
        */
+      @Deprecated
       public String toString(byte[] bytes, DBFField field) {
             return new String(bytes, field.getCharset()).trim();
       }

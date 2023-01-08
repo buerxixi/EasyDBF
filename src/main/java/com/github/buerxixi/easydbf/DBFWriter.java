@@ -108,7 +108,7 @@ public class DBFWriter {
         try (RandomAccessFile raf = new RandomAccessFile(this.table.getFilename(), "rw")) {
             for (DBFRecord record : records) {
                 raf.seek(header.getHeaderLength() + (long) header.getRecordLength() * record.getIndex() + index + 1 );
-                raf.write(strategyMap.get(updateFiled.get().getName()).toBytes(updateValue, updateFiled.get()));
+                raf.write(strategyMap.get(updateFiled.get().getType()).toBytes(updateValue, updateFiled.get()));
             }
         }
 

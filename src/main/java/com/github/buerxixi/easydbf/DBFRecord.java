@@ -41,7 +41,7 @@ public class DBFRecord {
             byte[] subarray = ArrayUtils.subarray(bytes, startIndex, startIndex + field.getSize());
             // 数据叠加
             startIndex += field.getSize();
-            this.rows.add(new DBFRow(field.getIndex(), field.getType(), StandardCharsets.UTF_8, subarray));
+            this.rows.add(new DBFRow(field.getIndex(), field.getType(), field.getCharset(), subarray));
         }
     }
 }

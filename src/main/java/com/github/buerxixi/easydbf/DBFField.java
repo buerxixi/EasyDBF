@@ -39,11 +39,16 @@ public class DBFField {
     private Integer digits = 0;
 
     /**
+     * 对应的表字段
+     */
+    private DBFTable table;
+
+    /**
      * 字符集
      */
     private Charset charset;
 
-    public DBFField(Integer index, byte[] bytes) {
+    public DBFField(Integer index, byte[] bytes, Charset charset) {
         // 索引
         this.index = index;
         // 字段名称ASCII
@@ -54,6 +59,8 @@ public class DBFField {
         this.size = (int) bytes[16];
         // 字段精度
         this.digits = (int) bytes[17];
+        // 字符集
+        this.charset = charset;
     }
 
 }

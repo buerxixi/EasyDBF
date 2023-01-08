@@ -65,7 +65,7 @@ public class DBFTable {
                 // 获取字段取值
                 byte[] subarray = ArrayUtils.subarray(bytes, i, i + 31);
                 // 字段
-                fields.add(new DBFField(j, subarray));
+                fields.add(new DBFField(j, subarray, this.charset));
             }
         } catch (Exception e) {
             e.printStackTrace();
