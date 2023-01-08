@@ -57,7 +57,7 @@ public class DBFHeader {
         this.year = (short) (bytes[1] + DBFConstant.START_YEAR);
         this.month = bytes[2];
         this.day = bytes[3];
-        this.numberOfRecords = ByteUtils.readIntLE(bytes,4, 3);
+        this.numberOfRecords = ByteUtils.readIntLE(bytes,4, 4);
         this.headerLength = ByteUtils.readIntLE(bytes,8, 2);
         this.recordLength = ByteUtils.readIntLE(bytes,0x0A, 2);
         this.languageDriver = bytes[29];

@@ -3,6 +3,8 @@ package com.github.buerxixi.easydbf;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.nio.charset.Charset;
+
 /**
  * DBFField
  * <p>
@@ -11,6 +13,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class DBFField {
+
+    /**
+     * 索引
+     * TODO: 优化索引
+     */
+    private Integer index;
 
     /**
      * 字段的名称
@@ -28,9 +36,17 @@ public class DBFField {
     /**
      * 字段精度
      */
-    private Integer digits;
+    private Integer digits = 0;
 
-    public DBFField(byte[] bytes) {
+    /**
+     * 字符集
+     */
+    private Charset charset;
+
+    public DBFField(Integer index, byte[] bytes) {
+        // 索引
+        this.index = index;
+        // 字段名称ASCII
         this.name = ByteUtils.byteToStr(bytes);
         // 数据类型
         this.type = String.valueOf((char) bytes[11]);

@@ -101,7 +101,7 @@ public class DBFFieldIterator implements Iterator<DBFRecord>, AutoCloseable {
     public DBFRecord next() {
 
         if(this.index < 0) {
-            throw new RuntimeException("请先获取next,当前游标为-1");
+            throw new RuntimeException("请先获取next,当前游标为 " + this.index);
         }
 
         // 获取header
@@ -110,7 +110,7 @@ public class DBFFieldIterator implements Iterator<DBFRecord>, AutoCloseable {
         // 获取fields
         List<DBFField> fields = table.getFields();
 
-        // 获取编码
+        // TODO: 获取编码
         Charset charset = table.getCharset();
 
         // 跳转位置
@@ -118,29 +118,8 @@ public class DBFFieldIterator implements Iterator<DBFRecord>, AutoCloseable {
 
         byte[] bytes = new byte[header.getRecordLength()];
         raf.read(bytes);
-        DBFRecord record = new DBFRecord();
-        record.setIndex(this.index);
-        record.setDeleted(bytes[0] == DBFConstant.DELETED_OF_FIELD);
+        return new DBFRecord(this.index, bytes, fields);
 
-        List<Integer> sizes = fields.stream().map(DBFField::getSize).collect(Collectors.toList());
-
-        // 跳过第一个字符位删除位
-        int startIndex = 1;
-        for (int i = 0; i < sizes.size(); i++) {
-            byte[] subarray = ArrayUtils.subarray(bytes, startIndex, startIndex + sizes.get(i));
-
-            startIndex += sizes.get(i);
-
-            // 获取类型
-            DBFField field = fields.get(i);
-
-            // 判断类型
-            // 初始化数据
-
-            record.rows.add(new DBFRow(field.getType(), this.table.getCharset(), subarray));
-        }
-
-        return record;
     }
 
     public void close() {

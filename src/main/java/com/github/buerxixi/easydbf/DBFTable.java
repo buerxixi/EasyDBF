@@ -61,11 +61,11 @@ public class DBFTable {
             raf.skipBytes(32);
             raf.read(bytes);
 
-            for (int i = 0; i < bytes.length; i += 32) {
+            for (int i = 0, j = 0; i < bytes.length; i += 32, j++) {
                 // 获取字段取值
                 byte[] subarray = ArrayUtils.subarray(bytes, i, i + 31);
                 // 字段
-                fields.add(new DBFField(subarray));
+                fields.add(new DBFField(j, subarray));
             }
         } catch (Exception e) {
             e.printStackTrace();

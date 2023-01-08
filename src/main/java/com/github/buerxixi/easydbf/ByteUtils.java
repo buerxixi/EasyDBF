@@ -1,5 +1,7 @@
 package com.github.buerxixi.easydbf;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -14,7 +16,7 @@ public class ByteUtils {
     }
 
     /**
-     * 字节数组大端读取
+     * 字节数组大端读取int
      *
      * @param bytes 字节数组
      * @param offset 偏移量
@@ -32,6 +34,23 @@ public class ByteUtils {
         }
 
         return le;
+    }
+
+    /**
+     * int大端写入字节数组
+     *
+     * @param number 数值
+     * @return 字节数组
+     */
+    public static byte[] writeIntLE(Integer number) {
+        byte[] bytes = new byte[4];
+
+        // 累计
+        for (int i = 0; i < bytes.length; i++) {
+            bytes[i] = (byte) ((number >> i * 8) & 0xFF);
+        }
+
+        return bytes;
     }
 
     /**
@@ -53,5 +72,17 @@ public class ByteUtils {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    public static byte[] merge(byte[] to, byte[] from) {
+        System.arraycopy(from, 0, to, 0, Math.min(to.length, from.length));
+        return to;
+    }
+
+    public static byte[] mergeRight(byte[] to, byte[] from) {
+        for (int i = 1; i <= Math.min(to.length, from.length); i++) {
+            to[to.length - i] = from[from.length - i];
+        }
+        return to;
     }
 }
