@@ -1,7 +1,5 @@
 package com.github.buerxixi.easydbf;
 
-import lombok.Data;
-
 /**
  * DBFDataType
  * <p>

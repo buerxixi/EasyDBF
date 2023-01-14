@@ -4,7 +4,6 @@ import com.github.buerxixi.easydbf.DBFField;
 import com.github.buerxixi.easydbf.DBFFieldType;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-
 import java.util.List;
 import java.util.Optional;
 

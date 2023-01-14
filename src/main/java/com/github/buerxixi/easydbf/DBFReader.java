@@ -4,7 +4,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import lombok.Data;
 import org.apache.commons.collections4.IteratorUtils;
 
@@ -35,8 +34,6 @@ public class DBFReader implements Iterable<DBFRow> {
         if(!filed.isPresent()) {
             return rows;
         }
-
-        List<DBFInnerField> fields = this.table.getFields();
 
         try (DBFRowIterator iterator = this.iterator()){
             while (iterator.hasNext()) {

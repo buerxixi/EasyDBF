@@ -9,16 +9,12 @@ import com.github.buerxixi.easydbf.util.FieldUtils;
 import com.github.buerxixi.easydbf.util.HeaderUtils;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.ArrayUtils;
-
 import java.io.File;
-import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -56,6 +52,7 @@ public class DBFWriter {
         this.table.readTable();
         byte[] recordBytes = this.table.getFields().stream()
                 // 转换为对应的字节
+                // TODO: 该处为转化类的重点
                 .map(field -> strategyMap.get(field.getType()).toBytes(map.get(field.getName()), field))
                 .reduce(DBFConstant.UNDELETED_OF_FIELD_BYTES, ArrayUtils::addAll);
         byte[] writeBytes = ArrayUtils.add(recordBytes, DBFConstant.END_OF_DATA);
@@ -110,13 +107,11 @@ public class DBFWriter {
 
     /**
      * 删除表空间
-     *
-     * @return 是否成功删除
      */
     @SneakyThrows
-    public boolean drop() {
+    public void drop() {
         // 其实就是直接删除文件
-        return Files.deleteIfExists(Paths.get(this.table.getFilename()));
+        Files.deleteIfExists(Paths.get(this.table.getFilename()));
     }
 
     /**
@@ -135,7 +130,7 @@ public class DBFWriter {
             return;
         }
 
-        // 先查询 TODO:此处可以改为直接遍历修改 减少内存使用
+        // 先查询 TODO: 此处可以改为直接遍历修改 减少内存使用
         DBFReader reader = new DBFReader(this.table.getFilename(), this.table.getCharset());
         List<DBFRow> records = reader.find(pk, value);
         if (records.isEmpty()) return;

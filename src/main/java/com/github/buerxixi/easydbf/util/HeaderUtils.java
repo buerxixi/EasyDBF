@@ -1,12 +1,7 @@
 package com.github.buerxixi.easydbf.util;
 
 import com.github.buerxixi.easydbf.DBFConstant;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * <p>

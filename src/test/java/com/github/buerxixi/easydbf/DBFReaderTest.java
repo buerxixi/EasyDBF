@@ -2,13 +2,9 @@ package com.github.buerxixi.easydbf;
 
 import com.github.buerxixi.easydbf.util.RecordUtils;
 import org.junit.Test;
-
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class DBFReaderTest {
 

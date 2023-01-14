@@ -14,19 +14,6 @@ import java.nio.charset.StandardCharsets;
 public abstract class AbstractTypeConverter {
 
       /**
-       * 数据库读取字段转String
-       * <p>
-       * TODO:目前类型传入和返回都为String 以后可以针对类型单独处理
-       * @param bytes 字节数组
-       * @param field 字段类型
-       * @return String
-       */
-      @Deprecated
-      public String toString(byte[] bytes, DBFField field) {
-            return new String(bytes, StandardCharsets.UTF_8).trim();
-      }
-
-      /**
        * String转数据存储字节数组
        *
        * @param s 字符串

@@ -2,13 +2,9 @@ package com.github.buerxixi.easydbf.convert;
 
 import com.github.buerxixi.easydbf.DBFInnerField;
 import com.github.buerxixi.easydbf.util.ByteUtils;
-import com.github.buerxixi.easydbf.DBFField;
 import org.apache.commons.lang3.StringUtils;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 /**

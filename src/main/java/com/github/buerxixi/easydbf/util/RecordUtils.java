@@ -1,12 +1,9 @@
 package com.github.buerxixi.easydbf.util;
 
-import com.github.buerxixi.easydbf.DBFField;
 import com.github.buerxixi.easydbf.DBFInnerField;
 import com.github.buerxixi.easydbf.DBFRecord;
 import com.github.buerxixi.easydbf.DBFRow;
-import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.lang3.StringUtils;
-
 import java.util.*;
 import java.util.stream.Collectors;
 

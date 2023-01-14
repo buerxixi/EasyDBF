@@ -3,7 +3,6 @@ package com.github.buerxixi.easydbf;
 import com.github.buerxixi.easydbf.util.ByteUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
 /**

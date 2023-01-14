@@ -2,7 +2,6 @@ package com.github.buerxixi.easydbf;
 
 import lombok.Data;
 import org.apache.commons.lang3.ArrayUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 

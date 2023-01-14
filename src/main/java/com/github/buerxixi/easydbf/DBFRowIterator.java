@@ -1,7 +1,6 @@
 package com.github.buerxixi.easydbf;
 
 import lombok.SneakyThrows;
-
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.charset.Charset;
@@ -52,7 +51,8 @@ public class DBFRowIterator implements Iterator<DBFRow>, AutoCloseable {
 
     /**
      * 是否有下一个文件
-     *
+     * <p>
+     * TODO:该处为查询类的重点中的重点
      * @return
      */
     @SneakyThrows

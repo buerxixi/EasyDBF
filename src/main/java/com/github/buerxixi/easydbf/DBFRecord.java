@@ -2,8 +2,6 @@ package com.github.buerxixi.easydbf;
 
 import lombok.Data;
 
-import java.nio.charset.Charset;
-
 /**
  * DBFRow
  * <p>
