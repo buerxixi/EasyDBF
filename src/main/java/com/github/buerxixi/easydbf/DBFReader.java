@@ -41,7 +41,7 @@ public class DBFReader implements Iterable<DBFRow> {
         try (DBFRowIterator iterator = this.iterator()){
             while (iterator.hasNext()) {
                 DBFRow row = iterator.next();
-                DBFRecord record = row.getRecords(fields).get(filed.get().getFieldNum());
+                DBFRecord record = row.getRecords().get(filed.get().getFieldNum());
                 if(record.getString().equals(value)) {
                     rows.add(iterator.next());
                 }

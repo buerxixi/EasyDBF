@@ -1,6 +1,7 @@
 package com.github.buerxixi.easydbf.convert;
 
 import com.github.buerxixi.easydbf.DBFField;
+import com.github.buerxixi.easydbf.DBFInnerField;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -32,5 +33,5 @@ public abstract class AbstractTypeConverter {
        * @param field 字段类型
        * @return 字节数组
        */
-      public abstract byte[] toBytes(String s, DBFField field, Charset charset);
+      public abstract byte[] toBytes(String s, DBFInnerField field);
 }

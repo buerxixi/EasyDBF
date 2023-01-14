@@ -18,7 +18,9 @@ public class DBFInnerField extends DBFField {
 
     private final byte[] bytes;
 
-    public DBFInnerField(Integer fieldNum, byte[] bytes) {
+    private final DBFTable table;
+
+    public DBFInnerField(Integer fieldNum, byte[] bytes, DBFTable table) {
         // 索引
         this.fieldNum = fieldNum;
         // 字段名称ASCII
@@ -31,6 +33,7 @@ public class DBFInnerField extends DBFField {
         this.digits = (int) bytes[17];
         // 数据
         this.bytes = bytes;
+        this.table = table;
     }
 
 }

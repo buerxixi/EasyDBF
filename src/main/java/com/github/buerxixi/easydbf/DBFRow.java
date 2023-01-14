@@ -29,23 +29,30 @@ public class DBFRow {
      */
     private byte[] bytes;
 
+    /**
+     * 表空间
+     */
+    private DBFTable table;
+
 
     /**
      * 列元素
      */
 
-    public DBFRow(Integer rowNum, byte[] bytes) {
+    public DBFRow(Integer rowNum, byte[] bytes, DBFTable table) {
         this.rowNum = rowNum;
         this.bytes = bytes;
         this.deleted = bytes[0] == DBFConstant.DELETED_OF_FIELD;
+        this.table = table;
     }
 
     // 跳过第一个字符位删除位
-    public List<DBFRecord> getRecords(List<DBFInnerField> fields){
+    public List<DBFRecord> getRecords(){
         List<DBFRecord> records = new ArrayList<>();
+        List<DBFInnerField> fields = this.table.getFields();
 
         int startIndex = 1;
-        for (DBFField field : fields) {
+        for (DBFInnerField field : fields) {
             byte[] subarray = ArrayUtils.subarray(bytes, startIndex, startIndex + field.getSize());
             // 数据叠加
             startIndex += field.getSize();

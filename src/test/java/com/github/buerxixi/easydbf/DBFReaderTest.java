@@ -19,16 +19,16 @@ public class DBFReaderTest {
     public void findAll() {
 
         DBFReader reader = new DBFReader("C:\\Users\\fangs\\Desktop\\开源项目\\EasyDBF\\rep.dbf", Charset.forName("GBK"));
-        System.out.println(reader.findAll());
+        System.out.println(RecordUtils.toMap(reader.findAll()));
     }
 
     @Test
     public void find() {
         DBFReader reader = new DBFReader(filename, Charset.forName("GBK"));
         List<DBFRow> rows = reader.find("NAME", "李风娇");
-        List<DBFRecord> records = rows.get(1).getRecords(reader.getTable().getFields());
+        List<DBFRecord> records = rows.get(1).getRecords();
         System.out.println(records);
-        System.out.println(RecordUtils.toMap(rows, reader.getTable().getFields()));
+        System.out.println(RecordUtils.toMap(rows));
     }
 
     @Test

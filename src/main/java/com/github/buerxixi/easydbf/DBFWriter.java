@@ -56,7 +56,7 @@ public class DBFWriter {
         this.table.readTable();
         byte[] recordBytes = this.table.getFields().stream()
                 // 转换为对应的字节
-                .map(field -> strategyMap.get(field.getType()).toBytes(map.get(field.getName()), field, this.table.getCharset()))
+                .map(field -> strategyMap.get(field.getType()).toBytes(map.get(field.getName()), field))
                 .reduce(DBFConstant.UNDELETED_OF_FIELD_BYTES, ArrayUtils::addAll);
         byte[] writeBytes = ArrayUtils.add(recordBytes, DBFConstant.END_OF_DATA);
 
@@ -145,7 +145,7 @@ public class DBFWriter {
         try (RandomAccessFile raf = new RandomAccessFile(this.table.getFilename(), "rw")) {
             for (DBFRow record : records) {
                 raf.seek(header.getHeaderLength() + (long) header.getRecordLength() * record.getRowNum() + index + 1 );
-                raf.write(strategyMap.get(updateFiled.get().getType()).toBytes(updateValue, updateFiled.get(), this.table.getCharset()));
+                raf.write(strategyMap.get(updateFiled.get().getType()).toBytes(updateValue, updateFiled.get()));
             }
         }
 
@@ -154,7 +154,7 @@ public class DBFWriter {
     }
 
     @SneakyThrows
-    public void delete(String key, String value) throws IOException {
+    public void delete(String key, String value) {
         this.table.readTable();
 
         // 先查询 TODO:此处可以改为直接遍历修改 减少内存使用

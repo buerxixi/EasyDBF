@@ -14,11 +14,11 @@ public class DBFRecord {
 
     private DBFRow row;
 
-    private DBFField field;
+    private DBFInnerField field;
 
     private final byte[] bytes;
 
-    public DBFRecord(DBFField field, DBFRow row, byte[]bytes) {
+    public DBFRecord(DBFInnerField field, DBFRow row, byte[]bytes) {
         this.field = field;
         this.row = row;
         this.bytes = bytes;
@@ -26,7 +26,7 @@ public class DBFRecord {
 
     public String getString(){
         // TODO:
-        return new String(this.bytes, Charset.forName("GBK")).trim();
+        return new String(this.bytes, field.getTable().getCharset()).trim();
     }
 
     @Override

@@ -70,7 +70,7 @@ public class DBFTable {
                 // 获取字段取值
                 byte[] subarray = ArrayUtils.subarray(bytes, i, i + 31);
                 // 字段
-                fields.add(new DBFInnerField(j, subarray));
+                fields.add(new DBFInnerField(j, subarray, this));
             }
         } catch (Exception e) {
             e.printStackTrace();

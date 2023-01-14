@@ -15,18 +15,7 @@ import java.util.HashMap;
 public class DBFWriterTest {
 
     final static String filename = "C:\\Users\\fangs\\Desktop\\开源项目\\EasyDBF\\测试文件3.dbf";
-    final static Charset charset = StandardCharsets.UTF_8;
-
-
-    @Test
-    public void add() {
-        DBFWriter writer = new DBFWriter(filename, charset);
-        HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("NAME", "刘家强");
-        hashMap.put("AGE", "23.0");
-        hashMap.put("BIRTH", "19930119");
-        writer.add(hashMap);
-    }
+    final static Charset charset = Charset.forName("GBK");
 
     @Test
     public void create() {
@@ -43,14 +32,30 @@ public class DBFWriterTest {
     }
 
     @Test
-    public void drop() {
+    public void add() {
         DBFWriter writer = new DBFWriter(filename, charset);
-        writer.drop();
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("NAME", "刘家强");
+        hashMap.put("AGE", "23.0");
+        hashMap.put("BIRTH", "19930119");
+        writer.add(hashMap);
     }
 
     @Test
     public void update() {
         DBFWriter writer = new DBFWriter(filename, charset);
         writer.update("NAME","刘家强", "NAME","李风娇");
+    }
+
+    @Test
+    public void delete() {
+        DBFWriter writer = new DBFWriter(filename, charset);
+        writer.delete("NAME","李风娇");
+    }
+
+    @Test
+    public void drop() {
+        DBFWriter writer = new DBFWriter(filename, charset);
+        writer.drop();
     }
 }

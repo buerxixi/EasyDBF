@@ -117,7 +117,7 @@ public class DBFRowIterator implements Iterator<DBFRow>, AutoCloseable {
 
         byte[] bytes = new byte[header.getRecordLength()];
         raf.read(bytes);
-        return new DBFRow(this.index, bytes);
+        return new DBFRow(this.index, bytes, table);
 
     }
 
