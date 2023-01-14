@@ -4,6 +4,7 @@ import com.github.buerxixi.easydbf.convert.AbstractTypeConverter;
 import com.github.buerxixi.easydbf.convert.CharacterConverter;
 import com.github.buerxixi.easydbf.convert.DateConverter;
 import com.github.buerxixi.easydbf.convert.NumericConverter;
+import com.github.buerxixi.easydbf.pojo.*;
 import com.github.buerxixi.easydbf.util.ByteUtils;
 import com.github.buerxixi.easydbf.util.FieldUtils;
 import com.github.buerxixi.easydbf.util.HeaderUtils;

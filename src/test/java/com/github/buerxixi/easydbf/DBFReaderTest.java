@@ -1,5 +1,7 @@
 package com.github.buerxixi.easydbf;
 
+import com.github.buerxixi.easydbf.pojo.DBFRecord;
+import com.github.buerxixi.easydbf.pojo.DBFRow;
 import com.github.buerxixi.easydbf.util.RecordUtils;
 import org.junit.Test;
 import java.nio.charset.Charset;

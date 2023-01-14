@@ -1,4 +1,4 @@
-package com.github.buerxixi.easydbf;
+package com.github.buerxixi.easydbf.pojo;
 
 import lombok.SneakyThrows;
 import java.io.IOException;
@@ -105,12 +105,6 @@ public class DBFRowIterator implements Iterator<DBFRow>, AutoCloseable {
 
         // 获取header
         DBFHeader header = table.getHeader();
-
-        // 获取fields
-        List<DBFInnerField> fields = table.getFields();
-
-        // TODO: 获取编码
-        Charset charset = table.getCharset();
 
         // 跳转位置
         raf.seek(header.getHeaderLength() + (long) header.getRecordLength() * this.index);

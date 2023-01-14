@@ -1,10 +1,6 @@
 package com.github.buerxixi.easydbf.convert;
 
-import com.github.buerxixi.easydbf.DBFField;
-import com.github.buerxixi.easydbf.DBFInnerField;
-
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+import com.github.buerxixi.easydbf.pojo.DBFInnerField;
 
 /**
  * <p>

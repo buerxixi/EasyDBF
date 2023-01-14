@@ -1,8 +1,8 @@
 package com.github.buerxixi.easydbf.util;
 
-import com.github.buerxixi.easydbf.DBFInnerField;
-import com.github.buerxixi.easydbf.DBFRecord;
-import com.github.buerxixi.easydbf.DBFRow;
+import com.github.buerxixi.easydbf.pojo.DBFInnerField;
+import com.github.buerxixi.easydbf.pojo.DBFRecord;
+import com.github.buerxixi.easydbf.pojo.DBFRow;
 import org.apache.commons.lang3.StringUtils;
 import java.util.*;
 import java.util.stream.Collectors;

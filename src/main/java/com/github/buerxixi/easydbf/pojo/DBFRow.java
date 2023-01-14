@@ -1,4 +1,4 @@
-package com.github.buerxixi.easydbf;
+package com.github.buerxixi.easydbf.pojo;
 
 import lombok.Data;
 import org.apache.commons.lang3.ArrayUtils;

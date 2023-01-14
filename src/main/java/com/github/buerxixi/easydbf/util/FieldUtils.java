@@ -1,7 +1,7 @@
 package com.github.buerxixi.easydbf.util;
 
-import com.github.buerxixi.easydbf.DBFField;
-import com.github.buerxixi.easydbf.DBFFieldType;
+import com.github.buerxixi.easydbf.pojo.DBFField;
+import com.github.buerxixi.easydbf.pojo.DBFFieldType;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import java.util.List;

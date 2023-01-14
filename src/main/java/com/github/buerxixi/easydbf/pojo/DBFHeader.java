@@ -1,4 +1,4 @@
-package com.github.buerxixi.easydbf;
+package com.github.buerxixi.easydbf.pojo;
 
 import com.github.buerxixi.easydbf.util.ByteUtils;
 import lombok.Data;
@@ -63,26 +63,5 @@ public class DBFHeader {
         this.headerLength = ByteUtils.readInt16LE(bytes,8);
         this.recordLength = ByteUtils.readInt16LE(bytes,0x0A);
         this.languageDriver = bytes[29];
-    }
-
-    /**
-     * 创建空对象
-     */
-    public DBFHeader(List<DBFInnerField> fields){
-        this.version = DBFConstant.DBASE_III;
-        this.headerLength = fields.size() * (1 + 32) + 1;
-        this.recordLength = fields.stream().map(DBFInnerField::getSize).reduce(0, Integer::sum) + 1;
-    }
-
-    /**
-     * 转为字节数组
-     * @return
-     */
-    public byte[] toBytes(){
-        byte[] bytes = new byte[this.headerLength + 1];
-
-        // table = header + 0x00 + fields + 0x00 + rows + 0x00
-
-        return bytes;
     }
 }

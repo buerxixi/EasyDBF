@@ -1,4 +1,4 @@
-package com.github.buerxixi.easydbf;
+package com.github.buerxixi.easydbf.pojo;
 
 import com.github.buerxixi.easydbf.util.ByteUtils;
 import lombok.Getter;

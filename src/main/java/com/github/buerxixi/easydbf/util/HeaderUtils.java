@@ -1,6 +1,6 @@
 package com.github.buerxixi.easydbf.util;
 
-import com.github.buerxixi.easydbf.DBFConstant;
+import com.github.buerxixi.easydbf.pojo.DBFConstant;
 import java.time.LocalDate;
 
 /**

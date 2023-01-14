@@ -1,6 +1,6 @@
 package com.github.buerxixi.easydbf.convert;
 
-import com.github.buerxixi.easydbf.DBFInnerField;
+import com.github.buerxixi.easydbf.pojo.DBFInnerField;
 import com.github.buerxixi.easydbf.util.ByteUtils;
 import org.apache.commons.lang3.StringUtils;
 

@@ -1,5 +1,7 @@
 package com.github.buerxixi.easydbf;
 
+import com.github.buerxixi.easydbf.pojo.DBFField;
+import com.github.buerxixi.easydbf.pojo.DBFFieldType;
 import org.junit.Test;
 import java.nio.charset.Charset;
 import java.util.ArrayList;

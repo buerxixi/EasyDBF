@@ -1,4 +1,4 @@
-package com.github.buerxixi.easydbf;
+package com.github.buerxixi.easydbf.pojo;
 
 import lombok.Builder;
 import lombok.Data;
