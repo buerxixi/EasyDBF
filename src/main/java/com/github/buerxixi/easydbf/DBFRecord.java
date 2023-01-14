@@ -1,6 +1,7 @@
 package com.github.buerxixi.easydbf;
 
-import lombok.Getter;
+import lombok.Data;
+
 import java.nio.charset.Charset;
 
 /**
@@ -8,28 +9,24 @@ import java.nio.charset.Charset;
  * <p>
  * @author liujiaqiang <liujiaqiang@outlook.com>
  */
-@Getter
+@Data
 public class DBFRecord {
 
-    private final Integer index;
+    private DBFRow row;
+
+    private DBFField field;
 
     private final byte[] bytes;
 
-    private final Charset charset;
-
-    private final String type;
-
-    private  DBFField field;
-
-    public DBFRecord(Integer index, String type, Charset charset, byte[]bytes) {
-        this.index = index;
-        this.type = type;
-        this.charset = charset;
+    public DBFRecord(DBFField field, DBFRow row, byte[]bytes) {
+        this.field = field;
+        this.row = row;
         this.bytes = bytes;
     }
 
     public String getString(){
-        return new String(this.bytes, this.charset).trim();
+        // TODO:
+        return new String(this.bytes, Charset.forName("GBK")).trim();
     }
 
     @Override

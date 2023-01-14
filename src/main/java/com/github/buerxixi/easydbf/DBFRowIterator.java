@@ -107,7 +107,7 @@ public class DBFRowIterator implements Iterator<DBFRow>, AutoCloseable {
         DBFHeader header = table.getHeader();
 
         // 获取fields
-        List<DBFField> fields = table.getFields();
+        List<DBFInnerField> fields = table.getFields();
 
         // TODO: 获取编码
         Charset charset = table.getCharset();
@@ -117,7 +117,7 @@ public class DBFRowIterator implements Iterator<DBFRow>, AutoCloseable {
 
         byte[] bytes = new byte[header.getRecordLength()];
         raf.read(bytes);
-        return new DBFRow(this.index, bytes, fields);
+        return new DBFRow(this.index, bytes);
 
     }
 

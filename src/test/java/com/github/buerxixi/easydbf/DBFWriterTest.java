@@ -3,10 +3,9 @@ package com.github.buerxixi.easydbf;
 import org.junit.Test;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static org.junit.Assert.*;
 
 /**
  * <p>
@@ -15,11 +14,17 @@ import static org.junit.Assert.*;
  */
 public class DBFWriterTest {
 
+    final static String filename = "C:\\Users\\fangs\\Desktop\\开源项目\\EasyDBF\\测试文件3.dbf";
+    final static Charset charset = StandardCharsets.UTF_8;
+
+
     @Test
     public void add() {
-        DBFWriter writer = new DBFWriter("C:\\Users\\fangs\\Desktop\\开源项目\\EasyDBF\\rep.dbf", Charset.forName("GBK"));
+        DBFWriter writer = new DBFWriter(filename, charset);
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("SBBH", "中文是一个很优雅的事情");
+        hashMap.put("NAME", "刘家强");
+        hashMap.put("AGE", "23.0");
+        hashMap.put("BIRTH", "19930119");
         writer.add(hashMap);
     }
 
@@ -27,24 +32,25 @@ public class DBFWriterTest {
     public void create() {
 
         ArrayList<DBFField> list = new ArrayList<>();
-        // 数据结构 然后去扩展
-//        DBFField AAA = new DBFField.DBFFieldBuilder().name("AAA").size(1).type("C").build();
-//        list.add(AAA);
-        DBFWriter writer = new DBFWriter("C:\\Users\\fangs\\Desktop\\开源项目\\EasyDBF\\测试文件1.dbf", Charset.forName("GBK"));
+        DBFWriter writer = new DBFWriter(filename, charset);
+        DBFField nameField = DBFField.builder().name("NAME").type(DBFFieldType.CHARACTER).size(20).build();
+        DBFField ageFiled = DBFField.builder().name("AGE").type(DBFFieldType.NUMERIC).size(5).digits(1).build();
+        DBFField birthFiled = DBFField.builder().name("BIRTH").type(DBFFieldType.DATE).build();
+        list.add(nameField);
+        list.add(ageFiled);
+        list.add(birthFiled);
         writer.create(list);
     }
 
     @Test
     public void drop() {
+        DBFWriter writer = new DBFWriter(filename, charset);
+        writer.drop();
     }
 
     @Test
     public void update() {
-        DBFWriter writer = new DBFWriter("C:\\Users\\fangs\\Desktop\\开源项目\\EasyDBF\\测试文件.dbf", Charset.forName("GBK"));
-        writer.update("NAME","中文", "NAME","英文");
-    }
-
-    @Test
-    public void delete() {
+        DBFWriter writer = new DBFWriter(filename, charset);
+        writer.update("NAME","刘家强", "NAME","李风娇");
     }
 }

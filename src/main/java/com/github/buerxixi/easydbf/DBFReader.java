@@ -4,7 +4,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import lombok.Data;
 import org.apache.commons.collections4.IteratorUtils;
@@ -29,11 +28,27 @@ public class DBFReader implements Iterable<DBFRow> {
      * TODO:该处可以通过迭代器实现 减少内存使用情况
      */
     public List<DBFRow> find(String pk, String value){
-        Optional<DBFField> filed = this.table.getFields().stream().filter(field -> field.getName().equals(pk)).findFirst();
-        return filed.map(field -> this.findAll().stream().filter(record -> record.records.get(field.getIndex()).getString().equals(value))
-                .collect(Collectors.toList()))
-                // 获取空置
-                .orElseGet(ArrayList::new);
+        Optional<DBFInnerField> filed = this.table.findField(pk);
+
+        List<DBFRow> rows = new ArrayList<>();
+
+        if(!filed.isPresent()) {
+            return rows;
+        }
+
+        List<DBFInnerField> fields = this.table.getFields();
+
+        try (DBFRowIterator iterator = this.iterator()){
+            while (iterator.hasNext()) {
+                DBFRow row = iterator.next();
+                DBFRecord record = row.getRecords(fields).get(filed.get().getFieldNum());
+                if(record.getString().equals(value)) {
+                    rows.add(iterator.next());
+                }
+            }
+        }
+
+        return rows;
     }
 
     /**

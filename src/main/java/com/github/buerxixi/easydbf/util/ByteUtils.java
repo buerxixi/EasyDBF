@@ -1,6 +1,4 @@
-package com.github.buerxixi.easydbf;
-
-import org.apache.commons.lang3.ArrayUtils;
+package com.github.buerxixi.easydbf.util;
 
 import java.nio.charset.StandardCharsets;
 
@@ -23,7 +21,7 @@ public class ByteUtils {
      * @param byteLen 字节长度
      * @return 数值
      */
-    public static Integer readIntLE(byte[] bytes, Integer offset, Integer byteLen) {
+    private static Integer readIntLE(byte[] bytes, Integer offset, Integer byteLen) {
 
         // 结果
         int le = 0;
@@ -37,12 +35,45 @@ public class ByteUtils {
     }
 
     /**
+     * 字节数组大端读取int8
+     *
+     * @param bytes 字节数组
+     * @param offset 偏移量
+     * @return 数值
+     */
+    public static Integer readInt8LE(byte[] bytes, Integer offset) {
+        return readIntLE(bytes, offset, 1);
+    }
+
+    /**
+     * 字节数组大端读取int16
+     *
+     * @param bytes 字节数组
+     * @param offset 偏移量
+     * @return 数值
+     */
+    public static Integer readInt16LE(byte[] bytes, Integer offset) {
+        return readIntLE(bytes, offset, 2);
+    }
+
+    /**
+     * 字节数组大端读取int32
+     *
+     * @param bytes 字节数组
+     * @param offset 偏移量
+     * @return 数值
+     */
+    public static Integer readInt32LE(byte[] bytes, Integer offset) {
+        return readIntLE(bytes, offset, 4);
+    }
+
+    /**
      * int大端写入字节数组
      *
      * @param number 数值
      * @return 字节数组
      */
-    public static byte[] writeIntLE(Integer number) {
+    public static byte[] int32LE(Integer number) {
         byte[] bytes = new byte[4];
 
         // 累计
@@ -52,6 +83,22 @@ public class ByteUtils {
 
         return bytes;
     }
+
+    public static void writerInt(byte[] bytes, Integer number, Integer offset, Integer byteLen) {
+        byte[] byte4 = int32LE(number);
+        for (Integer i = 0; i < byteLen; i++) {
+            bytes[offset + i] = byte4[i];
+        }
+    }
+
+    public static void writerInt16(byte[] bytes, Integer number, Integer offset) {
+        writerInt(bytes, number, offset, 2);
+    }
+
+    public static void writerInt32(byte[] bytes, Integer number, Integer offset) {
+        writerInt(bytes, number, offset, 4);
+    }
+
 
     /**
      * 字节转字符

@@ -2,65 +2,39 @@ package com.github.buerxixi.easydbf;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.nio.charset.Charset;
+import lombok.experimental.SuperBuilder;
 
 /**
  * DBFField
  * <p>
+ *
  * @author liujiaqiang <liujiaqiang@outlook.com>
  */
+//@Builder
 @Data
+@SuperBuilder
 public class DBFField {
-
-    /**
-     * 索引
-     * TODO: 优化索引
-     */
-    private Integer index;
 
     /**
      * 字段的名称
      */
-    private String name;
+    protected String name;
 
     /**
      * 数据类型
      */
-    private String type;
+    protected DBFFieldType type;
     /**
      * 字段长度
      */
-    private Integer size;
+    protected Integer size;
     /**
      * 字段精度
      */
-    private Integer digits = 0;
+    @Builder.Default
+    protected Integer digits = 0;
 
-    /**
-     * 对应的表字段
-     */
-    private DBFTable table;
+    public DBFField() {
 
-    /**
-     * 字符集
-     */
-    private Charset charset;
-
-    public DBFField(Integer index, byte[] bytes, Charset charset) {
-        // 索引
-        this.index = index;
-        // 字段名称ASCII
-        this.name = ByteUtils.byteToStr(bytes);
-        // 数据类型
-        this.type = String.valueOf((char) bytes[11]);
-        // 字段长度
-        this.size = (int) bytes[16];
-        // 字段精度
-        this.digits = (int) bytes[17];
-        // 字符集
-        this.charset = charset;
     }
-
 }

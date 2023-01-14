@@ -1,11 +1,13 @@
 package com.github.buerxixi.easydbf;
 
+import lombok.Data;
+
 /**
  * DBFDataType
  * <p>
  * @author liujiaqiang <liujiaqiang@outlook.com>
  */
-public enum DBFDataType {
+public enum DBFFieldType {
 
     /**
      * 字符串
@@ -24,11 +26,20 @@ public enum DBFDataType {
 
     private final String type;
 
-    private  DBFDataType(String type) {
+    private DBFFieldType(String type) {
         this.type = type;
     }
 
     public String getType() {
         return type;
+    }
+
+    public static DBFFieldType forString(String s) {
+        for (DBFFieldType type : values()) {
+            if (type.type.equals(s)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Invalid DBFFieldType s: " + s);
     }
 }

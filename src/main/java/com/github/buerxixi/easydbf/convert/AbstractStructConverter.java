@@ -1,7 +1,5 @@
 package com.github.buerxixi.easydbf.convert;
 
-import com.github.buerxixi.easydbf.DBFField;
-
 import java.util.List;
 
 /**

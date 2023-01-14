@@ -4,15 +4,21 @@ import com.github.buerxixi.easydbf.convert.AbstractTypeConverter;
 import com.github.buerxixi.easydbf.convert.CharacterConverter;
 import com.github.buerxixi.easydbf.convert.DateConverter;
 import com.github.buerxixi.easydbf.convert.NumericConverter;
+import com.github.buerxixi.easydbf.util.ByteUtils;
+import com.github.buerxixi.easydbf.util.FieldUtils;
+import com.github.buerxixi.easydbf.util.HeaderUtils;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.ArrayUtils;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -26,12 +32,12 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class DBFWriter {
 
-    static Map<String, AbstractTypeConverter> strategyMap = new ConcurrentHashMap<>();
+    static Map<DBFFieldType, AbstractTypeConverter> strategyMap = new ConcurrentHashMap<>();
 
     static {
-        strategyMap.put(DBFConstant.CHARACTER, new CharacterConverter());
-        strategyMap.put(DBFConstant.NUMERIC, new NumericConverter());
-        strategyMap.put(DBFConstant.DATE, new DateConverter());
+        strategyMap.put(DBFFieldType.CHARACTER, new CharacterConverter());
+        strategyMap.put(DBFFieldType.NUMERIC, new NumericConverter());
+        strategyMap.put(DBFFieldType.DATE, new DateConverter());
     }
 
     final private DBFTable table;
@@ -50,7 +56,7 @@ public class DBFWriter {
         this.table.readTable();
         byte[] recordBytes = this.table.getFields().stream()
                 // 转换为对应的字节
-                .map(field -> strategyMap.get(field.getType()).toBytes(map.get(field.getName()), field))
+                .map(field -> strategyMap.get(field.getType()).toBytes(map.get(field.getName()), field, this.table.getCharset()))
                 .reduce(DBFConstant.UNDELETED_OF_FIELD_BYTES, ArrayUtils::addAll);
         byte[] writeBytes = ArrayUtils.add(recordBytes, DBFConstant.END_OF_DATA);
 
@@ -64,21 +70,42 @@ public class DBFWriter {
     }
 
     @SneakyThrows
-    public boolean create(ArrayList<DBFField> list) {
+    public void create(List<DBFField> fields) {
 
-        // 创建上级目录
-         Files.createDirectories(Paths.get(this.table.getFilename()));
+        // 获取文件
+        File file = new File(this.table.getFilename());
+        if(file.exists()){
+            throw new RuntimeException("文件已存在");
+        }
 
-        DBFHeader header = new DBFHeader();
+        file.getParentFile().mkdirs();
 
-        // 获取header
-        // 获取fields
-        // 写入
-//        DBFConstant.END_OF_FIELD;
-//        DBFConstant.END_OF_DATA;
+        // 头信息
+        byte[] headerBytes = HeaderUtils.toBytes();
 
-        // 创建包含表结构
-        return false;
+        // 字段信息
+        byte[] fieldsBytes = FieldUtils.toBytes(fields);
+
+        // 8-9文件头长度
+        // 头信息+filed信息+结束符
+        Integer headerLength = (fields.size() + 1) * 32 + 1;
+        ByteUtils.writerInt16(headerBytes, headerLength, 8);
+
+        // 10-11每条记录长度
+        // 字符信息+结束符
+        Integer recordLength = fields.stream()
+                .map(field -> Optional.of(field.getSize()).orElse(0))
+                .reduce(0,Integer::sum) + 1;
+        ByteUtils.writerInt16(headerBytes, recordLength, 10);
+
+        // 写入数据
+        try (RandomAccessFile raf = new RandomAccessFile(this.table.getFilename(), "rw")) {
+            raf.write(headerBytes);
+            raf.write(fieldsBytes);
+            // 添加结束符
+            raf.write(DBFConstant.END_OF_FIELD);
+            raf.write(DBFConstant.END_OF_DATA);
+        }
     }
 
     /**
@@ -100,14 +127,11 @@ public class DBFWriter {
         this.table.readTable();
 
         // 查找key
-        Optional<DBFField> pkFiled = this.table.getFields().stream().filter(filed -> filed.getName().equals(pk)).findFirst();
-        if(!pkFiled.isPresent()){
-            return;
-        }
+        Optional<DBFInnerField> pkFiled = this.table.findField(pk);
 
         // 查找更新key
-        Optional<DBFField> updateFiled = this.table.getFields().stream().filter(filed -> filed.getName().equals(updateKey)).findFirst();
-        if(!updateFiled.isPresent()){
+        Optional<DBFInnerField> updateFiled = this.table.findField(updateKey);
+        if(!pkFiled.isPresent() || !updateFiled.isPresent()){
             return;
         }
 
@@ -115,13 +139,13 @@ public class DBFWriter {
         DBFReader reader = new DBFReader(this.table.getFilename(), this.table.getCharset());
         List<DBFRow> records = reader.find(pk, value);
         if (records.isEmpty()) return;
-        Integer index = this.table.getFields().subList(0, pkFiled.get().getIndex()).stream().map(DBFField::getSize).reduce(0, Integer::sum);
+        Integer index = this.table.getFields().subList(0, pkFiled.get().getFieldNum()).stream().map(DBFField::getSize).reduce(0, Integer::sum);
         // 直接修改
         DBFHeader header = reader.getTable().getHeader();
         try (RandomAccessFile raf = new RandomAccessFile(this.table.getFilename(), "rw")) {
             for (DBFRow record : records) {
-                raf.seek(header.getHeaderLength() + (long) header.getRecordLength() * record.getIndex() + index + 1 );
-                raf.write(strategyMap.get(updateFiled.get().getType()).toBytes(updateValue, updateFiled.get()));
+                raf.seek(header.getHeaderLength() + (long) header.getRecordLength() * record.getRowNum() + index + 1 );
+                raf.write(strategyMap.get(updateFiled.get().getType()).toBytes(updateValue, updateFiled.get(), this.table.getCharset()));
             }
         }
 
@@ -139,7 +163,7 @@ public class DBFWriter {
         DBFHeader header = reader.getTable().getHeader();
         try (RandomAccessFile raf = new RandomAccessFile(this.table.getFilename(), "rw")) {
             for (DBFRow record : records) {
-                raf.seek(header.getHeaderLength() + (long) header.getRecordLength() * record.getIndex());
+                raf.seek(header.getHeaderLength() + (long) header.getRecordLength() * record.getRowNum());
                 raf.write(DBFConstant.DELETED_OF_FIELD);
             }
         }
@@ -165,7 +189,7 @@ public class DBFWriter {
 
             // 更新数量 TODO:数量计算有问题
             Integer numberOfRecords = Math.toIntExact((raf.length() - this.table.getHeader().getHeaderLength() - 1) / this.table.getHeader().getRecordLength());
-            raf.write(ByteUtils.writeIntLE(numberOfRecords));
+            raf.write(ByteUtils.int32LE(numberOfRecords));
 
         }
     }

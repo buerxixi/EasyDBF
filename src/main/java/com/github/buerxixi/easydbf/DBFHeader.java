@@ -1,5 +1,6 @@
 package com.github.buerxixi.easydbf;
 
+import com.github.buerxixi.easydbf.util.ByteUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -53,26 +54,25 @@ public class DBFHeader {
      * 编码
      */
     private Byte languageDriver;
-    private List<DBFField> fields;
 
     public DBFHeader(byte[] bytes) {
         this.version = bytes[0];
         this.year = (short) (bytes[1] + DBFConstant.START_YEAR);
         this.month = bytes[2];
         this.day = bytes[3];
-        this.numberOfRecords = ByteUtils.readIntLE(bytes,4, 4);
-        this.headerLength = ByteUtils.readIntLE(bytes,8, 2);
-        this.recordLength = ByteUtils.readIntLE(bytes,0x0A, 2);
+        this.numberOfRecords = ByteUtils.readInt32LE(bytes,4);
+        this.headerLength = ByteUtils.readInt16LE(bytes,8);
+        this.recordLength = ByteUtils.readInt16LE(bytes,0x0A);
         this.languageDriver = bytes[29];
     }
 
     /**
      * 创建空对象
      */
-    public DBFHeader(List<DBFField> fields){
+    public DBFHeader(List<DBFInnerField> fields){
         this.version = DBFConstant.DBASE_III;
         this.headerLength = fields.size() * (1 + 32) + 1;
-        this.recordLength = fields.stream().map(DBFField::getSize).reduce(0, Integer::sum) + 1;
+        this.recordLength = fields.stream().map(DBFInnerField::getSize).reduce(0, Integer::sum) + 1;
     }
 
     /**

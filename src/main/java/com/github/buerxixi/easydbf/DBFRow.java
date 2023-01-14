@@ -15,9 +15,9 @@ import java.util.List;
 public class DBFRow {
 
     /**
-     * 索引
+     * 第几行元素
      */
-    private Integer index;
+    private Integer rowNum;
 
     /**
      * 是否删除
@@ -25,21 +25,32 @@ public class DBFRow {
     private Boolean deleted;
 
     /**
+     * 数据
+     */
+    private byte[] bytes;
+
+
+    /**
      * 列元素
      */
-    final public List<DBFRecord> records = new ArrayList<>();
 
-    public DBFRow(Integer index, byte[] bytes, List<DBFField> fields){
-        this.index = index;
+    public DBFRow(Integer rowNum, byte[] bytes) {
+        this.rowNum = rowNum;
+        this.bytes = bytes;
         this.deleted = bytes[0] == DBFConstant.DELETED_OF_FIELD;
+    }
 
-        // 跳过第一个字符位删除位
+    // 跳过第一个字符位删除位
+    public List<DBFRecord> getRecords(List<DBFInnerField> fields){
+        List<DBFRecord> records = new ArrayList<>();
+
         int startIndex = 1;
         for (DBFField field : fields) {
             byte[] subarray = ArrayUtils.subarray(bytes, startIndex, startIndex + field.getSize());
             // 数据叠加
             startIndex += field.getSize();
-            this.records.add(new DBFRecord(field.getIndex(), field.getType(), field.getCharset(), subarray));
+            records.add(new DBFRecord(field, this, subarray));
         }
+        return records;
     }
 }
