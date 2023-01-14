@@ -7,9 +7,10 @@
 ```
 参考链接：http://www.xumenger.com/dbf-20160703/
 Tab = Header(32bit) + n*Field(32bit) + 0x0D + n*Row() + 0x1A
-Header(32bit) = bytes[0](版本信息) + bytes[1:3](年月日) + bytes[4:7](记录条数) + bytes[8:9](头文件长度)
+Header(32bit) = bytes[0](版本信息) + bytes[1:3](年月日) + bytes[4:7](记录条数) + bytes[8:9](头文件长度) + bytes[10:11](记录长度)
 Field(32bit) = bytes[0:10](字段名称) + bytes[11](数据类型) + bytes[16](字段长度) + bytes[17](字段精度)
 Row = 0x20/0x2A + n*Record
+Record = 一个删除位 + 数据本体
 ```
 
 ## 支持类型
