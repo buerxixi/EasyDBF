@@ -1,6 +1,10 @@
 # EasyDBF
 
-> 当前仅仅是dome，预计会在2023年春节完成。第一次写开源感觉力不从心，但肯定会有一个完结结果
+> 写作初心是因为没有一个可以满足当前需求的第三方jar包
+>
+> 第一次写开源感觉力不从心，但还是完成了第一期功能和相关的API
+>
+> 写的时候最大的问题居然是写着写着时候的退缩-_-!
 
 ## DBF数据结构
 
@@ -23,45 +27,57 @@ Record = 一个删除位 + 数据本体
 
 ## 使用方法
 
-### 读取
-
-``` java
-DBFReader reader = new DBFReader("/path/file.dbf", Charset.forName("GBK"))); 
-// 返回表结构
-reader.getFileds();
-// 根据字段查找
-reader.find("NAME", "中文");
-// 查找所有
-reader.findAll();
-// 返回迭代器
-DBFFieldIterator iterator = reader.iterator();
-```
-
 ### 写入
 
 ``` java
-DBFWriter writer = new DBFWriter("/path/file.dbf", Charset.forName("GBK"))); 
-// 更新数据
-writer.update("NAME","旧值", "NAME","新值");
-// 删除数据
-writer.delete("NAME","删除值");
-// 追加数据
-Map<String, String> row = new HashMap<>();
-row.put("NAME", "中文");
-writer.add(row);
+final static String filename = "C:\\Users\\fangs\\Desktop\\开源项目\\EasyDBF\\测试文件3.dbf";
+final static Charset charset = Charset.forName("GBK");
 
-// TODO：创建表结构
-// 第一种创建方法 
-writer.create("NAME C(25); AGE N(3,0); BIRTH D");
-// 第二种创建方法
-List<DBFFiled> fileds = new ArrayList<>();
-DBFFiled nameFiled = DBFFiled.builder().setName("NAME").setType("C").setSize(20).build();
-DBFFiled ageFiled = DBFFiled.builder().setName("AGE").setType("C").setSize(3).setDigits(0).build();
-DBFFiled birthFiled = DBFFiled.builder().setName("BIRTH").setType("D").build();
-filed.add(nameFiled);
-filed.add(ageFiled);
-filed.add(birthFiled);
-writer.create(fileds);
+// 创建DBF文件
+ArrayList<DBFField> list = new ArrayList<>();
+DBFWriter writer = new DBFWriter(filename, charset);
+DBFField nameField = DBFField.builder().name("NAME").type(DBFFieldType.CHARACTER).size(20).build();
+DBFField ageFiled = DBFField.builder().name("AGE").type(DBFFieldType.NUMERIC).size(5).digits(1).build();
+DBFField birthFiled = DBFField.builder().name("BIRTH").type(DBFFieldType.DATE).build();
+list.add(nameField);
+list.add(ageFiled);
+list.add(birthFiled);
+writer.create(list);
+
+// 写入单条数据
+HashMap<String, String> hashMap = new HashMap<>();
+hashMap.put("NAME", "刘家强");
+hashMap.put("AGE", "23.0");
+hashMap.put("BIRTH", "19930119");
+writer.add(hashMap);
+
+// 更新数据
+writer.update("NAME","刘家强", "NAME","李风娇");
+
+// 删除数据
+writer.delete("NAME","李风娇");
+```
+
+### 查询
+
+``` java
+final static String filename = "C:\\Users\\fangs\\Desktop\\开源项目\\EasyDBF\\测试文件3.dbf";
+final static Charset charset = Charset.forName("GBK");
+
+// 查询数据
+DBFReader reader = new DBFReader(filename, charset);
+System.out.println(RecordUtils.toMap(reader.find("NAME", "李风娇")));
+// system.out [{NAME=李风娇, AGE=23.0, BIRTH=19930119}]
+
+// 查询迭代器
+try (DBFRowIterator iterator = reader.iterator()) {
+    if(iterator.hasNext()){
+    	System.out.println(iterator.next());
+    }
+    
+    // WARNING: 需要关闭
+}
+
 
 ```
 
@@ -70,9 +86,6 @@ writer.create(fileds);
 - 是否可以通过注解实现更为简单的功能（数据与对象的平稳转换）
 - 待完善测试用例
 - 金额符号问题
-- 简化语言和内部逻辑
-  - https://mp.weixin.qq.com/s/jwZ4jfE4Rn-RLVWSe_eGog
-  - https://mp.weixin.qq.com/s/zDghbgqjv0qTrDn9SYAODw
 
 ## 源码构建
 
@@ -95,16 +108,3 @@ https://github.com/abstractvector/node-dbf
 http://www.xumenger.com/dbf-20160703/
 
 https://en.wikipedia.org/wiki/.dbf
-
-可以引入Rxjava
-
-api可参考org.apache.poi
-
-
-### TODO:
-``` java
-// 1.整理表结构
-// 2.优化文档
-// 3.发布maven
-
-```
