@@ -93,10 +93,15 @@ try (DBFRowIterator iterator = reader.iterator()) {
 
 克隆到本地并使用maven进行构建
 
-```she
+```shell
 https://github.com/buerxixi/EasyDBF.git
 cd EasyDBF
 mvn clean package
+```
+
+```shell
+# 发布指令
+mvn clean deploy -DskipTests=true
 ```
 
 ## 参考
