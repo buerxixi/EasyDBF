@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * <p>
  *
- * @author liujiaqiang <liujiaqiang@outlook.com>
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 public class DateConverter extends AbstractTypeConverter {
 

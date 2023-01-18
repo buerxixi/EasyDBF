@@ -3,7 +3,7 @@ package com.github.buerxixi.easydbf.pojo;
 /**
  * DBFDataType
  * <p>
- * @author liujiaqiang <liujiaqiang@outlook.com>
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 public enum DBFFieldType {
 

@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 /**
  * <p>
  *
- * @author liujiaqiang <liujiaqiang@outlook.com>
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 public class NumericAbstractConverterTest {
 

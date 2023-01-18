@@ -6,7 +6,7 @@ import java.time.LocalDate;
 /**
  * <p>
  *
- * @author liujiaqiang <liujiaqiang@outlook.com>
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 public class HeaderUtils {
 

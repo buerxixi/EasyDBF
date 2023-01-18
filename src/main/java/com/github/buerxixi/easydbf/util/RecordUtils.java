@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 /**
  * <p>
  *
- * @author liujiaqiang <liujiaqiang@outlook.com>
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 public class RecordUtils {
 

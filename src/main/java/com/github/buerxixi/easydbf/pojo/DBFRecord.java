@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * DBFRow
  * <p>
- * @author liujiaqiang <liujiaqiang@outlook.com>
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 @Data
 public class DBFRecord {

@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * DBFWriter
  * <p>
  *
- * @author liujiaqiang <liujiaqiang@outlook.com>
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 public class DBFWriter {
 

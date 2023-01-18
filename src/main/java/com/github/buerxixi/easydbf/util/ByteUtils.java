@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * 字节工具类
  * <p>
- * @author liujiaqiang <liujiaqiang@outlook.com>
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 public class ByteUtils {
 

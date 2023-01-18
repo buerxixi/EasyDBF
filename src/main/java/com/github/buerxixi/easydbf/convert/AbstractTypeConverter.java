@@ -5,7 +5,7 @@ import com.github.buerxixi.easydbf.pojo.DBFInnerField;
 /**
  * <p>
  *
- * @author liujiaqiang <liujiaqiang@outlook.com>
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 public abstract class AbstractTypeConverter {
 

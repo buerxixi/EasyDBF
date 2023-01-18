@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * DBFHeader
  * <p>
- * @author liujiaqiang <liujiaqiang@outlook.com>
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 @Data
 @NoArgsConstructor

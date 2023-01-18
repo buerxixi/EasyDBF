@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * DBFField
  * <p>
- * @author liujiaqiang <liujiaqiang@outlook.com>
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 @Getter
 public class DBFInnerField extends DBFField {

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * DBFRecord
  * <p>
- * @author liujiaqiang <liujiaqiang@outlook.com>
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 @Data
 public class DBFRow {

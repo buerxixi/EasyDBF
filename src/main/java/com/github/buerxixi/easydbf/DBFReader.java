@@ -12,7 +12,7 @@ import org.apache.commons.collections4.IteratorUtils;
 /**
  * DBFReader
  * <p>
- * @author liujiaqiang <liujiaqiang@outlook.com>
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 @Data
 public class DBFReader implements Iterable<DBFRow> {
