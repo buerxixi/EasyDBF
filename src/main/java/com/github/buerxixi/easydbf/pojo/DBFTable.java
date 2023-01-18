@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * DBFTable
- * <p>
+ * 表
+ *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 @Data

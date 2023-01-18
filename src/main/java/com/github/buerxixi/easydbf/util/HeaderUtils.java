@@ -4,7 +4,7 @@ import com.github.buerxixi.easydbf.pojo.DBFConstant;
 import java.time.LocalDate;
 
 /**
- * <p>
+ * 头信息工具类
  *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */

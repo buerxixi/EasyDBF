@@ -5,8 +5,7 @@ import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
 /**
- * DBFField
- * <p>
+ * 字段
  *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */

@@ -1,8 +1,8 @@
 package com.github.buerxixi.easydbf.pojo;
 
 /**
- * DBFDataType
- * <p>
+ * 字段类型
+ *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 public enum DBFFieldType {

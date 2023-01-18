@@ -1,8 +1,8 @@
 package com.github.buerxixi.easydbf.pojo;
 
 /**
- * DBFConstant
- * <p>
+ * 常量类
+ *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 public class DBFConstant {

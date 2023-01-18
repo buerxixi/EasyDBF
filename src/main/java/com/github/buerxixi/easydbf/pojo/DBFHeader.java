@@ -3,11 +3,10 @@ package com.github.buerxixi.easydbf.pojo;
 import com.github.buerxixi.easydbf.util.ByteUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
 
 /**
- * DBFHeader
- * <p>
+ * 头信息
+ *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 @Data

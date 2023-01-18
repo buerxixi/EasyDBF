@@ -23,7 +23,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * DBFWriter
- * <p>
  *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */

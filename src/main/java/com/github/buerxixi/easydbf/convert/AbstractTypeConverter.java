@@ -3,7 +3,7 @@ package com.github.buerxixi.easydbf.convert;
 import com.github.buerxixi.easydbf.pojo.DBFInnerField;
 
 /**
- * <p>
+ * 类型转化抽象类
  *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */

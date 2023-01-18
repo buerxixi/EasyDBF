@@ -8,7 +8,7 @@ import java.math.RoundingMode;
 import java.util.Arrays;
 
 /**
- * <p>
+ * 数字转化类
  *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */

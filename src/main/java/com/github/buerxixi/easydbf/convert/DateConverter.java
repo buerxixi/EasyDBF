@@ -5,7 +5,7 @@ import com.github.buerxixi.easydbf.util.ByteUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * <p>
+ * 日期转化类
  *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */

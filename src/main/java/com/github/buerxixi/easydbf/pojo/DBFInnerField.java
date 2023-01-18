@@ -4,8 +4,8 @@ import com.github.buerxixi.easydbf.util.ByteUtils;
 import lombok.Getter;
 
 /**
- * DBFField
- * <p>
+ * 内部字段
+ *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 @Getter

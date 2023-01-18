@@ -3,8 +3,8 @@ package com.github.buerxixi.easydbf.pojo;
 import lombok.Data;
 
 /**
- * DBFRow
- * <p>
+ * 记录数据
+ *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 @Data
