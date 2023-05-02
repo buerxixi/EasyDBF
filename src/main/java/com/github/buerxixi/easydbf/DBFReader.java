@@ -4,7 +4,6 @@ import com.github.buerxixi.easydbf.pojo.DBFRowIterator;
 import com.github.buerxixi.easydbf.pojo.DBFResult;
 import lombok.Data;
 import lombok.SneakyThrows;
-
 import java.nio.charset.Charset;
 import java.util.List;
 

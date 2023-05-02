@@ -5,7 +5,6 @@ import com.github.buerxixi.easydbf.pojo.DBFHeader;
 import com.github.buerxixi.easydbf.pojo.DBFRecord;
 import com.github.buerxixi.easydbf.pojo.DBFRow;
 import org.apache.commons.lang3.ArrayUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;

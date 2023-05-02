@@ -14,7 +14,6 @@ import com.github.buerxixi.easydbf.util.FieldUtils;
 import com.github.buerxixi.easydbf.util.HeaderUtils;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.ArrayUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;

@@ -2,9 +2,6 @@ package com.github.buerxixi.easydbf.pojo;
 
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
-import org.apache.commons.lang3.ArrayUtils;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 行数据

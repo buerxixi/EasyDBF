@@ -1,7 +1,5 @@
 package com.github.buerxixi.easydbf.pojo;
 
-import com.github.buerxixi.easydbf.pojo.DBFFieldType;
-import lombok.Builder;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 

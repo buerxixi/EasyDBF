@@ -1,7 +1,6 @@
 package com.github.buerxixi.easydbf.convert;
 
 import com.github.buerxixi.easydbf.pojo.DBFField;
-
 import java.nio.charset.Charset;
 
 /**
