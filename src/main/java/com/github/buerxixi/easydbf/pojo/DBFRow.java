@@ -1,6 +1,7 @@
 package com.github.buerxixi.easydbf.pojo;
 
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 import org.apache.commons.lang3.ArrayUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,52 +12,23 @@ import java.util.List;
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 @Data
+@SuperBuilder
 public class DBFRow {
 
     /**
      * 第几行元素
      */
-    private Integer rowNum;
-
-    /**
-     * 是否删除
-     */
-    private Boolean deleted;
+    private Integer rownum;
 
     /**
      * 数据
      */
     private byte[] bytes;
 
-    /**
-     * 表空间
-     */
-    private DBFTable table;
-
-
-    /**
-     * 列元素
-     */
-
-    public DBFRow(Integer rowNum, byte[] bytes, DBFTable table) {
-        this.rowNum = rowNum;
-        this.bytes = bytes;
-        this.deleted = bytes[0] == DBFConstant.DELETED_OF_FIELD;
-        this.table = table;
-    }
-
-    // 跳过第一个字符位删除位
-    public List<DBFRecord> getRecords(){
-        List<DBFRecord> records = new ArrayList<>();
-        List<DBFInnerField> fields = this.table.getFields();
-
-        int startIndex = 1;
-        for (DBFInnerField field : fields) {
-            byte[] subarray = ArrayUtils.subarray(bytes, startIndex, startIndex + field.getSize());
-            // 数据叠加
-            startIndex += field.getSize();
-            records.add(new DBFRecord(field, this, subarray));
-        }
-        return records;
+    public static DBFRow of(Integer rownum, byte[] bytes) {
+        return DBFRow.builder()
+                .rownum(rownum)
+                .bytes(bytes)
+                .build();
     }
 }

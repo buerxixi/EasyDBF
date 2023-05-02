@@ -70,6 +70,7 @@ public class DBFConstant {
 
     /**
      * 最大文件数量
+     * C++long长度
      */
     final static Long MAX_RECORDS = 4294967296L;
 }

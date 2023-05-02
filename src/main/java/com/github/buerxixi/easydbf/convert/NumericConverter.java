@@ -1,10 +1,11 @@
 package com.github.buerxixi.easydbf.convert;
 
-import com.github.buerxixi.easydbf.pojo.DBFInnerField;
+import com.github.buerxixi.easydbf.pojo.DBFField;
 import com.github.buerxixi.easydbf.util.ByteUtils;
 import org.apache.commons.lang3.StringUtils;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Arrays;
 public class NumericConverter extends AbstractTypeConverter {
 
     @Override
-    public byte[] toBytes(String s, DBFInnerField field) {
+    public byte[] toBytes(String s, DBFField field,  Charset charset) {
         byte[] bytes = new byte[field.getSize()];
         Arrays.fill(bytes, (byte) ' ');
         if (StringUtils.isNotEmpty(s)) {

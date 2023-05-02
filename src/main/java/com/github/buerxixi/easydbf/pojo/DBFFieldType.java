@@ -32,7 +32,7 @@ public enum DBFFieldType {
         return type;
     }
 
-    public static DBFFieldType forString(String s) {
+    public static DBFFieldType from(String s) {
         for (DBFFieldType type : values()) {
             if (type.type.equals(s)) {
                 return type;

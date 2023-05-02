@@ -1,50 +1,48 @@
 package com.github.buerxixi.easydbf.pojo;
 
+import com.github.buerxixi.easydbf.util.DBFUtils;
 import lombok.SneakyThrows;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.BooleanUtils;
+
 import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * 行迭代类
  *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
-public class DBFRowIterator implements Iterator<DBFRow>, AutoCloseable {
+public class DBFRowIterator implements Iterator<List<DBFResult>>, AutoCloseable {
+
+    final private Charset charset;
+    final private DBFHeader header;
+    final private boolean showDeletedRows;
 
     /**
-     * table数据
+     * 当前游标
      */
-    final private DBFTable table;
+    private Integer index = 0;
 
     /**
-     * 文件引用
+     * 数据数据流
      */
-    final private RandomAccessFile raf;
+    private final InputStream inputStream;
 
-    public Boolean getSkipDeleted() {
-        return skipDeleted;
-    }
+    private DBFRow row;
 
-    public void setSkipDeleted(Boolean skipDeleted) {
-        this.skipDeleted = skipDeleted;
-    }
-
-    /**
-     * 是否跳过删除
-     */
-    private Boolean skipDeleted = true;
-
-    /**
-     * 游标
-     */
-    private Integer index = -1;
-
-
-    @SneakyThrows
-    public DBFRowIterator(DBFTable table) {
-        this.table = table;
-        raf = new RandomAccessFile(table.getFilename(), "rw");
+    public DBFRowIterator(String filename, Charset charset, boolean showDeletedRows) throws IOException {
+        this.charset = charset;
+        this.showDeletedRows = showDeletedRows;
+        this.header = DBFUtils.getHeader(filename);
+        inputStream = Files.newInputStream(Paths.get(filename));
+        inputStream.skip(this.header.getHeaderLength());
     }
 
     /**
@@ -56,68 +54,51 @@ public class DBFRowIterator implements Iterator<DBFRow>, AutoCloseable {
     @Override
     public boolean hasNext() {
 
-        // 获取header
-        DBFHeader header = table.getHeader();
+        // 判断是否越界
+        if (index >= this.header.getNumberOfRecords()) return false;
 
-        // 下一个游标
-        int nextIndex = this.index + 1;
+        // 判断是否删除，如果删除继续下一个
+        byte[] bytes = new byte[this.header.getRecordLength()];
+        index++;
 
-        // 超出数量
-        if (nextIndex >= header.getNumberOfRecords()) return false;
+        if (inputStream.read(bytes) < bytes.length) return false;
 
-        // 判断长度是否超长
-        if (header.getHeaderLength() + (long) nextIndex * header.getRecordLength() > raf.length()) return false;
-
-
-        // 判断下一个是否为终止符
-        raf.seek(header.getHeaderLength() + (long) this.index * header.getRecordLength());
-        byte nextByte = raf.readByte();
-
-        if (nextByte == DBFConstant.END_OF_DATA) {
-            return false;
+        if (BooleanUtils.isFalse(showDeletedRows) && bytes[0] == DBFConstant.DELETED_OF_FIELD) {
+            return hasNext();
         }
 
-        this.index = nextIndex;
 
-        // 是否读取删除字段
-        if(skipDeleted && nextByte == DBFConstant.DELETED_OF_FIELD) {
-            return this.hasNext();
-        }
-
+        this.row = DBFRow.of(this.index, bytes);
         return true;
     }
 
     /**
      * 获取下一个文件
-     *
      */
     @SneakyThrows
     @Override
-    public DBFRow next() {
+    public List<DBFResult> next() {
 
-        if(this.index < 0) {
-            throw new RuntimeException("请先获取next,当前游标为 " + this.index);
+        List<DBFRecord> records = DBFUtils.getRecords(this.row, this.header.getFields());
+        ArrayList<DBFResult> results = new ArrayList<>();
+        for (int i = 0; i < records.size(); i++) {
+
+            DBFField field = this.header.getFields().get(i);
+            DBFRecord record = records.get(i);
+            DBFResult result = DBFResult.builder()
+                    .rownum(record.getRownum())
+                    .key(field.getName())
+                    .value(new String(record.getBytes(), charset).trim())
+                    .type(field.getType())
+                    .build();
+            results.add(result);
         }
 
-        // 获取header
-        DBFHeader header = table.getHeader();
 
-        // 跳转位置
-        raf.seek(header.getHeaderLength() + (long) header.getRecordLength() * this.index);
-
-        byte[] bytes = new byte[header.getRecordLength()];
-        raf.read(bytes);
-        return new DBFRow(this.index, bytes, table);
-
+        return results;
     }
 
     public void close() {
-        try {
-            if (raf != null) {
-                raf.close();
-            }
-        } catch (IOException ioe) {
-            // ignore
-        }
+        IOUtils.closeQuietly(this.inputStream);
     }
 }

@@ -3,6 +3,11 @@ package com.github.buerxixi.easydbf.pojo;
 import com.github.buerxixi.easydbf.util.ByteUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 头信息
@@ -11,6 +16,8 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
+@ToString
+@SuperBuilder
 public class DBFHeader {
 
     /**
@@ -53,14 +60,19 @@ public class DBFHeader {
      */
     private Byte languageDriver;
 
-    public DBFHeader(byte[] bytes) {
-        this.version = bytes[0];
-        this.year = (short) (bytes[1] + DBFConstant.START_YEAR);
-        this.month = bytes[2];
-        this.day = bytes[3];
-        this.numberOfRecords = ByteUtils.readInt32LE(bytes,4);
-        this.headerLength = ByteUtils.readInt16LE(bytes,8);
-        this.recordLength = ByteUtils.readInt16LE(bytes,0x0A);
-        this.languageDriver = bytes[29];
+    private List<DBFField> fields;
+
+    public static DBFHeader from(byte[] bytes) {
+        return DBFHeader.builder()
+                .version(bytes[0])
+                .year((short) bytes[1])
+                .month(bytes[2])
+                .day(bytes[3])
+                .numberOfRecords(ByteUtils.readInt32LE(bytes,4))
+                .headerLength(ByteUtils.readInt16LE(bytes,8))
+                .recordLength(ByteUtils.readInt16LE(bytes,0x0A))
+                .languageDriver(bytes[29])
+                .fields(new ArrayList<>())
+                .build();
     }
 }

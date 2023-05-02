@@ -88,6 +88,7 @@ try (DBFRowIterator iterator = reader.iterator()) {
 - 是否可以通过注解实现更为简单的功能（数据与对象的平稳转换）
 - 待完善测试用例
 - 金额符号问题
+- 待添加DBFReader.inputStream
 
 ## 源码构建
 

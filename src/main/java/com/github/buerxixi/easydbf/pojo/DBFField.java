@@ -1,7 +1,9 @@
 package com.github.buerxixi.easydbf.pojo;
 
+import com.github.buerxixi.easydbf.util.ByteUtils;
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -12,10 +14,13 @@ import lombok.experimental.SuperBuilder;
 //@Builder
 @Data
 @SuperBuilder
+@ToString
 public class DBFField {
 
     /**
      * 字段的名称
+     *
+     * TODO 1-11位
      */
     protected String name;
 
@@ -33,7 +38,16 @@ public class DBFField {
     @Builder.Default
     protected Integer digits = 0;
 
-    public DBFField() {
+    private DBFField() {
 
+    }
+
+    public static DBFField from(byte[] bytes) {
+        return DBFField.builder()
+                .name(ByteUtils.byteToStr(bytes))
+                .type(DBFFieldType.from(String.valueOf((char) bytes[11])))
+                .size((int) bytes[16])
+                .digits( (int) bytes[17])
+                .build();
     }
 }
