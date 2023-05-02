@@ -85,23 +85,25 @@ public class DBFWriter {
         }
     }
 
-    @SneakyThrows
-    public void append(Map<String, String> map) {
+    public void append(Map<String, String> map) throws IOException {
 
         // 获取元素header
         DBFHeader header = DBFUtils.getHeader(filename);
-
 
         byte[] recordBytes = header.getFields().stream()
                 // 转换为对应的字节
                 // TODO: 该处为转化类的重点
                 .map(field -> strategyMap.get(field.getType()).toBytes(map.get(field.getName()), field, charset))
-                .reduce(DBFConstant.UNDELETED_OF_FIELD_BYTES, ArrayUtils::addAll);
-        byte[] writeBytes = ArrayUtils.add(recordBytes, DBFConstant.END_OF_DATA);
+                .reduce(new byte[0], ArrayUtils::addAll);
 
         try (RandomAccessFile raf = new RandomAccessFile(this.filename, "rw")) {
             raf.seek(raf.length() - 1);
-            raf.write(writeBytes);
+            // 写入未删除
+            raf.write(DBFConstant.UNDELETED_OF_FIELD);
+            // 写入数据
+            raf.write(recordBytes);
+            // 写入截止符
+            raf.write(DBFConstant.END_OF_DATA);
             updateHeader(raf, header);
         }
     }
