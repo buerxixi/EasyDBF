@@ -4,6 +4,7 @@ import com.github.buerxixi.easydbf.util.DBFUtils;
 import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.BooleanUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -18,29 +19,24 @@ import java.util.List;
  *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
-public class DBFRowIterator implements Iterator<List<DBFResult>>, AutoCloseable {
+public class DBFRowIterator implements Iterator<List<DBFRow>>, AutoCloseable {
 
-    final private Charset charset;
-    final private DBFHeader header;
-    final private boolean showDeletedRows;
-
-    /**
-     * 当前游标
-     */
-    private Integer index = 0;
-
-    /**
-     * 数据数据流
-     */
+    private final Charset charset;
+    private final DBFHeader header;
     private final InputStream inputStream;
+    private final List<DBFField> fields;
 
-    private DBFRow row;
+    public DBFRowIterator(String filename) throws IOException {
+        this(filename, DBFConstant.DEFAULT_CHARSET);
+    }
 
-    public DBFRowIterator(String filename, Charset charset, boolean showDeletedRows) throws IOException {
+    public DBFRowIterator(String filename, Charset charset) throws IOException {
         this.charset = charset;
-        this.showDeletedRows = showDeletedRows;
         this.header = DBFUtils.getHeader(filename);
+        this.fields = DBFUtils.getFields(filename);
         inputStream = Files.newInputStream(Paths.get(filename));
+
+        // 跳过头部信息
         inputStream.skip(this.header.getHeaderLength());
     }
 
@@ -53,22 +49,26 @@ public class DBFRowIterator implements Iterator<List<DBFResult>>, AutoCloseable 
     @Override
     public boolean hasNext() {
 
-        // 判断是否越界
-        if (index >= this.header.getNumberOfRecords()) return false;
+        // 读取一个元素
+        byte[] flag = new byte[1];
 
-        // 判断是否删除，如果删除继续下一个
-        byte[] bytes = new byte[this.header.getRecordLength()];
-        index++;
+        // 判断是否已经越界
+        if (inputStream.read(flag) == -1) {
+            return false;
+        }
 
-        if (inputStream.read(bytes) < bytes.length) return false;
+        if (flag[0] == DBFConstant.UNDELETED_OF_FIELD) {
+            return true;
+        }
 
-        if (BooleanUtils.isFalse(showDeletedRows) && bytes[0] == DBFConstant.DELETED_OF_FIELD) {
+        // 是否是删除符号
+        if (flag[0] == DBFConstant.DELETED_OF_FIELD) {
+            // 跳过文件长度
+            inputStream.skip(this.header.getRecordLength());
             return hasNext();
         }
 
-
-        this.row = DBFRow.of(this.index, bytes);
-        return true;
+        return false;
     }
 
     /**
@@ -76,25 +76,21 @@ public class DBFRowIterator implements Iterator<List<DBFResult>>, AutoCloseable 
      */
     @SneakyThrows
     @Override
-    public List<DBFResult> next() {
+    public List<DBFRow> next() {
+        // 返回数据
+        ArrayList<DBFRow> rows = new ArrayList<>();
 
-        List<DBFRecord> records = DBFUtils.getRecords(this.row, this.header.getFields());
-        ArrayList<DBFResult> results = new ArrayList<>();
-        for (int i = 0; i < records.size(); i++) {
 
-            DBFField field = this.header.getFields().get(i);
-            DBFRecord record = records.get(i);
-            DBFResult result = DBFResult.builder()
-                    .rownum(record.getRownum())
-                    .key(field.getName())
-                    .value(new String(record.getBytes(), charset).trim())
-                    .type(field.getType())
-                    .build();
-            results.add(result);
+        // 根据请求头拆分数据
+        for (DBFField field : this.fields) {
+            byte[] bytes = new byte[field.getSize()];
+            inputStream.read(bytes);
+            DBFRecord record = DBFRecord.builder().bytes(bytes).build();
+            DBFRow row = DBFRow.builder().record(record).field(field).build();
+            rows.add(row);
         }
 
-
-        return results;
+        return rows;
     }
 
     public void close() {

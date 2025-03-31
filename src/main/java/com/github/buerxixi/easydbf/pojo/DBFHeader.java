@@ -1,12 +1,11 @@
 package com.github.buerxixi.easydbf.pojo;
 
 import com.github.buerxixi.easydbf.util.ByteUtils;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 头信息
@@ -17,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @SuperBuilder
-public class DBFHeader {
+public class DBFHeader implements IConverter<DBFHeader> {
 
     /**
      * DBF版本信息
@@ -57,21 +56,86 @@ public class DBFHeader {
     /**
      * 编码
      */
-    private Byte languageDriver;
+    @Builder.Default
+    private Byte languageDriver = DBFConstant.LANGUAGE_DRIVER;
 
-    private List<DBFField> fields;
-
-    public static DBFHeader from(byte[] bytes) {
+    @Override
+    public DBFHeader fromBytes(byte[] bytes) {
         return DBFHeader.builder()
                 .version(bytes[0])
-                .year((short) bytes[1])
+                .year((short) (bytes[1] + DBFConstant.START_YEAR))
                 .month(bytes[2])
                 .day(bytes[3])
-                .numberOfRecords(ByteUtils.readInt32LE(bytes,4))
-                .headerLength(ByteUtils.readInt16LE(bytes,8))
-                .recordLength(ByteUtils.readInt16LE(bytes,0x0A))
+                .numberOfRecords(ByteUtils.readIntLE(bytes,4))
+                .headerLength(ByteUtils.readShortLE(bytes,8))
+                .recordLength(ByteUtils.readShortLE(bytes,0x0A))
                 .languageDriver(bytes[29])
-                .fields(new ArrayList<>())
                 .build();
+    }
+
+    @Override
+    public byte[] toBytes() {
+        byte[] bytes = new byte[32]; // 假设文件头固定为32字节
+        // 填充版本信息
+        if (version != null) {
+            bytes[0] = version;
+        } else {
+            bytes[0] = 0x00;
+        }
+        // 填充年
+        if (year != null) {
+            short yearValue = (short) (year - DBFConstant.START_YEAR);
+            bytes[1] = (byte) (yearValue & 0xFF);
+        } else {
+            bytes[1] = 0x00;
+        }
+        // 填充月
+        if (month != null) {
+            bytes[2] = month;
+        } else {
+            bytes[2] = 0x00;
+        }
+        // 填充日
+        if (day != null) {
+            bytes[3] = day;
+        } else {
+            bytes[3] = 0x00;
+        }
+        // 填充记录数量
+        if (numberOfRecords != null) {
+            byte[] numRecordsBytes = ByteUtils.writeInt32LE(numberOfRecords);
+            System.arraycopy(numRecordsBytes, 0, bytes, 4, 4);
+        } else {
+            for (int i = 4; i < 8; i++) {
+                bytes[i] = 0x00;
+            }
+        }
+        // 填充文件头长度
+        if (headerLength != null) {
+            byte[] headerLengthBytes = ByteUtils.writeInt16LE(headerLength);
+            System.arraycopy(headerLengthBytes, 0, bytes, 8, 2);
+        } else {
+            bytes[8] = 0x00;
+            bytes[9] = 0x00;
+        }
+        // 填充记录长度
+        if (recordLength != null) {
+            byte[] recordLengthBytes = ByteUtils.writeInt16LE(recordLength);
+            System.arraycopy(recordLengthBytes, 0, bytes, 0x0A, 2);
+        } else {
+            bytes[0x0A] = 0x00;
+            bytes[0x0B] = 0x00;
+        }
+        // 填充语言驱动
+        if (languageDriver != null) {
+            bytes[29] = languageDriver;
+        } else {
+            bytes[29] = 0x00;
+        }
+        // 剩余部分填充 0x00
+        for (int i = 30; i < 32; i++) {
+            bytes[i] = 0x00;
+        }
+        return bytes;
     }
 }

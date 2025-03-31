@@ -1,5 +1,7 @@
 package com.github.buerxixi.easydbf.pojo;
 
+import java.nio.charset.Charset;
+
 /**
  * 常量类
  *
@@ -35,12 +37,17 @@ public class DBFConstant {
     /**
      * 未删除文件标识数组
      */
-    final static public byte[] UNDELETED_OF_FIELD_BYTES= new byte[]{DBFConstant.UNDELETED_OF_FIELD};
+    final static public byte[] UNDELETED_OF_FIELD_BYTES = new byte[]{DBFConstant.UNDELETED_OF_FIELD};
 
     /**
      * 起始年份
      */
-    final static public short START_YEAR = 1900;
+    final static public Short START_YEAR = 1900;
+
+    /**
+     * 默认语言驱动
+     */
+    final static public Byte LANGUAGE_DRIVER = 0x4D;
 
     /**
      * 日期格式化
@@ -56,7 +63,7 @@ public class DBFConstant {
      * 金额
      */
 
-    final static public String NUMERIC ="N";
+    final static public String NUMERIC = "N";
 
     /**
      * 日期
@@ -64,9 +71,14 @@ public class DBFConstant {
     final static public String DATE = "D";
 
     /**
+     * 默认编码集
+     */
+    final static public Charset DEFAULT_CHARSET= Charset.forName("GBK");
+
+    /**
      * 最大列数量
      */
-    final static Integer MAX_FIELDS = 255;
+    final static Integer MAX_FIELDS = Byte.MAX_VALUE - Byte.MIN_VALUE;
 
     /**
      * 最大文件数量

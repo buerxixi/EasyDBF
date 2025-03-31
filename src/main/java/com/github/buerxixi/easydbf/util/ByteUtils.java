@@ -21,7 +21,7 @@ public class ByteUtils {
      * @param byteLen 字节长度
      * @return 数值
      */
-    private static Integer readIntLE(byte[] bytes, Integer offset, Integer byteLen) {
+    private static Integer readShortLE(byte[] bytes, Integer offset, Integer byteLen) {
 
         // 结果
         int le = 0;
@@ -35,25 +35,14 @@ public class ByteUtils {
     }
 
     /**
-     * 字节数组大端读取int8
-     *
-     * @param bytes 字节数组
-     * @param offset 偏移量
-     * @return 数值
-     */
-    public static Integer readInt8LE(byte[] bytes, Integer offset) {
-        return readIntLE(bytes, offset, 1);
-    }
-
-    /**
      * 字节数组大端读取int16
      *
      * @param bytes 字节数组
      * @param offset 偏移量
      * @return 数值
      */
-    public static Integer readInt16LE(byte[] bytes, Integer offset) {
-        return readIntLE(bytes, offset, 2);
+    public static Integer readShortLE(byte[] bytes, Integer offset) {
+        return readShortLE(bytes, offset, 2);
     }
 
     /**
@@ -63,8 +52,8 @@ public class ByteUtils {
      * @param offset 偏移量
      * @return 数值
      */
-    public static Integer readInt32LE(byte[] bytes, Integer offset) {
-        return readIntLE(bytes, offset, 4);
+    public static Integer readIntLE(byte[] bytes, Integer offset) {
+        return readShortLE(bytes, offset, 4);
     }
 
     /**
@@ -126,10 +115,68 @@ public class ByteUtils {
         return to;
     }
 
+
     public static byte[] mergeRight(byte[] to, byte[] from) {
         for (int i = 1; i <= Math.min(to.length, from.length); i++) {
             to[to.length - i] = from[from.length - i];
         }
         return to;
     }
+
+    /**
+     * 将一个 16 位整数按照小端字节序转换为字节数组
+     * @param value 要转换的 16 位整数
+     * @return 转换后的字节数组
+     */
+    public static byte[] writeInt16LE(int value) {
+        byte[] result = new byte[2];
+        // 提取低 8 位
+        result[0] = (byte) (value & 0xFF);
+        // 提取高 8 位
+        result[1] = (byte) ((value >> 8) & 0xFF);
+        return result;
+    }
+
+    /**
+     * 将一个 32 位整数按照小端字节序转换为字节数组
+     * @param value 要转换的 32 位整数
+     * @return 转换后的字节数组
+     */
+    public static byte[] writeInt32LE(int value) {
+        byte[] result = new byte[4];
+        // 提取第 1 个字节（最低位字节）
+        result[0] = (byte) (value & 0xFF);
+        // 提取第 2 个字节
+        result[1] = (byte) ((value >> 8) & 0xFF);
+        // 提取第 3 个字节
+        result[2] = (byte) ((value >> 16) & 0xFF);
+        // 提取第 4 个字节（最高位字节）
+        result[3] = (byte) ((value >> 24) & 0xFF);
+        return result;
+    }
+
+//    /**
+//     * 从字节数组中按照小端字节序读取整数
+//     *
+//     * @param bytes 字节数组
+//     * @param start 起始位置
+//     * @param end   结束位置
+//     * @return 读取到的整数值
+//     * @throws IllegalArgumentException 如果字节数组为空，或者起始位置、结束位置不合法
+//     */
+//    public static int readIntLE(byte[] bytes, int start, int end) {
+//        if (bytes == null) {
+//            throw new IllegalArgumentException("字节数组不能为空");
+//        }
+//        if (start < 0 || end > bytes.length || start >= end) {
+//            throw new IllegalArgumentException("起始位置或结束位置不合法");
+//        }
+//
+//        int result = 0;
+//        int byteLen = end - start;
+//        for (int i = 0; i < byteLen; i++) {
+//            result += (bytes[start + i] & 0xFF) << (i * 8);
+//        }
+//        return result;
+//    }
 }

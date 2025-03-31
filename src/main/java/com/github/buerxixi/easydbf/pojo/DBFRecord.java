@@ -10,19 +10,17 @@ import lombok.experimental.SuperBuilder;
  */
 @Data
 @SuperBuilder
-public class DBFRecord {
-
-    private Integer rownum;
-
-    private Integer fieldnum;
+public class DBFRecord implements IConverter<DBFRecord> {
 
     private final byte[] bytes;
 
-    public static DBFRecord of(Integer rownum, Integer fieldnum, byte[] bytes){
-        return DBFRecord.builder()
-                .rownum(rownum)
-                .fieldnum(fieldnum)
-                .bytes(bytes)
-                .build();
+    @Override
+    public DBFRecord fromBytes(byte[] bytes) {
+        return DBFRecord.builder().bytes(bytes).build();
+    }
+
+    @Override
+    public byte[] toBytes() {
+        return bytes;
     }
 }

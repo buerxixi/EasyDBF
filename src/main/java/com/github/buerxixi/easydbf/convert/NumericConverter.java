@@ -3,9 +3,9 @@ package com.github.buerxixi.easydbf.convert;
 import com.github.buerxixi.easydbf.pojo.DBFField;
 import com.github.buerxixi.easydbf.util.ByteUtils;
 import org.apache.commons.lang3.StringUtils;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 
 /**
@@ -13,10 +13,16 @@ import java.util.Arrays;
  *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
-public class NumericConverter extends AbstractTypeConverter {
+public class NumericConverter implements TypeConverterStrategy {
+
 
     @Override
-    public byte[] toBytes(String s, DBFField field,  Charset charset) {
+    public String fromBytes(DBFField field, byte[] bytes) {
+        return new String(bytes).trim();
+    }
+
+    @Override
+    public byte[] toBytes(DBFField field, String s) {
         byte[] bytes = new byte[field.getSize()];
         Arrays.fill(bytes, (byte) ' ');
         if (StringUtils.isNotEmpty(s)) {
@@ -35,4 +41,5 @@ public class NumericConverter extends AbstractTypeConverter {
         }
         return bytes;
     }
+
 }

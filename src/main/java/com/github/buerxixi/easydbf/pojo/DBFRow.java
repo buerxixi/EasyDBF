@@ -1,5 +1,7 @@
 package com.github.buerxixi.easydbf.pojo;
 
+import com.github.buerxixi.easydbf.DBFReader;
+import com.github.buerxixi.easydbf.convert.TypeConverterStrategyFactory;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
@@ -12,20 +14,14 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class DBFRow {
 
-    /**
-     * 第几行元素
-     */
-    private Integer rownum;
+    private DBFField field;
+    private DBFRecord record;
 
-    /**
-     * 数据
-     */
-    private byte[] bytes;
+    public String getKey() {
+       return field.getName();
+    }
 
-    public static DBFRow of(Integer rownum, byte[] bytes) {
-        return DBFRow.builder()
-                .rownum(rownum)
-                .bytes(bytes)
-                .build();
+    public String getValue() {
+        return TypeConverterStrategyFactory.getStrategy(field.getType()).fromBytes(field, record.getBytes());
     }
 }

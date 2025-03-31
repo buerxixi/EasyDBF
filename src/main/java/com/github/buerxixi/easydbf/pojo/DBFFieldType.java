@@ -10,34 +10,35 @@ public enum DBFFieldType {
     /**
      * 字符串
      */
-    CHARACTER("C"),
+    CHARACTER('C'),
 
     /**
      * 金额
      */
-    NUMERIC("N"),
+    NUMERIC('N'),
 
     /**
      * 日期
      */
-    DATE("D");
+    DATE('D');
 
-    private final String type;
+    private final char type;
 
-    private DBFFieldType(String type) {
+    DBFFieldType(char type) {
         this.type = type;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public static DBFFieldType from(String s) {
-        for (DBFFieldType type : values()) {
-            if (type.type.equals(s)) {
-                return type;
+    public static DBFFieldType from(char s) {
+        for (DBFFieldType fieldType : values()) {
+            if (fieldType.type == s) {
+                return fieldType;
             }
         }
         throw new IllegalArgumentException("Invalid DBFFieldType s: " + s);
     }
+
+    public char getType() {
+        return type;
+    }
+
 }
