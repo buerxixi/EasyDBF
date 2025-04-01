@@ -9,7 +9,7 @@
 
 ## 安装
 
-```pom
+```xml
 <!-- https://mvnrepository.com/artifact/io.github.buerxixi/EasyDBF -->
 <dependency>
     <groupId>io.github.buerxixi</groupId>
