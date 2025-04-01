@@ -10,10 +10,11 @@
 ## 安装
 
 ```pom
+<!-- https://mvnrepository.com/artifact/io.github.buerxixi/EasyDBF -->
 <dependency>
-    <groupId>com.github.liujiaqiang</groupId>
+    <groupId>io.github.buerxixi</groupId>
     <artifactId>EasyDBF</artifactId>
-    <version>1.0.0</version>
+    <version>0.2.0-RELEASE</version>
 </dependency>
 ```
 
