@@ -7,6 +7,16 @@
 > 
 > 支持创建、插入、更新、删除功能（CRUD、增删改查）
 
+## 安装
+
+```pom
+<dependency>
+    <groupId>com.github.liujiaqiang</groupId>
+    <artifactId>EasyDBF</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
 ## DBF数据结构
 
 ```
