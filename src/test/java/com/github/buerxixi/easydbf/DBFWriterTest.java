@@ -2,7 +2,6 @@ package com.github.buerxixi.easydbf;
 
 import com.github.buerxixi.easydbf.model.DBFCharField;
 import com.github.buerxixi.easydbf.model.DBFDateField;
-import com.github.buerxixi.easydbf.model.DBFField;
 import com.github.buerxixi.easydbf.model.DBFNumField;
 import org.junit.Test;
 import java.io.IOException;

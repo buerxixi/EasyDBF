@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class DBFReaderTest {
 
-    private static  String filename = "D://dbf_test/test6.dbf";
+    private static  String filename = "D:\\赢时胜\\中登报文\\tzxx.DBF";
 
     @Test
     public void readerDbfItems2() throws IOException {
