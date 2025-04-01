@@ -150,7 +150,7 @@ writer.updateById(0,"NAME", "刘家强");
 > 克隆到本地并使用maven进行构建
 
 ```shell
-https://github.com/buerxixi/EasyDBF.git
+git clone https://github.com/buerxixi/EasyDBF.git
 cd EasyDBF
 mvn clean package
 ```
