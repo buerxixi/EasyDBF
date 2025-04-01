@@ -53,7 +53,7 @@ public class DBFWriter {
         // 更新日期
         raf.writeByte(now.getYear() - DBFConstant.START_YEAR);
         raf.writeByte(now.getMonthValue());
-        raf.writeByte(now.getDayOfYear());
+        raf.writeByte(now.getDayOfMonth());
 
     }
 

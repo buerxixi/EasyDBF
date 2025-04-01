@@ -1,6 +1,8 @@
 package com.github.buerxixi.easydbf.convert;
 
 import com.github.buerxixi.easydbf.convert.impl.CharTypeConverter;
+import com.github.buerxixi.easydbf.convert.impl.DateTypeConverter;
+import com.github.buerxixi.easydbf.convert.impl.NumTypeConverter;
 import com.github.buerxixi.easydbf.pojo.DBFFieldType;
 
 import java.util.HashMap;

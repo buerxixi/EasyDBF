@@ -16,7 +16,7 @@ import java.util.HashMap;
  */
 public class DBFWriterTest {
 
-    private static   String filename = "D:\\赢时胜\\中登报文\\Prop2000\\Data\\YLZH20200309000046.dbf";
+    private static   String filename = "D:\\张新师姐论文\\python\\D250401\\example.dbf";
 
     @Test
     public void deleteById() throws IOException {
@@ -40,11 +40,18 @@ public class DBFWriterTest {
 
     @Test
     public void create() throws IOException {
-        String filename = "D://dbf_test/test5.dbf";
-        DBFCharField name = new DBFCharField("NAME", 10);
-        DBFCharField age = new DBFCharField("AGE", 12);
-        DBFCharField date = new DBFCharField("AGE", 13);
+//        'ID C(10)',
+//        'NAME C(20)',
+//        'AGE N(3,0)',
+//        'BIRTHDAY D',
+//        'SALARY N(10,2)',
+        String filename = "D://dbf_test/test6.dbf";
+        DBFCharField ID = new DBFCharField("ID", 10);
+        DBFCharField NAME = new DBFCharField("NAME", 20);
+        DBFNumField AGE = new DBFNumField("AGE", 3,0);
+        DBFDateField BIRTHDAY = new DBFDateField("BIRTHDAY");
+        DBFNumField SALARY = new DBFNumField("SALARY", 10,2);
         DBFWriter writer = new DBFWriter(filename);
-        writer.create(name,age,date);
+        writer.create(ID,NAME,AGE,BIRTHDAY,SALARY);
     }
 }
