@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * <p>
  *
- * @author liujiaqiang <liujiaqiang@outlook.com>
+ * @author liujiaqiang
  * <a href="https://www.clicketyclick.dk/databases/xbase/index.shtml.en">xbase</a>
  */
 public class DBFWriterTest {

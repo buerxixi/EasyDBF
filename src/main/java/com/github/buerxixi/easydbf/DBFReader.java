@@ -9,6 +9,9 @@ import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
+ */
 public class DBFReader implements Iterable<List<DBFItem>>{
 
     final private String filename;

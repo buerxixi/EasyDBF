@@ -1,5 +1,9 @@
 package com.github.buerxixi.easydbf.pojo;
 
+/**
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
+ * @param <T> 泛型类型，用于指定实现此接口的具体类型
+ */
 public interface IConverter<T extends IConverter<T>> {
 
     /**

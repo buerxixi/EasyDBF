@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * DBF工具类
  * <p>
  *
- * @author liujiaqiang <liujiaqiang@outlook.com>
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
 public class DBFUtils {
 

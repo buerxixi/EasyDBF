@@ -8,6 +8,9 @@ import com.github.buerxixi.easydbf.pojo.DBFFieldType;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
+ */
 public class TypeConverterStrategyFactory {
 
     private static final Map<DBFFieldType, TypeConverterStrategy> strategyMap = new HashMap<>();

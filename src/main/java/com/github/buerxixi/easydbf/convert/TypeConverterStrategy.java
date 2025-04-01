@@ -2,6 +2,9 @@ package com.github.buerxixi.easydbf.convert;
 
 import com.github.buerxixi.easydbf.model.DBFField;
 
+/**
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
+ */
 public interface TypeConverterStrategy {
 
     /**
