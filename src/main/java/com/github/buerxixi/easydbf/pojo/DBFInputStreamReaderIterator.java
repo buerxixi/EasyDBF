@@ -3,6 +3,7 @@ package com.github.buerxixi.easydbf.pojo;
 import com.github.buerxixi.easydbf.convert.TypeConverterStrategyFactory;
 import com.github.buerxixi.easydbf.model.DBFField;
 import com.github.buerxixi.easydbf.util.DBFUtils;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
 
@@ -24,9 +25,11 @@ import java.util.List;
 public class DBFInputStreamReaderIterator implements Iterator<List<DBFItem>> {
 
     protected final Charset charset;
+    @Getter
     protected final DBFHeader header;
-    protected final InputStream inputStream;
+    @Getter
     protected final List<DBFField> fields = new ArrayList<>();
+    protected final InputStream inputStream;
     protected Integer rowId = -1;
 
     public DBFInputStreamReaderIterator(InputStream inputStream) throws IOException {

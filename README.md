@@ -14,7 +14,7 @@
 <dependency>
     <groupId>io.github.buerxixi</groupId>
     <artifactId>EasyDBF</artifactId>
-    <version>0.2.1-RELEASE</version>
+    <version>0.2.2-RELEASE</version>
 </dependency>
 ```
 
@@ -82,6 +82,28 @@ for (DBFField field : fields) {
 // DBFField(charset=GBK, name=BIRTHDAY, type=DATE, offset=34, size=8, digits=0)
 // DBFField(charset=GBK, name=SALARY, type=NUMERIC, offset=42, size=10, digits=2)
 
+```
+
+### 根据InputStream读取数据（注:只能读取不支持写入）
+``` java
+// 创建结构体
+String filename = "D://dbf_test/test6.dbf";
+try (InputStream inputStream = Files.newInputStream(Paths.get(filename))){
+    DBFInputStreamReaderIterator readerIterator = new DBFInputStreamReaderIterator(inputStream);
+    System.out.println(readerIterator.getHeader());
+    System.out.println(readerIterator.getFields());
+    while (readerIterator.hasNext()) {
+        List<DBFItem> item = readerIterator.next();
+        LinkedHashMap<String, String> items2Map = DBFUtils.items2Map(item);
+        System.out.println(items2Map);
+    }
+}
+
+// 控制台输出
+// DBFHeader(version=3, year=2025, month=4, day=1, numberOfRecords=2, headerLength=193, recordLength=52, languageDriver=77)
+// [DBFField(charset=GBK, name=ID, type=CHARACTER, offset=1, size=10, digits=0), DBFField(charset=GBK, name=NAME, type=CHARACTER, offset=11, size=20, digits=0), DBFField(charset=GBK, name=AGE, type=NUMERIC, offset=31, size=3, digits=0), DBFField(charset=GBK, name=BIRTHDAY, type=DATE, offset=34, size=8, digits=0), DBFField(charset=GBK, name=SALARY, type=NUMERIC, offset=42, size=10, digits=2)]
+// {ID=001, NAME=张三, AGE=25, BIRTHDAY=19980510, SALARY=5000.50}
+// {ID=002, NAME=李四, AGE=30, BIRTHDAY=19930815, SALARY=8000.75}
 ```
 
 ### 插入数据
