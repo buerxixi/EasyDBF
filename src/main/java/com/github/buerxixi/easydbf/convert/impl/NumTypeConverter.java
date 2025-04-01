@@ -38,7 +38,7 @@ public class NumTypeConverter implements TypeConverterStrategy {
             // 格式化字符串
             String plain = decimal.setScale(scale, RoundingMode.FLOOR).toPlainString();
 
-            return ByteUtils.mergeRight(bytes, plain.getBytes());
+            return ByteUtils.mergeR(bytes, plain.getBytes());
         }
         return bytes;
     }

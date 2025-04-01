@@ -79,13 +79,24 @@ public class ByteUtils {
         }
     }
 
-    public static byte[] merge(byte[] to, byte[] from) {
+    /**
+     * 从左侧合并数据
+     * @param to 最终数据
+     * @param from 被合并数据
+     * @return 最终数据
+     */
+    public static byte[] mergeL(byte[] to, byte[] from) {
         System.arraycopy(from, 0, to, 0, Math.min(to.length, from.length));
         return to;
     }
 
-
-    public static byte[] mergeRight(byte[] to, byte[] from) {
+    /**
+     * 从右侧合并数据
+     * @param to 最终数据
+     * @param from 被合并数据
+     * @return 最终数据
+     */
+    public static byte[] mergeR(byte[] to, byte[] from) {
         for (int i = 1; i <= Math.min(to.length, from.length); i++) {
             to[to.length - i] = from[from.length - i];
         }

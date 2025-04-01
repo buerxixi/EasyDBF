@@ -25,7 +25,7 @@ public class CharTypeConverter implements TypeConverterStrategy {
         byte[] bytes = new byte[field.getSize()];
         Arrays.fill(bytes, (byte) ' ');
         if (StringUtils.isNotEmpty(s)) {
-            return ByteUtils.merge(bytes, s.getBytes(field.getCharset()));
+            return ByteUtils.mergeL(bytes, s.getBytes(field.getCharset()));
         }
         return new byte[field.getSize()];
     }
