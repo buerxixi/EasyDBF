@@ -1,99 +1,143 @@
 # EasyDBF
-> 目前支持格式为dbase III/DBF 2.5标准格式
+> 目前支持格式为dbase III/DBF 2.5标准格式/FOXPRO2.5标准DBF格式
 > 
-> 写作初心是因为没有一个可以满足当前需求的第三方jar包
->
-> 第一次写开源感觉力不从心，但还是完成了第一期功能和相关的API
->
-> 写的时候最大的问题居然是写着写着时候的退缩-_-!
->
-> 没有严格的测试或者说完善的测试，您有任何问题可以邮件联系 liujiaqiang@outlook.com
+> 您有任何问题可以邮件联系 liujiaqiang@outlook.com
+> 
+> 完美支持中登（中国证券登记结算有限责任公司）格式，例如：D-COM（深交所）、PROP（上交所）
+> 
+> 支持创建、插入、更新、删除功能（CRUD、增删改查）
 
 ## DBF数据结构
 
 ```
-参考链接：http://www.xumenger.com/dbf-20160703/
-Tab = Header(32bit) + n*Field(32bit) + 0x0D + n*Row() + 0x1A
+参考链接：https://en.wikipedia.org/wiki/.dbf
+Tab = Header(32bit) + n*Field(32bit) + 0x0D + n*Record() + 0x1A
 Header(32bit) = bytes[0](版本信息) + bytes[1:3](年月日) + bytes[4:7](记录条数) + bytes[8:9](头文件长度) + bytes[10:11](记录长度)
-Field(32bit) = bytes[0:10](字段名称) + bytes[11](数据类型) + bytes[16](字段长度) + bytes[17](字段精度)
-Row = 0x20/0x2A + n*Record
-Record = 一个删除位 + 数据本体
+Field(32bit) = bytes[0:10](字段名称) + bytes[11](数据类型) + bytes[12:15](偏移量) + bytes[16](字段长度) + bytes[17](字段精度)
+Record = 字段类型“Character”表示文本型字符串，填写方式为左对齐右补空格，而“Numeric”为数字型字符串填写方式为右对齐，左补空格
 ```
+## 说明
+### 支持类型
 
-## 支持类型
-
-| 名称           | 类型      | Java类型         | 示例     |
-| -------------- | --------- | ---------------- | -------- |
-| 字符串         | Character | java.lang.String | 中文     |
-| 日期（年月日） | Date      | java.lang.String | 20230122 |
-| 金额           | Numeric   | java.lang.String | 5.21     |
+| 名称           | 类型      | Java类型         | 示例     | 代码           |
+| -------------- | --------- | ---------------- | -------- |--------------|
+| 字符串         | Character | java.lang.String | 中文     | DBFCharField |
+| 日期（年月日） | Date      | java.lang.String | 20230122 | DBFDateField |
+| 金额           | Numeric   | java.lang.String | 5.21     | DBFNumField  |
 
 ## 使用方法
+> 创建和查询默认编码为GBK格式
 
-### 写入
+### 创建DBF
 
 ``` java
-final static String filename = "C:\\Users\\fangs\\Desktop\\开源项目\\EasyDBF\\测试文件3.dbf";
-final static Charset charset = Charset.forName("GBK");
-
-// 创建DBF文件
-ArrayList<DBFField> list = new ArrayList<>();
-DBFWriter writer = new DBFWriter(filename, charset);
-DBFField nameField = DBFField.builder().name("NAME").type(DBFFieldType.CHARACTER).size(20).build();
-DBFField ageFiled = DBFField.builder().name("AGE").type(DBFFieldType.NUMERIC).size(5).digits(1).build();
-DBFField birthFiled = DBFField.builder().name("BIRTH").type(DBFFieldType.DATE).build();
-list.add(nameField);
-list.add(ageFiled);
-list.add(birthFiled);
-writer.create(list);
-
-// 写入单条数据
-HashMap<String, String> hashMap = new HashMap<>();
-hashMap.put("NAME", "刘家强");
-hashMap.put("AGE", "23.0");
-hashMap.put("BIRTH", "19930119");
-writer.add(hashMap);
-
-// 更新数据
-writer.update("NAME","刘家强", "NAME","李风娇");
-
-// 删除数据
-writer.delete("NAME","李风娇");
+// 创建结构体
+String filename = "D://dbf_test/test6.dbf";
+// 字符串
+DBFCharField ID = new DBFCharField("ID", 10);
+// 字符串
+DBFCharField NAME = new DBFCharField("NAME", 20);
+// 数字
+DBFNumField AGE = new DBFNumField("AGE", 3,0);
+// 日期
+DBFDateField BIRTHDAY = new DBFDateField("BIRTHDAY");
+// 金额
+DBFNumField SALARY = new DBFNumField("SALARY", 10,2);
+DBFWriter writer = new DBFWriter(filename);
+writer.create(ID,NAME,AGE,BIRTHDAY,SALARY);
 ```
 
-### 查询
+### 查询DBF信息
 
 ``` java
-final static String filename = "C:\\Users\\fangs\\Desktop\\开源项目\\EasyDBF\\测试文件3.dbf";
-final static Charset charset = Charset.forName("GBK");
+// 查询Header信息
+String filename = "D://dbf_test/test6.dbf";
+DBFHeader header = DBFUtils.getHeader(filename);
+System.out.println(header);
 
-// 查询数据
-DBFReader reader = new DBFReader(filename, charset);
-System.out.println(RecordUtils.toMap(reader.find("NAME", "李风娇")));
-// system.out [{NAME=李风娇, AGE=23.0, BIRTH=19930119}]
+// 控制台输出
+// DBFHeader(version=3, year=2025, month=4, day=1, numberOfRecords=2, headerLength=193, recordLength=52, languageDriver=77)
 
-// 查询迭代器
-try (DBFRowIterator iterator = reader.iterator()) {
-    if(iterator.hasNext()){
-    	System.out.println(iterator.next());
-    }
-    
-    // WARNING: 需要关闭
+// 查询Fields信息
+List<DBFField> fields = DBFUtils.getFields(filename);
+for (DBFField field : fields) {
+    System.out.println(field);
 }
 
+// 控制台输出
+// DBFField(charset=GBK, name=ID, type=CHARACTER, offset=1, size=10, digits=0)
+// DBFField(charset=GBK, name=NAME, type=CHARACTER, offset=11, size=20, digits=0)
+// DBFField(charset=GBK, name=AGE, type=NUMERIC, offset=31, size=3, digits=0)
+// DBFField(charset=GBK, name=BIRTHDAY, type=DATE, offset=34, size=8, digits=0)
+// DBFField(charset=GBK, name=SALARY, type=NUMERIC, offset=42, size=10, digits=2)
 
 ```
 
-## 未来拓展
+### 插入数据
+``` java
+// 创建结构体
+String filename = "D://dbf_test/test6.dbf";
+DBFWriter writer = new DBFWriter(filename);
 
-- 是否可以通过注解实现更为简单的功能（数据与对象的平稳转换）
-- 待完善测试用例
-- 金额符号问题
-- 待添加DBFReader.inputStream
+// 插入数据
+List<Map<String, String>> list = new  ArrayList<>();
+// 数据001
+Map<String, String> id001 = new HashMap<>();
+id001.put("ID", "001");
+id001.put("NAME", "张三");
+id001.put("AGE", "25");
+id001.put("BIRTHDAY", "19980510");
+id001.put("SALARY", "5000.50");
+list.add(id001);
+// 数据002
+Map<String, String> id002 = new HashMap<>();
+id002.put("ID", "002");
+id002.put("NAME", "李四");
+id002.put("AGE", "30");
+id002.put("BIRTHDAY", "19930815");
+id002.put("SALARY", "8000.75");
+list.add(id002);
+
+writer.insert(list);
+```
+
+### 查询数据
+``` java
+String filename = "D://dbf_test/test6.dbf";
+
+try (DBFReaderIterator dbfRowIterator = new DBFReaderIterator(filename)) {
+    while (dbfRowIterator.hasNext()) {
+        List<DBFItem> items = dbfRowIterator.next();
+        // item 包含id、fieldName、value
+        // 其中id为Record的索引可用于删除、更新
+        LinkedHashMap<String, String> items2Map = DBFUtils.items2Map(items);
+        System.out.println(items2Map);
+    }
+}
+
+// 控制台输出
+// {ID=001, NAME=张三, AGE=25, BIRTHDAY=19980510, SALARY=5000.50}
+// {ID=002, NAME=李四, AGE=30, BIRTHDAY=19930815, SALARY=8000.75}
+```
+
+
+### 删除数据
+``` java
+// id为查询数据的DBFItem::getId()
+DBFWriter writer = new DBFWriter(filename);
+writer.deleteById(0);
+```
+
+### 更新数据
+``` java
+// id为查询数据的DBFItem::getId()
+DBFWriter writer = new DBFWriter(filename);
+writer.updateById(0,"NAME", "刘家强");
+```
 
 ## 源码构建
 
-克隆到本地并使用maven进行构建
+> 克隆到本地并使用maven进行构建
 
 ```shell
 https://github.com/buerxixi/EasyDBF.git
@@ -108,12 +152,4 @@ mvn clean deploy -DskipTests=true
 
 ## 参考
 
-https://github.com/ethanfurman/dbf/tree/master/dbf
-
-https://github.com/albfernandez/javadbf
-
-https://github.com/abstractvector/node-dbf
-
-http://www.xumenger.com/dbf-20160703/
-
-https://en.wikipedia.org/wiki/.dbf
+> https://github.com/ethanfurman/dbf/tree/master/dbf

@@ -19,14 +19,14 @@ import java.util.List;
  */
 public class DBFReaderTest {
 
-    private static   String filename = "D:\\张新师姐论文\\python\\D250401\\example.dbf";
+    private static  String filename = "D://dbf_test/test6.dbf";
 
     @Test
     public void readerDbfItems2() throws IOException {
         try (DBFReaderIterator dbfRowIterator = new DBFReaderIterator(filename)) {
             while (dbfRowIterator.hasNext()) {
-                List<DBFItem> rows = dbfRowIterator.next();
-                LinkedHashMap<String, String> items2Map = DBFUtils.items2Map(rows);
+                List<DBFItem> item = dbfRowIterator.next();
+                LinkedHashMap<String, String> items2Map = DBFUtils.items2Map(item);
                 System.out.println(items2Map);
             }
         }
