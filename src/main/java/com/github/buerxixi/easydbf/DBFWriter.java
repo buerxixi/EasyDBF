@@ -8,12 +8,12 @@ import com.github.buerxixi.easydbf.pojo.DBFHeader;
 import com.github.buerxixi.easydbf.util.ByteUtils;
 import com.github.buerxixi.easydbf.util.DBFUtils;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,7 +80,9 @@ public class DBFWriter {
                     raf.write(bytes);
                 }
             }
+            updateHeader(header, raf);
         }
+
     }
 
     /**
@@ -115,6 +117,52 @@ public class DBFWriter {
     /**
      * 添加数据
      */
+    public void insert(Map<String, String> value) throws IOException {
+        ArrayList<Map<String, String>> list = new ArrayList<>();
+        list.add(value);
+        insert(list);
+    }
+
+    /**
+     * 添加数据
+     */
+    public void insert(List<Map<String, String>> values) throws IOException {
+        DBFHeader header = DBFUtils.getHeader(filename);
+        List<DBFField> fields = DBFUtils.getFields(filename, charset);
+        try (RandomAccessFile raf = new RandomAccessFile(filename, "rw")) {
+            Map<String, DBFField> name2Field = fields.stream().collect(Collectors.toMap(DBFField::getName, f -> f));
+            for (Map<String, String> value : values) {
+
+                byte[] bytes = new byte[header.getRecordLength()];
+                // 填入数据
+                Arrays.fill(bytes, DBFConstant.UNDELETED_OF_FIELD);
+
+
+
+                // DBFConstant.UNDELETED_OF_FIELD;
+                // 根据偏移量依次写入数据
+                for (Map.Entry<String, String> entry : value.entrySet()) {
+
+                    // 依次获取字段
+                    DBFField field = name2Field.get(entry.getKey());
+
+                    // 更新字段所对应的值
+                    if (field != null) {
+                        // 获取转换类
+                        TypeConverterStrategy strategy = TypeConverterStrategyFactory.getStrategy(field.getType());
+                        byte[] filedBytes = strategy.toBytes(field, entry.getValue());
+                        System.arraycopy(filedBytes, 0, bytes, field.getOffset(), field.getSize());
+                    }
+                }
+
+                raf.seek(header.getHeaderLength() + (long) header.getRecordLength() * header.getNumberOfRecords());
+                raf.write(bytes);
+            }
+
+            raf.write(DBFConstant.END_OF_DATA);
+            updateHeader(header, raf);
+        }
+    }
 
 
 }

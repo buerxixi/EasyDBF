@@ -2,6 +2,7 @@ package com.github.buerxixi.easydbf;
 
 import org.junit.Test;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * <p>
@@ -23,5 +24,13 @@ public class DBFWriterTest {
     public void updateById() throws IOException {
         DBFWriter writer = new DBFWriter(filename);
         writer.updateById(0,"ZLZH", "中登资金账户00006");
+    }
+
+    @Test
+    public void insert() throws IOException {
+        DBFWriter writer = new DBFWriter(filename);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("ZLZH", "中登资金账户00007");
+        writer.insert(map);
     }
 }
