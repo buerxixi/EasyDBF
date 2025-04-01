@@ -21,8 +21,9 @@ public class DBFField implements IConverter<DBFField> {
 
     /**
      * 删除标识
+     * TODO row相关字段
      */
-    private byte deletion;
+    //    private byte deletion;
 
     @Builder.Default
     private Charset charset = DBFConstant.DEFAULT_CHARSET;

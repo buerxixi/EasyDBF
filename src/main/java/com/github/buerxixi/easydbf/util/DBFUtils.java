@@ -14,6 +14,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -75,7 +76,7 @@ public class DBFUtils {
     /**
      * 转换成map
      */
-    public static Map<String, String> rows2Map(List<DBFRow> rows) {
+    public static LinkedHashMap<String, String> rows2Map(List<DBFRow> rows) {
         // 使用 Java 8 的 Stream API 和 Collectors.toMap 方法将列表转换为 Map
         return rows.stream()
                 .collect(Collectors.toMap(
@@ -84,7 +85,8 @@ public class DBFUtils {
                         // 值的映射函数，这里假设 DBFRow 有一个 getValue 方法
                         DBFRow::getValue,
                         // 处理键冲突的合并函数，这里简单地使用后一个值覆盖前一个值
-                        (existing, replacement) -> replacement
+                        (existing, replacement) -> replacement,
+                        LinkedHashMap::new
                 ));
     }
 }
