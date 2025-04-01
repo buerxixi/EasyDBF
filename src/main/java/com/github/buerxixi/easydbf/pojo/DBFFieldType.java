@@ -1,10 +1,14 @@
 package com.github.buerxixi.easydbf.pojo;
 
+import lombok.Getter;
+
 /**
  * 字段类型
  *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
+ * @since 2025/04/01 16:58
  */
+@Getter
 public enum DBFFieldType {
 
     /**
@@ -35,10 +39,6 @@ public enum DBFFieldType {
             }
         }
         throw new IllegalArgumentException("Invalid DBFFieldType s: " + s);
-    }
-
-    public char getType() {
-        return type;
     }
 
 }

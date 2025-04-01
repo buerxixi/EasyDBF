@@ -3,7 +3,10 @@ package com.github.buerxixi.easydbf.convert;
 import com.github.buerxixi.easydbf.model.DBFField;
 
 /**
+ * 字段类型转换接口
+ *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
+ * @since 2025/04/01 16:58
  */
 public interface TypeConverterStrategy {
 

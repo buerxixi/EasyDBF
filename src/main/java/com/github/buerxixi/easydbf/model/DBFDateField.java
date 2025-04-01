@@ -4,7 +4,10 @@ import com.github.buerxixi.easydbf.pojo.DBFConstant;
 import com.github.buerxixi.easydbf.pojo.DBFFieldType;
 
 /**
+ * 表示DBF文件中的日期字段，继承自DBFField类。
+ *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
+ * @since 2025/04/01 16:58
  */
 public class DBFDateField extends DBFField {
 

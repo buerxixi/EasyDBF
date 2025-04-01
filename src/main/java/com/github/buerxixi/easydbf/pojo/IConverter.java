@@ -1,8 +1,11 @@
 package com.github.buerxixi.easydbf.pojo;
 
 /**
- * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
+ * 数据转换接口
+ *
  * @param <T> 泛型类型，用于指定实现此接口的具体类型
+ * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
+ * @since 2025/04/01 16:58
  */
 public interface IConverter<T extends IConverter<T>> {
 

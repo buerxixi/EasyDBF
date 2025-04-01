@@ -11,21 +11,15 @@ import lombok.ToString;
 import java.nio.charset.Charset;
 
 /**
- * 字段
+ * DBF默认字段
  *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
+ * @since 2025/04/01 16:58
  */
-//@Builder
 @Data
 @Builder
 @ToString
 public class DBFField implements IConverter<DBFField> {
-
-    /**
-     * 删除标识
-     * TODO row相关字段
-     */
-    //    private byte deletion;
 
     @Builder.Default
     private Charset charset = DBFConstant.DEFAULT_CHARSET;

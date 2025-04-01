@@ -6,7 +6,10 @@ import com.github.buerxixi.easydbf.pojo.DBFFieldType;
 import java.nio.charset.Charset;
 
 /**
+ * 表示DBF文件中的字符字段，继承自DBFField类。
+ *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
+ * @since 2025/04/01 16:58
  */
 public class DBFCharField extends DBFField {
 
