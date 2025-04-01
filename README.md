@@ -14,7 +14,7 @@
 <dependency>
     <groupId>io.github.buerxixi</groupId>
     <artifactId>EasyDBF</artifactId>
-    <version>0.2.2-RELEASE</version>
+    <version>0.2.3-RELEASE</version>
 </dependency>
 ```
 
