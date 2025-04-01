@@ -7,7 +7,7 @@ import com.github.buerxixi.easydbf.pojo.DBFField;
  *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
-public class DateConverter implements TypeConverterStrategy {
+public class DateTypeConverter implements TypeConverterStrategy {
 
 
     @Override

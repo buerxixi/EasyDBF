@@ -13,7 +13,7 @@ import java.util.Arrays;
  *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
-public class NumericConverter implements TypeConverterStrategy {
+public class NumTypeConverter implements TypeConverterStrategy {
 
 
     @Override

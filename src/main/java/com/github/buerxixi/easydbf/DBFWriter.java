@@ -113,6 +113,12 @@ public class DBFWriter {
     /**
      * 创建
      */
+    /**
+     * 添加数据
+     */
+    public <T extends DBFField> void create(List<T> fields) throws IOException {
+
+    }
 
     /**
      * 添加数据

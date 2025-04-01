@@ -33,4 +33,12 @@ public class DBFWriterTest {
         map.put("ZLZH", "中登资金账户00007");
         writer.insert(map);
     }
+
+    @Test
+    public void create() throws IOException {
+        DBFWriter writer = new DBFWriter(filename);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("ZLZH", "中登资金账户00007");
+        writer.insert(map);
+    }
 }
