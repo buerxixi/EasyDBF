@@ -63,7 +63,7 @@ public class DBFWriter {
     private void updateRecordLength(RandomAccessFile raf, Short recordLength) throws IOException {
 
         // 更新时间内
-        raf.seek(8);
+        raf.seek(0x0A);
         raf.write(ByteUtils.shortToBytesLE(recordLength));
     }
 
@@ -73,7 +73,7 @@ public class DBFWriter {
     private void updateHeaderLength(RandomAccessFile raf, Short headerLength) throws IOException {
 
         // 更新时间内
-        raf.seek(0x0A);
+        raf.seek(8);
         raf.write(ByteUtils.shortToBytesLE(headerLength));
     }
 
