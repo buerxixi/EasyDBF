@@ -1,16 +1,15 @@
 package com.github.buerxixi.easydbf;
 
 import com.github.buerxixi.easydbf.pojo.DBFConstant;
-import com.github.buerxixi.easydbf.pojo.DBFResult;
-import com.github.buerxixi.easydbf.pojo.DBFRow;
-import com.github.buerxixi.easydbf.pojo.DBFRowIterator;
+import com.github.buerxixi.easydbf.pojo.DBFItem;
+import com.github.buerxixi.easydbf.pojo.DBFReaderIterator;
 import lombok.SneakyThrows;
 
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
 
-public class DBFReader implements Iterable<List<DBFRow>>{
+public class DBFReader implements Iterable<List<DBFItem>>{
 
     final private String filename;
     final private Charset charset;
@@ -26,7 +25,7 @@ public class DBFReader implements Iterable<List<DBFRow>>{
 
     @SneakyThrows
     @Override
-    public Iterator<List<DBFRow>> iterator() {
-        return new DBFRowIterator(filename, charset);
+    public Iterator<List<DBFItem>> iterator() {
+        return new DBFReaderIterator(filename, charset);
     }
 }

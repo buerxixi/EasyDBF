@@ -35,11 +35,6 @@ public class DBFConstant {
     final static public byte UNDELETED_OF_FIELD = 0x20;
 
     /**
-     * 未删除文件标识数组
-     */
-    final static public byte[] UNDELETED_OF_FIELD_BYTES = new byte[]{DBFConstant.UNDELETED_OF_FIELD};
-
-    /**
      * 起始年份
      */
     final static public Short START_YEAR = 1900;

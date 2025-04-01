@@ -3,10 +3,7 @@ package com.github.buerxixi.easydbf.util;
 import com.github.buerxixi.easydbf.pojo.DBFConstant;
 import com.github.buerxixi.easydbf.pojo.DBFField;
 import com.github.buerxixi.easydbf.pojo.DBFHeader;
-import com.github.buerxixi.easydbf.pojo.DBFRecord;
-import com.github.buerxixi.easydbf.pojo.DBFRow;
-import org.apache.commons.lang3.ArrayUtils;
-
+import com.github.buerxixi.easydbf.pojo.DBFItem;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
@@ -16,7 +13,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -76,14 +72,14 @@ public class DBFUtils {
     /**
      * 转换成map
      */
-    public static LinkedHashMap<String, String> rows2Map(List<DBFRow> rows) {
+    public static LinkedHashMap<String, String> items2Map(List<DBFItem> rows) {
         // 使用 Java 8 的 Stream API 和 Collectors.toMap 方法将列表转换为 Map
         return rows.stream()
                 .collect(Collectors.toMap(
                         // 键的映射函数，这里假设 DBFRow 有一个 getKey 方法
-                        DBFRow::getKey,
+                        DBFItem::getFieldName,
                         // 值的映射函数，这里假设 DBFRow 有一个 getValue 方法
-                        DBFRow::getValue,
+                        DBFItem::getValue,
                         // 处理键冲突的合并函数，这里简单地使用后一个值覆盖前一个值
                         (existing, replacement) -> replacement,
                         LinkedHashMap::new
