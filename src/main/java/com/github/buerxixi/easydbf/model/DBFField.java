@@ -1,11 +1,14 @@
-package com.github.buerxixi.easydbf.pojo;
+package com.github.buerxixi.easydbf.model;
 
+import com.github.buerxixi.easydbf.pojo.DBFConstant;
+import com.github.buerxixi.easydbf.pojo.DBFFieldType;
+import com.github.buerxixi.easydbf.pojo.IConverter;
 import com.github.buerxixi.easydbf.util.ByteUtils;
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
-import lombok.experimental.SuperBuilder;
 
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 /**
@@ -15,7 +18,7 @@ import java.nio.charset.Charset;
  */
 //@Builder
 @Data
-@SuperBuilder
+@Builder
 @ToString
 public class DBFField implements IConverter<DBFField> {
 
@@ -34,11 +37,6 @@ public class DBFField implements IConverter<DBFField> {
      */
     private String name;
 
-    /**
-     * 字段偏移量
-     * 12-15
-     */
-    private Integer offset;
 
     /**
      * 11
@@ -46,16 +44,22 @@ public class DBFField implements IConverter<DBFField> {
      */
     private DBFFieldType type;
     /**
+     * 字段偏移量
+     * 12-15
+     */
+    private Integer offset;
+
+    /**
      * 16
      * 字段长度
      */
-    private Integer size;
+    private byte size;
     /**
      * 17
      * 字段精度
      */
     @Builder.Default
-    private Integer digits = 0;
+    private byte digits = 0;
 
     @Override
     public DBFField fromBytes(byte[] bytes) {
@@ -64,40 +68,26 @@ public class DBFField implements IConverter<DBFField> {
                 .name(ByteUtils.byteToStr(bytes))
                 .type(DBFFieldType.from((char) bytes[11]))
                 .offset(ByteUtils.readIntLE(bytes, 12))
-                .size((int) bytes[16])
-                .digits( (int) bytes[17])
+                .size(bytes[16])
+                .digits(bytes[17])
                 .build();
     }
 
     @Override
     public byte[] toBytes() {
         byte[] bytes = new byte[32]; // 假设每个字段信息固定为32字节
-
-        // 填充字段名称
-        if (name != null) {
-            byte[] nameBytes = name.getBytes();
-            int length = Math.min(nameBytes.length, 11);
-            System.arraycopy(nameBytes, 0, bytes, 0, length);
-        }
-
-        // 填充数据类型
-//        if (type != null) {
-            // TODO
-            // bytes[11] = (byte) type.getType();
-//        }
-
-        // 填充字段长度
-        if (size != null) {
-            bytes[16] = (byte) size.intValue();
-        }
-
-        // 填充字段精度
-        bytes[17] = (byte) digits.intValue();
-
-        // 剩余部分填充 0x00
-        for (int i = 18; i < 32; i++) {
-            bytes[i] = 0x00;
-        }
+        // 设置名称
+        byte[] nameBytes = name.getBytes(charset);
+        System.arraycopy(nameBytes, 0, bytes, 0, Math.min(nameBytes.length, 10));
+        // 设置字段类型
+        bytes[11] = (byte) type.getType();
+        // 字段偏移（大段读取）
+        byte[] offsetBytes = ByteUtils.int2LE(offset);
+        System.arraycopy(offsetBytes, 0, bytes, 12, 4);
+        // 字段长度
+        bytes[16] = size;
+        // 字段经度
+        bytes[17] = digits;
 
         return bytes;
     }

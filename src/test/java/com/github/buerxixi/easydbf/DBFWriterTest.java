@@ -1,5 +1,9 @@
 package com.github.buerxixi.easydbf;
 
+import com.github.buerxixi.easydbf.model.DBFCharField;
+import com.github.buerxixi.easydbf.model.DBFDateField;
+import com.github.buerxixi.easydbf.model.DBFField;
+import com.github.buerxixi.easydbf.model.DBFNumField;
 import org.junit.Test;
 import java.io.IOException;
 import java.util.HashMap;
@@ -36,9 +40,11 @@ public class DBFWriterTest {
 
     @Test
     public void create() throws IOException {
+        String filename = "D://dbf_test/test2.dbf";
+        DBFCharField name = new DBFCharField("NAME", 10);
+        DBFNumField age = new DBFNumField("AGE", 10,1);
+        DBFDateField date = new DBFDateField("DATE");
         DBFWriter writer = new DBFWriter(filename);
-        HashMap<String, String> map = new HashMap<>();
-        map.put("ZLZH", "中登资金账户00007");
-        writer.insert(map);
+        writer.create(name,age,date);
     }
 }

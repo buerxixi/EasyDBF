@@ -1,6 +1,6 @@
 //package com.github.buerxixi.easydbf.util;
 //
-//import com.github.buerxixi.easydbf.pojo.DBFField;
+//import com.github.buerxixi.easydbf.model.DBFField;
 //import com.github.buerxixi.easydbf.pojo.DBFFieldType;
 //import org.apache.commons.lang3.ArrayUtils;
 //import org.apache.commons.lang3.StringUtils;

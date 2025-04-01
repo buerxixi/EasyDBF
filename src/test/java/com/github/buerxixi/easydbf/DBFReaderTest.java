@@ -1,6 +1,6 @@
 package com.github.buerxixi.easydbf;
 
-import com.github.buerxixi.easydbf.pojo.DBFField;
+import com.github.buerxixi.easydbf.model.DBFField;
 import com.github.buerxixi.easydbf.pojo.DBFHeader;
 import com.github.buerxixi.easydbf.pojo.DBFItem;
 import com.github.buerxixi.easydbf.pojo.DBFReaderIterator;

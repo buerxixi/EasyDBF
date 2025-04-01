@@ -1,6 +1,7 @@
-package com.github.buerxixi.easydbf.convert;
+package com.github.buerxixi.easydbf.convert.impl;
 
-import com.github.buerxixi.easydbf.pojo.DBFField;
+import com.github.buerxixi.easydbf.convert.TypeConverterStrategy;
+import com.github.buerxixi.easydbf.model.DBFField;
 import com.github.buerxixi.easydbf.util.ByteUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -11,7 +12,7 @@ import java.util.Arrays;
  *
  * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
  */
-public class CharacterConverter implements TypeConverterStrategy {
+public class CharTypeConverter implements TypeConverterStrategy {
 
 
     @Override

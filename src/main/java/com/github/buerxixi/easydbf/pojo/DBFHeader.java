@@ -75,67 +75,12 @@ public class DBFHeader implements IConverter<DBFHeader> {
 
     @Override
     public byte[] toBytes() {
-        byte[] bytes = new byte[32]; // 假设文件头固定为32字节
-        // 填充版本信息
-        if (version != null) {
-            bytes[0] = version;
-        } else {
-            bytes[0] = 0x00;
-        }
-        // 填充年
-        if (year != null) {
-            short yearValue = (short) (year - DBFConstant.START_YEAR);
-            bytes[1] = (byte) (yearValue & 0xFF);
-        } else {
-            bytes[1] = 0x00;
-        }
-        // 填充月
-        if (month != null) {
-            bytes[2] = month;
-        } else {
-            bytes[2] = 0x00;
-        }
-        // 填充日
-        if (day != null) {
-            bytes[3] = day;
-        } else {
-            bytes[3] = 0x00;
-        }
-        // 填充记录数量
-        if (numberOfRecords != null) {
-            byte[] numRecordsBytes = ByteUtils.writeInt32LE(numberOfRecords);
-            System.arraycopy(numRecordsBytes, 0, bytes, 4, 4);
-        } else {
-            for (int i = 4; i < 8; i++) {
-                bytes[i] = 0x00;
-            }
-        }
-        // 填充文件头长度
-        if (headerLength != null) {
-            byte[] headerLengthBytes = ByteUtils.writeInt16LE(headerLength);
-            System.arraycopy(headerLengthBytes, 0, bytes, 8, 2);
-        } else {
-            bytes[8] = 0x00;
-            bytes[9] = 0x00;
-        }
-        // 填充记录长度
-        if (recordLength != null) {
-            byte[] recordLengthBytes = ByteUtils.writeInt16LE(recordLength);
-            System.arraycopy(recordLengthBytes, 0, bytes, 0x0A, 2);
-        } else {
-            bytes[0x0A] = 0x00;
-            bytes[0x0B] = 0x00;
-        }
-        // 填充语言驱动
-        if (languageDriver != null) {
-            bytes[29] = languageDriver;
-        } else {
-            bytes[29] = 0x00;
-        }
-        // 剩余部分填充 0x00
-        for (int i = 30; i < 32; i++) {
-            bytes[i] = 0x00;
-        }
+        // 写入头部信息
+        byte[] bytes = new byte[32];
+        // 设置版本
+        bytes[0] = DBFConstant.DBASE_III;
+        // 设置语言
+        bytes[29] = DBFConstant.LANGUAGE_DRIVER;
         return bytes;
     }
 }
