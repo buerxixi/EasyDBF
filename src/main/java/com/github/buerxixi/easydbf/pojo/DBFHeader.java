@@ -47,12 +47,12 @@ public class DBFHeader implements IConverter<DBFHeader> {
     /**
      * 当前DBF的文件头占用的字节长度 Header(32bit) + n*Field(32bit) + 0x0D
      */
-    private Integer headerLength;
+    private Short headerLength;
 
     /**
      * 一条记录中的字节长度，即每行数据所占的长度 0x20/0x2A + SUM(field.size)
      */
-    private Integer recordLength;
+    private Short recordLength;
 
     /**
      * 编码

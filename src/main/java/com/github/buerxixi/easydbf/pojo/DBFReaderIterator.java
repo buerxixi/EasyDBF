@@ -36,7 +36,7 @@ public class DBFReaderIterator implements Iterator<List<DBFItem>>, AutoCloseable
     public DBFReaderIterator(String filename, Charset charset) throws IOException {
         this.charset = charset;
         this.header = DBFUtils.getHeader(filename);
-        this.fields = DBFUtils.getFields(filename);
+        this.fields = DBFUtils.getFields(filename, charset);
         inputStream = Files.newInputStream(Paths.get(filename));
 
         // 跳过头部信息

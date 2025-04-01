@@ -18,25 +18,16 @@ public class ByteUtils {
     }
 
     /**
-     * 字节数组大端读取int
-     *
+     * 根据start和len截取字节数组
      * @param bytes 字节数组
-     * @param offset 偏移量
-     * @param byteLen 字节长度
-     * @return 数值
+     * @param start 开始
+     * @param len 长度
+     * @return 截取后的字节数组
      */
-    private static Integer readShortLE(byte[] bytes, Integer offset, Integer byteLen) {
-
-        // 结果
-        int le = 0;
-
-        // 累计
-        for (int i = 0; i < byteLen; i++) {
-            // 将当前字节转换为无符号整数，并左移相应的位数，然后累加到结果中
-            le += (bytes[i + offset] & 0xFF) << i * 8;
-        }
-
-        return le;
+    public static byte[] rangeBytes(byte[] bytes, int start, int len) {
+        byte[] result = new byte[len];
+        System.arraycopy(bytes, start, result, 0, len);
+        return result;
     }
 
     /**
@@ -46,9 +37,9 @@ public class ByteUtils {
      * @param offset 偏移量
      * @return 数值
      */
-    public static Integer readShortLE(byte[] bytes, Integer offset) {
-        // 调用 readShortLE 方法，指定字节长度为 2
-        return readShortLE(bytes, offset, 2);
+    public static Short readShortLE(byte[] bytes, Integer offset) {
+        byte[] range = rangeBytes(bytes, offset, 2);
+        return bytesToShortLE(range);
     }
 
     /**
@@ -59,8 +50,8 @@ public class ByteUtils {
      * @return 数值
      */
     public static Integer readIntLE(byte[] bytes, Integer offset) {
-        // 调用 readShortLE 方法，指定字节长度为 4
-        return readShortLE(bytes, offset, 4);
+        byte[] range = rangeBytes(bytes, offset, 4);
+        return bytesToIntLE(range);
     }
 
     /**
