@@ -25,14 +25,16 @@ public class DBFConstant {
     final static public byte DBASE_III = 0x03;
 
     /**
-     * 删除文件标识/空白标识
+     * 未删除文件标识(空格)
+     */
+    final static public byte UNDELETED_OF_FIELD = 0x20;
+
+    /**
+     * 删除文件标识/空白标识(*)
      */
     final static public byte DELETED_OF_FIELD = 0x2A;
 
-    /**
-     * 未删除文件标识
-     */
-    final static public byte UNDELETED_OF_FIELD = 0x20;
+
 
     /**
      * 起始年份

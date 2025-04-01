@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,25 +28,24 @@ public class DBFWriter {
     }
 
     /**
-     * 更新时间
+     * 更新头部信息
      */
-    public void updateHeader() throws IOException {
-        DBFHeader header = DBFUtils.getHeader(filename);
-        try (RandomAccessFile raf = new RandomAccessFile(filename, "rw")) {
-            // 更新时间内
-            raf.seek(1);
-            // 获取当前日期
-            LocalDate now = LocalDate.now();
-            // 更新日期
-            raf.writeByte(now.getYear() - DBFConstant.START_YEAR);
-            raf.writeByte(now.getMonthValue());
-            raf.writeByte(now.getDayOfYear());
+    private void updateHeader(DBFHeader header, RandomAccessFile raf) throws IOException {
 
-            // 更新数量 TODO:数量计算有问题
-            Integer numberOfRecords = Math.toIntExact((raf.length() - header.getHeaderLength() - 1) / header.getRecordLength());
-            // TODO: raf.seek(null);
-            raf.write(ByteUtils.int32LE(numberOfRecords));
-        }
+        // 更新时间内
+        raf.seek(1);
+        // 获取当前日期
+        LocalDate now = LocalDate.now();
+        // 更新日期
+        raf.writeByte(now.getYear() - DBFConstant.START_YEAR);
+        raf.writeByte(now.getMonthValue());
+        raf.writeByte(now.getDayOfYear());
+
+        // 更新数量 TODO:数量计算有问题
+        Integer numberOfRecords = Math.toIntExact((raf.length() - header.getHeaderLength() - 1) / header.getRecordLength());
+        // TODO: raf.seek(null);
+        raf.write(ByteUtils.int32LE(numberOfRecords));
+
     }
 
     /**
@@ -66,16 +66,25 @@ public class DBFWriter {
      * 删除（更新删除状态）
      */
     public void deleteById(Integer rowId) throws IOException {
-        try (RandomAccessFile raf = new RandomAccessFile(filename, "rw")) {
-            // 跳过头信息
-        }
+        List<Integer> rowIds = new ArrayList<>();
+        rowIds.add(rowId);
+        deleteByIds(rowIds);
     }
 
     /**
      * 删除（更新删除状态）
      */
     public void deleteByIds(List<Integer> rowIds) throws IOException {
+        DBFHeader header = DBFUtils.getHeader(filename);
+        try (RandomAccessFile raf = new RandomAccessFile(filename, "rw")) {
+            // 更新时间内
+            for (Integer rowId : rowIds) {
+                raf.seek(header.getHeaderLength() + (long) header.getRecordLength() * rowId);
+                raf.writeByte(DBFConstant.DELETED_OF_FIELD);
+            }
 
+            updateHeader(header, raf);
+        }
     }
 
     /**
