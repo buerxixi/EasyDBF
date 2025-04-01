@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
-import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 /**
@@ -82,7 +81,7 @@ public class DBFField implements IConverter<DBFField> {
         // 设置字段类型
         bytes[11] = (byte) type.getType();
         // 字段偏移（大段读取）
-        byte[] offsetBytes = ByteUtils.int2LE(offset);
+        byte[] offsetBytes = ByteUtils.intToBytesLE(offset);
         System.arraycopy(offsetBytes, 0, bytes, 12, 4);
         // 字段长度
         bytes[16] = size;

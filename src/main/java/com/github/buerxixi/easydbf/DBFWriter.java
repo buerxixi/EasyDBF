@@ -64,7 +64,7 @@ public class DBFWriter {
 
         // 更新时间内
         raf.seek(8);
-        raf.writeShort(recordLength);
+        raf.write(ByteUtils.shortToBytesLE(recordLength));
     }
 
     /**
@@ -74,7 +74,7 @@ public class DBFWriter {
 
         // 更新时间内
         raf.seek(0x0A);
-        raf.write(ByteUtils.short2LE(headerLength));
+        raf.write(ByteUtils.shortToBytesLE(headerLength));
     }
 
     /**
@@ -86,7 +86,7 @@ public class DBFWriter {
         // 更新数量 TODO:数量计算有问题
         Integer numberOfRecords = Math.toIntExact((raf.length() - header.getHeaderLength() - 1) / header.getRecordLength());
         // TODO: raf.seek(null);
-        raf.write(ByteUtils.int2LE(numberOfRecords));
+        raf.write(ByteUtils.intToBytesLE(numberOfRecords));
 
     }
 

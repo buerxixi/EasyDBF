@@ -93,35 +93,59 @@ public class ByteUtils {
     }
 
     /**
-     * short转成大端字节数组
+     * short转成小端字节数组
      * @param value short值
-     * @return 大端字节数组
+     * @return 小端字节数组
      */
-    public static byte[] short2LE(Short value) {
+    public static byte[] shortToBytesLE(Short value) {
         byte[] result = new byte[2];
-        // 提取高 8 位
-        result[0] = (byte) ((value >> 8) & 0xFF);
         // 提取低 8 位
-        result[1] = (byte) (value & 0xFF);
+        result[0] = (byte) (value & 0xFF);
+        // 提取高 8 位
+        result[1] = (byte) ((value >> 8) & 0xFF);
         return result;
     }
 
     /**
-     * int转成大端字节数组
+     * int转成小端字节数组
      * @param value int值
-     * @return 大端字节数组
+     * @return 小端字节数组
      */
-    public static byte[] int2LE(Integer value) {
+    public static byte[] intToBytesLE(Integer value) {
         byte[] result = new byte[4];
-        // 提取第 4 个字节（最高位字节）
-        result[0] = (byte) ((value >> 24) & 0xFF);
-        // 提取第 3 个字节
-        result[1] = (byte) ((value >> 16) & 0xFF);
-        // 提取第 2 个字节
-        result[2] = (byte) ((value >> 8) & 0xFF);
         // 提取第 1 个字节（最低位字节）
-        result[3] = (byte) (value & 0xFF);
+        result[0] = (byte) (value & 0xFF);
+        // 提取第 2 个字节
+        result[1] = (byte) ((value >> 8) & 0xFF);
+        // 提取第 3 个字节
+        result[2] = (byte) ((value >> 16) & 0xFF);
+        // 提取第 4 个字节（最高位字节）
+        result[3] = (byte) ((value >> 24) & 0xFF);
         return result;
+    }
+
+    /**
+     * 将小端字节序的字节数组转换为 short 类型
+     * @param bytes 小端字节序的字节数组，长度至少为 2
+     * @return 转换后的 short 类型值
+     */
+    public static short bytesToShortLE(byte[] bytes) {
+        if (bytes.length < 2) {
+            throw new IllegalArgumentException("输入的字节数组长度必须至少为 2");
+        }
+        return (short) ((bytes[1] & 0xFF) << 8 | (bytes[0] & 0xFF));
+    }
+
+    /**
+     * 将小端字节序的字节数组转换为 int 类型
+     * @param bytes 小端字节序的字节数组，长度至少为 4
+     * @return 转换后的 int 类型值
+     */
+    public static int bytesToIntLE(byte[] bytes) {
+        if (bytes.length < 4) {
+            throw new IllegalArgumentException("输入的字节数组长度必须至少为 4");
+        }
+        return (bytes[3] & 0xFF) << 24 | (bytes[2] & 0xFF) << 16 | (bytes[1] & 0xFF) << 8 | (bytes[0] & 0xFF);
     }
 
 

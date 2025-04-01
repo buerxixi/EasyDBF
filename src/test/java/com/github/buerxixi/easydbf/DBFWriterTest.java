@@ -40,10 +40,10 @@ public class DBFWriterTest {
 
     @Test
     public void create() throws IOException {
-        String filename = "D://dbf_test/test2.dbf";
+        String filename = "D://dbf_test/test5.dbf";
         DBFCharField name = new DBFCharField("NAME", 10);
-        DBFNumField age = new DBFNumField("AGE", 10,1);
-        DBFDateField date = new DBFDateField("DATE");
+        DBFCharField age = new DBFCharField("AGE", 12);
+        DBFCharField date = new DBFCharField("AGE", 13);
         DBFWriter writer = new DBFWriter(filename);
         writer.create(name,age,date);
     }
