@@ -121,7 +121,7 @@ try (DBFReaderIterator dbfRowIterator = new DBFReaderIterator(filename)) {
 ```
 
 
-### 删除数据
+### 删除数据（逻辑删除）
 ``` java
 // id为查询数据的DBFItem::getId()
 DBFWriter writer = new DBFWriter(filename);
