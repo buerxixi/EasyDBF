@@ -7,13 +7,23 @@ import lombok.experimental.SuperBuilder;
 
 /**
  * 数据存储块
+ * 该类用于表示DBF文件中的一个数据项，包含行号、字段名和字段值。
  */
 @Data
 @NoArgsConstructor
 @ToString
 @SuperBuilder
 public class DBFItem {
+    /**
+     * 数据项所在的行号
+     */
     private Integer rowId;
+    /**
+     * 数据项对应的字段名
+     */
     private String fieldName;
+    /**
+     * 数据项的字段值
+     */
     private String value;
 }

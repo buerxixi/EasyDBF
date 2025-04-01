@@ -9,6 +9,9 @@ import java.nio.charset.StandardCharsets;
  */
 public class ByteUtils {
 
+    /**
+     * 私有构造函数，防止实例化工具类
+     */
     private ByteUtils() {
 
     }
@@ -28,6 +31,7 @@ public class ByteUtils {
 
         // 累计
         for (int i = 0; i < byteLen; i++) {
+            // 将当前字节转换为无符号整数，并左移相应的位数，然后累加到结果中
             le += (bytes[i + offset] & 0xFF) << i * 8;
         }
 
@@ -42,6 +46,7 @@ public class ByteUtils {
      * @return 数值
      */
     public static Integer readShortLE(byte[] bytes, Integer offset) {
+        // 调用 readShortLE 方法，指定字节长度为 2
         return readShortLE(bytes, offset, 2);
     }
 
@@ -53,10 +58,9 @@ public class ByteUtils {
      * @return 数值
      */
     public static Integer readIntLE(byte[] bytes, Integer offset) {
+        // 调用 readShortLE 方法，指定字节长度为 4
         return readShortLE(bytes, offset, 4);
     }
-
-
 
     /**
      * 字节转字符
@@ -67,14 +71,17 @@ public class ByteUtils {
     public static String byteToStr(byte[] bytes) {
         try {
             int length = 0;
+            // 找到字节数组中第一个为 0 的位置
             for (int i = 0; i < bytes.length; ++i) {
                 if (bytes[i] == 0) {
                     length = i;
                     break;
                 }
             }
+            // 将字节数组转换为字符串，从 0 到 length 的位置，使用 UTF-8 编码
             return new String(bytes, 0, length, StandardCharsets.UTF_8);
         } catch (Exception e) {
+            // 若出现异常，返回空字符串
             return "";
         }
     }
@@ -86,6 +93,7 @@ public class ByteUtils {
      * @return 最终数据
      */
     public static byte[] mergeL(byte[] to, byte[] from) {
+        // 将 from 数组的内容复制到 to 数组的左侧，复制长度为两个数组长度的较小值
         System.arraycopy(from, 0, to, 0, Math.min(to.length, from.length));
         return to;
     }
@@ -97,6 +105,7 @@ public class ByteUtils {
      * @return 最终数据
      */
     public static byte[] mergeR(byte[] to, byte[] from) {
+        // 从右向左将 from 数组的内容复制到 to 数组的右侧，复制长度为两个数组长度的较小值
         for (int i = 1; i <= Math.min(to.length, from.length); i++) {
             to[to.length - i] = from[from.length - i];
         }
@@ -141,9 +150,11 @@ public class ByteUtils {
      * @return 转换后的 short 类型值
      */
     public static short bytesToShortLE(byte[] bytes) {
+        // 检查输入的字节数组长度是否至少为 2
         if (bytes.length < 2) {
             throw new IllegalArgumentException("输入的字节数组长度必须至少为 2");
         }
+        // 将字节数组转换为 short 类型，先将高字节左移 8 位，再与低字节按位或
         return (short) ((bytes[1] & 0xFF) << 8 | (bytes[0] & 0xFF));
     }
 
@@ -153,11 +164,11 @@ public class ByteUtils {
      * @return 转换后的 int 类型值
      */
     public static int bytesToIntLE(byte[] bytes) {
+        // 检查输入的字节数组长度是否至少为 4
         if (bytes.length < 4) {
             throw new IllegalArgumentException("输入的字节数组长度必须至少为 4");
         }
+        // 将字节数组转换为 int 类型，依次将每个字节左移相应的位数，然后按位或
         return (bytes[3] & 0xFF) << 24 | (bytes[2] & 0xFF) << 16 | (bytes[1] & 0xFF) << 8 | (bytes[0] & 0xFF);
     }
-
-
 }

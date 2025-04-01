@@ -3,8 +3,6 @@ package com.github.buerxixi.easydbf.model;
 import com.github.buerxixi.easydbf.pojo.DBFConstant;
 import com.github.buerxixi.easydbf.pojo.DBFFieldType;
 
-import java.nio.charset.Charset;
-
 public class DBFDateField extends DBFField {
 
     public DBFDateField(String name) {

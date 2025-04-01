@@ -4,14 +4,21 @@ import com.github.buerxixi.easydbf.model.DBFField;
 
 public interface TypeConverterStrategy {
 
+    /**
+     * 将字节数组转换为字符串。
+     *
+     * @param field 包含字段定义的DBFField对象
+     * @param bytes 要转换为字符串的字节数组
+     * @return 转换后的字符串
+     */
     String fromBytes(DBFField field, byte[] bytes);
 
     /**
-     * 如无特殊说明，字段类型“Character”表示文本型字符串，填写方式为左对齐右补空格，
-     * 而“Numeric”为数字型字符串填写方式为右对齐，左补空格。
-     * @param field
-     * @param s
-     * @return
+     * 将字符串转换为字节数组。
+     *
+     * @param field 包含字段定义的DBFField对象
+     * @param s 要转换为字节数组的字符串
+     * @return 转换后的字节数组
      */
     byte[] toBytes(DBFField field, String s);
 }
