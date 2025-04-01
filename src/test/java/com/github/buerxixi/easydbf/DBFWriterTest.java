@@ -1,15 +1,7 @@
 package com.github.buerxixi.easydbf;
 
-import com.github.buerxixi.easydbf.pojo.DBFField;
-import com.github.buerxixi.easydbf.pojo.DBFHeader;
-import com.github.buerxixi.easydbf.pojo.DBFItem;
-import com.github.buerxixi.easydbf.pojo.DBFReaderIterator;
-import com.github.buerxixi.easydbf.util.DBFUtils;
 import org.junit.Test;
-
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.List;
 
 /**
  * <p>
@@ -25,5 +17,11 @@ public class DBFWriterTest {
     public void deleteById() throws IOException {
         DBFWriter writer = new DBFWriter(filename);
         writer.deleteById(0);
+    }
+
+    @Test
+    public void updateById() throws IOException {
+        DBFWriter writer = new DBFWriter(filename);
+        writer.updateById(0,"ZLZH", "中登资金账户00006");
     }
 }

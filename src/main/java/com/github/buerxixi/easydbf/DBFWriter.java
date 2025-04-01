@@ -1,6 +1,9 @@
 package com.github.buerxixi.easydbf;
 
+import com.github.buerxixi.easydbf.convert.TypeConverterStrategy;
+import com.github.buerxixi.easydbf.convert.TypeConverterStrategyFactory;
 import com.github.buerxixi.easydbf.pojo.DBFConstant;
+import com.github.buerxixi.easydbf.pojo.DBFField;
 import com.github.buerxixi.easydbf.pojo.DBFHeader;
 import com.github.buerxixi.easydbf.util.ByteUtils;
 import com.github.buerxixi.easydbf.util.DBFUtils;
@@ -11,8 +14,10 @@ import java.io.RandomAccessFile;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class DBFWriter {
     final private String filename;
@@ -51,15 +56,31 @@ public class DBFWriter {
     /**
      * 更新数据
      */
-    public void updateById(Integer rowId, String fileName, String value) throws IOException {
-
+    public void updateById(Integer rowId, String key, String value) throws IOException {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(key, value);
+        updateById(rowId, map);
     }
 
     /**
      * 更新数据
      */
     public void updateById(Integer rowId, Map<String, String> values) throws IOException {
-
+        DBFHeader header = DBFUtils.getHeader(filename);
+        List<DBFField> fields = DBFUtils.getFields(filename, charset);
+        Map<String, DBFField> name2Field = fields.stream().collect(Collectors.toMap(DBFField::getName, f -> f));
+        try (RandomAccessFile raf = new RandomAccessFile(filename, "rw")) {
+            for (Map.Entry<String, String> entry : values.entrySet()) {
+                DBFField field = name2Field.get(entry.getKey());
+                if (field != null) {
+                    raf.seek(header.getHeaderLength() + (long) rowId * header.getRecordLength() + field.getOffset());
+                    // 获取转换类
+                    TypeConverterStrategy strategy = TypeConverterStrategyFactory.getStrategy(field.getType());
+                    byte[] bytes = strategy.toBytes(field, entry.getValue());
+                    raf.write(bytes);
+                }
+            }
+        }
     }
 
     /**
