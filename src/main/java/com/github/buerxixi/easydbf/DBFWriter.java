@@ -211,7 +211,7 @@ public class DBFWriter {
                 raf.writeByte(DBFConstant.DELETED_OF_FIELD);
             }
             // 更新文件头部信息
-            updateHeader(header, raf);
+            updateDate(raf);
         }
     }
 
