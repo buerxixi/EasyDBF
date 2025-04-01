@@ -60,15 +60,15 @@ public class DBFWriterTest {
         id001.put("ID", "001");
         id001.put("NAME", "张三");
         id001.put("AGE", "25");
-        id001.put("BIRTHDAY", "1998-05-10");
-        id001.put("SALARY", "100");
+        id001.put("BIRTHDAY", "19980510");
+        id001.put("SALARY", "5000.50");
         list.add(id001);
         Map<String, String> id002 = new HashMap<>();
         id002.put("ID", "002");
         id002.put("NAME", "李四");
         id002.put("AGE", "30");
-        id002.put("BIRTHDAY", "1993-08-15");
-        id002.put("SALARY", "200");
+        id002.put("BIRTHDAY", "19930815");
+        id002.put("SALARY", "8000.75");
         list.add(id002);
 
         writer.insert(list);

@@ -223,6 +223,7 @@ public class DBFWriter {
         List<DBFField> fields = DBFUtils.getFields(filename, charset);
         try (RandomAccessFile raf = new RandomAccessFile(filename, "rw")) {
             Map<String, DBFField> name2Field = fields.stream().collect(Collectors.toMap(DBFField::getName, f -> f));
+            raf.seek(header.getHeaderLength() + (long) header.getRecordLength() * header.getNumberOfRecords());
             for (Map<String, String> value : values) {
 
                 byte[] bytes = new byte[header.getRecordLength()];
@@ -245,8 +246,6 @@ public class DBFWriter {
                         System.arraycopy(filedBytes, 0, bytes, field.getOffset(), field.getSize());
                     }
                 }
-
-                raf.seek(header.getHeaderLength() + (long) header.getRecordLength() * header.getNumberOfRecords());
                 raf.write(bytes);
             }
 
