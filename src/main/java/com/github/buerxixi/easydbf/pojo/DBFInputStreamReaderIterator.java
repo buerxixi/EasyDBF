@@ -2,16 +2,12 @@ package com.github.buerxixi.easydbf.pojo;
 
 import com.github.buerxixi.easydbf.convert.TypeConverterStrategyFactory;
 import com.github.buerxixi.easydbf.model.DBFField;
-import com.github.buerxixi.easydbf.util.DBFUtils;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -42,19 +38,28 @@ public class DBFInputStreamReaderIterator implements Iterator<List<DBFItem>> {
 
         // 读取头文件
         byte[] headerBytes = new byte[32];
-        inputStream.read(headerBytes);
+        int bytesRead = inputStream.read(headerBytes);
+        if (bytesRead != 32) {
+            throw new IOException("Failed to read full header");
+        }
         this.header = DBFHeader.builder().build().fromBytes(headerBytes);
 
         // 读取fields
         int fieldCount = (this.header.getHeaderLength() - 33) / 32;
         for (int i = 0; i < fieldCount; i++) {
             byte[] fieldBytes = new byte[32];
-            inputStream.read(fieldBytes);
+            bytesRead = inputStream.read(fieldBytes);
+            if (bytesRead != 32) {
+                throw new IOException("Failed to read full field");
+            }
             DBFField field = DBFField.builder().build().fromBytes(fieldBytes);
             this.fields.add(field);
         }
         // 跳过结束符
-        inputStream.skip(1);
+        long skipped = inputStream.skip(1);
+        if (skipped != 1) {
+            throw new IOException("Failed to skip end of header");
+        }
     }
 
     /**

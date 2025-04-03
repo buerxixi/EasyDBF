@@ -17,15 +17,10 @@ import java.util.List;
  */
 public class DBFReader implements Iterable<List<DBFItem>> {
 
-    /**
-     * 要读取的DBF文件的文件名
-     */
-    final private String filename;
-
-    /**
-     * 读取DBF文件时使用的字符集
-     */
-    final private Charset charset;
+    // 要读取的DBF文件的文件名
+    private final String filename;
+    // 读取DBF文件时使用的字符集
+    private final Charset charset;
 
     /**
      * 构造一个DBFReader对象，使用指定的文件名和字符集。
@@ -33,7 +28,14 @@ public class DBFReader implements Iterable<List<DBFItem>> {
      * @param filename 要读取的DBF文件的文件名
      * @param charset  读取DBF文件时使用的字符集
      */
-    DBFReader(String filename, Charset charset) {
+    public DBFReader(String filename, Charset charset) {
+        // 增加参数检查
+        if (filename == null || filename.isEmpty()) {
+            throw new IllegalArgumentException("文件名不能为空");
+        }
+        if (charset == null) {
+            throw new IllegalArgumentException("字符集不能为空");
+        }
         this.filename = filename;
         this.charset = charset;
     }
@@ -43,7 +45,7 @@ public class DBFReader implements Iterable<List<DBFItem>> {
      *
      * @param filename 要读取的DBF文件的文件名
      */
-    DBFReader(String filename) {
+    public DBFReader(String filename) {
         this(filename, DBFConstant.DEFAULT_CHARSET);
     }
 
