@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
  * 数据存储块
  * 该类用于表示DBF文件中的一个数据项，包含行号、字段名和字段值。
  *
- * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
+ * @author <a href="mailto:liujiaqiang@outlook.com">刘家强</a>
  * @since 2025/04/01 16:58
  */
 @Data

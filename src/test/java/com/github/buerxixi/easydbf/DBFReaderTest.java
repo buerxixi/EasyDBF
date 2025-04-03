@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * <p>
  *
- * @author liujiaqiang
+ * @author 刘家强
  * <a href="https://www.clicketyclick.dk/databases/xbase/index.shtml.en">xbase</a>
  */
 public class DBFReaderTest {

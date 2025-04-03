@@ -10,7 +10,7 @@ import java.util.Arrays;
 /**
  * 字符串转化类
  *
- * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
+ * @author <a href="mailto:liujiaqiang@outlook.com">刘家强</a>
  * @since 2025/04/01 16:58
  */
 public class CharTypeConverter implements TypeConverterStrategy {

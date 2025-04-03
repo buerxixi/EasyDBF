@@ -6,7 +6,7 @@ import com.github.buerxixi.easydbf.pojo.DBFFieldType;
 /**
  * 该类表示DBF文件中的数值字段，继承自DBFField类。
  *
- * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
+ * @author <a href="mailto:liujiaqiang@outlook.com">刘家强</a>
  * @since 2025/04/01 16:58
  */
 public class DBFNumField extends DBFField {

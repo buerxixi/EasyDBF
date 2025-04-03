@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 该类用于读取DBF文件，实现了Iterable接口，可迭代获取DBF文件中的数据项列表。
  *
- * @author <a href="mailto:liujiaqiang@outlook.com">Liujiaqiang</a>
+ * @author <a href="mailto:liujiaqiang@outlook.com">刘家强</a>
  * @since 2025/04/01 16:58
  */
 public class DBFReader implements Iterable<List<DBFItem>> {
