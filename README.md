@@ -7,6 +7,15 @@
 > 
 > 支持创建、插入、更新、删除功能（CRUD、增删改查）
 
+上交所
+
+[登记结算数据接口规范 （结算参与人版V3.95）](http://www.chinaclear.cn/zdjs/jshsc/202502/143bfe0cd2084f49bedc7f3d5f81788b/files/%E7%99%BB%E8%AE%B0%E7%BB%93%E7%AE%97%E6%95%B0%E6%8D%AE%E6%8E%A5%E5%8F%A3%E8%A7%84%E8%8C%83%EF%BC%88%E7%BB%93%E7%AE%97%E5%8F%82%E4%B8%8E%E4%BA%BA%E7%89%88V3.95%EF%BC%89.pdf)
+
+深交所
+
+[深市登记结算数据接口规范 （Ver5.16）](http://www.chinaclear.cn/zdjs/jszsc/202501/917200e703ea4708b3f6b424ac957fa9/files/%E6%B7%B1%E5%B8%82%E7%99%BB%E8%AE%B0%E7%BB%93%E7%AE%97%E6%95%B0%E6%8D%AE%E6%8E%A5%E5%8F%A3%E8%A7%84%E8%8C%83%EF%BC%88%E7%BB%93%E7%AE%97%E5%8F%82%E4%B8%8E%E4%BA%BA%E7%89%88Ver5.16%EF%BC%89.pdf)
+
+
 ## 安装
 
 ```xml
