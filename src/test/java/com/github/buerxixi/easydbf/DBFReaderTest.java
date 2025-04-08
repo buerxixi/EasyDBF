@@ -1,5 +1,6 @@
 package com.github.buerxixi.easydbf;
 
+import com.github.buerxixi.easydbf.condition.QueryCondition;
 import com.github.buerxixi.easydbf.model.DBFField;
 import com.github.buerxixi.easydbf.pojo.DBFHeader;
 import com.github.buerxixi.easydbf.pojo.DBFInputStreamReaderIterator;
@@ -14,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -61,6 +63,24 @@ public class DBFReaderTest {
         List<DBFField> fields = DBFUtils.getFields(filename);
         for (DBFField field : fields) {
             System.out.println(field);
+        }
+    }
+
+    @Test
+    public void query() throws IOException {
+        DBFReader reader = new DBFReader(filename);
+        List<List<DBFItem>> itemsList = reader.query(new QueryCondition().eq("AGE", "25"));
+        for (List<DBFItem> items : itemsList) {
+            System.out.println(DBFUtils.items2Map(items));
+        }
+    }
+
+    @Test
+    public void first() throws IOException {
+        DBFReader reader = new DBFReader(filename);
+        Optional<List<DBFItem>> items = reader.first(new QueryCondition().eq("AGE", "26"));
+        if (items.isPresent()) {
+            System.out.println(DBFUtils.items2Map(items.get()));
         }
     }
 }
