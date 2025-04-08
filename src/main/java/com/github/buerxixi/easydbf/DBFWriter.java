@@ -6,10 +6,14 @@ import com.github.buerxixi.easydbf.pojo.DBFConstant;
 import com.github.buerxixi.easydbf.model.DBFField;
 import com.github.buerxixi.easydbf.pojo.DBFHeader;
 import com.github.buerxixi.easydbf.util.ByteUtils;
+import com.github.buerxixi.easydbf.util.CommonUtils;
 import com.github.buerxixi.easydbf.util.DBFUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -158,7 +162,9 @@ public class DBFWriter {
         List<DBFField> fields = DBFUtils.getFields(filename, charset);
         // 将字段名映射到对应的DBFField对象
         Map<String, DBFField> name2Field = fields.stream().collect(Collectors.toMap(DBFField::getName, f -> f));
-        try (RandomAccessFile raf = new RandomAccessFile(filename, "rw")) {
+
+
+        CommonUtils.sharedLock(filename, (raf) -> {
             // 遍历要更新的键值对
             for (Map.Entry<String, String> entry : values.entrySet()) {
                 // 获取要更新的字段
@@ -176,7 +182,7 @@ public class DBFWriter {
             }
             // 更新文件头部信息
             updateHeader(header, raf);
-        }
+        });
     }
 
     /**
@@ -202,7 +208,7 @@ public class DBFWriter {
     public void deleteByIds(List<Integer> rowIds) throws IOException {
         // 获取DBF文件的头部信息
         DBFHeader header = DBFUtils.getHeader(filename);
-        try (RandomAccessFile raf = new RandomAccessFile(filename, "rw")) {
+        CommonUtils.sharedLock(filename, (raf) -> {
             // 遍历要删除的行ID列表
             for (Integer rowId : rowIds) {
                 // 定位到要删除的记录的起始位置
@@ -212,7 +218,7 @@ public class DBFWriter {
             }
             // 更新文件头部信息
             updateDate(raf);
-        }
+        });
     }
 
     /**
@@ -252,7 +258,7 @@ public class DBFWriter {
                 throw new IOException("无法创建文件: " + file.getAbsolutePath());
             }
         }
-        try (RandomAccessFile raf = new RandomAccessFile(filename, "rw")) {
+        CommonUtils.sharedLock(filename, (raf) -> {
             // 构建DBF文件的头部信息
             DBFHeader header = DBFHeader.builder().build();
             // 写入头部信息
@@ -283,7 +289,7 @@ public class DBFWriter {
                     .reduce((pre, cur) -> (byte) (pre.intValue() + cur.intValue()))
                     .get().intValue() + 1);
             updateRecordLength(raf, recordLength);
-        }
+        });
     }
 
     /**
@@ -311,7 +317,8 @@ public class DBFWriter {
         DBFHeader header = DBFUtils.getHeader(filename);
         // 获取DBF文件的字段信息
         List<DBFField> fields = DBFUtils.getFields(filename, charset);
-        try (RandomAccessFile raf = new RandomAccessFile(filename, "rw")) {
+
+        CommonUtils.sharedLock(filename, raf -> {
             // 将字段名映射到对应的DBFField对象
             Map<String, DBFField> name2Field = fields.stream().collect(Collectors.toMap(DBFField::getName, f -> f));
             // 定位到文件末尾的下一个记录位置
@@ -342,6 +349,6 @@ public class DBFWriter {
             raf.write(DBFConstant.END_OF_DATA);
             // 更新文件头部信息
             updateHeader(header, raf);
-        }
+        });
     }
 }
