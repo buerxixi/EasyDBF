@@ -4,10 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.util.regex.Pattern;
 
 @Getter
 @AllArgsConstructor
 public class Condition {
+
+    private static final Pattern NUMBER_PATTERN = Pattern.compile("[+-]?\\d+(\\.\\d+)?");
+
     private String field;
     private String value;
     private ConditionType type;
@@ -28,8 +32,14 @@ public class Condition {
             case LIKE_RIGHT:
                 return dbfValue.endsWith(value);
             case EQ:
+                if (isNumber(dbfValue, value)) {
+                    return compareNumbers(dbfValue, value) == 0;
+                }
                 return dbfValue.equals(value);
             case NEQ:
+                if (isNumber(dbfValue, value)) {
+                    return compareNumbers(dbfValue, value) != 0;
+                }
                 return !dbfValue.equals(value);
             case GT:
                 return compareNumbers(dbfValue, value) > 0;
@@ -42,6 +52,15 @@ public class Condition {
             default:
                 return false;
         }
+    }
+
+    private static boolean isNumber(String str) {
+        return NUMBER_PATTERN.matcher(str).matches();
+    }
+
+    private static boolean isNumber(String dbfValue, String conditionValue) {
+        return isNumber(dbfValue) && isNumber(conditionValue);
+        // 如果不是数字，你可以根据需要处理，这里简单返回 0
     }
 
     private int compareNumbers(String dbfValue, String conditionValue) {
