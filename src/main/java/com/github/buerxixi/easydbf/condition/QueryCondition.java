@@ -35,4 +35,28 @@ public class QueryCondition {
         return this;
     }
 
+    // 添加大于查询条件
+    public QueryCondition gt(String field, String value) {
+        conditions.add(new Condition(field, value, ConditionType.GT));
+        return this;
+    }
+
+    // 添加小于查询条件
+    public QueryCondition lt(String field, String value) {
+        conditions.add(new Condition(field, value, ConditionType.LT));
+        return this;
+    }
+
+    // 添加大于等于查询条件
+    public QueryCondition gte(String field, String value) {
+        conditions.add(new Condition(field, value, ConditionType.GTE));
+        return this;
+    }
+
+    // 添加小于等于查询条件
+    public QueryCondition lte(String field, String value) {
+        conditions.add(new Condition(field, value, ConditionType.LTE));
+        return this;
+    }
+
 }
