@@ -21,60 +21,30 @@ public class Condition {
     public boolean matched(String dbfValue) {
         // 去除左右空格
         dbfValue = dbfValue.trim();
-        switch (this.getType()) {
+
+        switch (type) {
             case LIKE_LEFT:
-                if (dbfValue.startsWith(this.value)) {
-                    return true;
-                }
-                break;
+                return dbfValue.startsWith(value);
             case LIKE_RIGHT:
-                if (dbfValue.endsWith(this.value)) {
-                    return true;
-                }
-                break;
+                return dbfValue.endsWith(value);
             case EQ:
-                if (dbfValue.equals(this.value)) {
-                    return true;
-                }
-                break;
+                return dbfValue.equals(value);
             case NEQ:
-                if (!dbfValue.equals(this.value)) {
-                    return true;
-                }
-                break;
-            // 数字比较
+                return !dbfValue.equals(value);
             case GT:
+                return compareNumbers(dbfValue, value) > 0;
             case LT:
+                return compareNumbers(dbfValue, value) < 0;
             case GTE:
+                return compareNumbers(dbfValue, value) >= 0;
             case LTE:
-                int compared = new BigDecimal(dbfValue).compareTo(new BigDecimal(this.value));
-                switch (this.getType()) {
-                    case GT:
-                        if (compared > 0) {
-                            return true;
-                        }
-                        break;
-                    case LT:
-                        if (compared < 0) {
-                            return true;
-                        }
-                        break;
-                    case GTE:
-                        if (compared >= 0) {
-                            return true;
-                        }
-                        break;
-
-                    case LTE:
-                        if (compared <= 0) {
-                            return true;
-                        }
-                        break;
-                }
-                break;
-
+                return compareNumbers(dbfValue, value) <= 0;
+            default:
+                return false;
         }
+    }
 
-        return false;
+    private int compareNumbers(String dbfValue, String conditionValue) {
+        return new BigDecimal(dbfValue).compareTo(new BigDecimal(conditionValue));
     }
 }
