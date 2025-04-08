@@ -61,7 +61,7 @@ public class DBFHandlerTest {
     @Test
     public void query() throws IOException {
         DBFHandler handler = new DBFHandler(filename);
-        List<List<DBFItem>> itemsList = handler.query(new QueryCondition().eq("AGE", "25"));
+        List<List<DBFItem>> itemsList = handler.query(new QueryCondition().gt("AGE", "25"));
         for (List<DBFItem> items : itemsList) {
             System.out.println(DBFUtils.items2Map(items));
         }
@@ -70,7 +70,7 @@ public class DBFHandlerTest {
     @Test
     public void first() throws IOException {
         DBFHandler handler = new DBFHandler(filename);
-        Optional<List<DBFItem>> items = handler.first(new QueryCondition().eq("AGE", "26"));
+        Optional<List<DBFItem>> items = handler.first(new QueryCondition().lt("AGE", "26"));
         if (items.isPresent()) {
             System.out.println(DBFUtils.items2Map(items.get()));
         }

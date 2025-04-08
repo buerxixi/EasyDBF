@@ -88,7 +88,7 @@ public class DBFInputStreamReaderIterator implements Iterator<List<DBFItem>> {
         // 是否是删除符号
         if (flag[0] == DBFConstant.DELETED_OF_FIELD) {
             // 跳过文件长度
-            inputStream.skip(this.header.getRecordLength());
+            inputStream.skip(this.header.getRecordLength() - 1);
             return hasNext();
         }
 
