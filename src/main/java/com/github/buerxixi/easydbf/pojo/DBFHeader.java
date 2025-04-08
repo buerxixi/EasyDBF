@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
 /**
  * 头信息
  *
@@ -62,14 +65,19 @@ public class DBFHeader implements IConverter<DBFHeader> {
 
     @Override
     public DBFHeader fromBytes(byte[] bytes) {
+
+        int recordCount = ByteBuffer.wrap(bytes, 4, 4).order(ByteOrder.LITTLE_ENDIAN).getInt();
+        short headerLength = ByteBuffer.wrap(bytes, 8, 2).order(ByteOrder.LITTLE_ENDIAN).getShort();
+        short recordLength = ByteBuffer.wrap(bytes, 10, 2).order(ByteOrder.LITTLE_ENDIAN).getShort();
+
         return DBFHeader.builder()
                 .version(bytes[0])
                 .year((short) (bytes[1] + DBFConstant.START_YEAR))
                 .month(bytes[2])
                 .day(bytes[3])
-                .numberOfRecords(ByteUtils.readIntLE(bytes,4))
-                .headerLength(ByteUtils.readShortLE(bytes,8))
-                .recordLength(ByteUtils.readShortLE(bytes,0x0A))
+                .numberOfRecords(recordCount)
+                .headerLength(headerLength)
+                .recordLength(recordLength)
                 .languageDriver(bytes[29])
                 .build();
     }
