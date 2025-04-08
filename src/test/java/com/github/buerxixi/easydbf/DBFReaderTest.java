@@ -65,22 +65,4 @@ public class DBFReaderTest {
             System.out.println(field);
         }
     }
-
-    @Test
-    public void query() throws IOException {
-        DBFReader reader = new DBFReader(filename);
-        List<List<DBFItem>> itemsList = reader.query(new QueryCondition().eq("AGE", "25"));
-        for (List<DBFItem> items : itemsList) {
-            System.out.println(DBFUtils.items2Map(items));
-        }
-    }
-
-    @Test
-    public void first() throws IOException {
-        DBFReader reader = new DBFReader(filename);
-        Optional<List<DBFItem>> items = reader.first(new QueryCondition().eq("AGE", "26"));
-        if (items.isPresent()) {
-            System.out.println(DBFUtils.items2Map(items.get()));
-        }
-    }
 }

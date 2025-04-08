@@ -23,7 +23,7 @@
 <dependency>
     <groupId>io.github.buerxixi</groupId>
     <artifactId>EasyDBF</artifactId>
-    <version>0.2.3-RELEASE</version>
+    <version>0.2.4-RELEASE</version>
 </dependency>
 ```
 
@@ -65,6 +65,34 @@ DBFDateField BIRTHDAY = new DBFDateField("BIRTHDAY");
 DBFNumField SALARY = new DBFNumField("SALARY", 10,2);
 DBFWriter writer = new DBFWriter(filename);
 writer.create(ID,NAME,AGE,BIRTHDAY,SALARY);
+```
+
+### 0.2.4-RELEASE添加根据条件查询、更新和删除功能
+``` java
+// 条件查询
+DBFHandler handler = new DBFHandler(filename);
+List<List<DBFItem>> itemsList = handler.query(new QueryCondition().eq("AGE", "25"));
+for (List<DBFItem> items : itemsList) {
+    System.out.println(DBFUtils.items2Map(items));
+}
+
+
+// 查询第一条符合的数据
+DBFHandler handler = new DBFHandler(filename);
+Optional<List<DBFItem>> items = handler.first(new QueryCondition().eq("AGE", "26"));
+if (items.isPresent()) {
+    System.out.println(DBFUtils.items2Map(items.get()));
+}
+
+// 删除数据
+DBFHandler handler = new DBFHandler(filename);
+handler.delete(new QueryCondition().eq("AGE", "26"));
+
+
+// 更新数据
+DBFHandler handler = new DBFHandler(filename);
+handler.update(new QueryCondition().eq("AGE", "25"), "AGE", "26");
+
 ```
 
 ### 查询DBF信息
