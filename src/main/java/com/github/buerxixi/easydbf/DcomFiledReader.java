@@ -17,7 +17,7 @@ public class DcomFiledReader {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, charset))) {
             String line;
             // 按行读取数据
-            while ((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null && !line.isEmpty()) {
                 // 这里可以添加对每行数据的处理逻辑
                 // 例如将每行数据转换为 T 类型的对象
                 // 示例代码假设 T 类型有一个从字符串构造对象的方法
