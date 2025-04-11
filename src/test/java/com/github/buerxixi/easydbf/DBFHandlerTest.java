@@ -60,7 +60,7 @@ public class DBFHandlerTest {
 
     @Test
     public void query() throws IOException {
-        DBFHandler handler = new DBFHandler("D:\\赢时胜\\ACS\\tzxx.103");
+        DBFHandler handler = new DBFHandler(filename);
         List<List<DBFItem>> itemsList = handler.query(new QueryCondition().lte("JE1", "1042"));
         for (List<DBFItem> items : itemsList) {
             System.out.println(DBFUtils.items2Map(items));
