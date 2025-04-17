@@ -45,20 +45,18 @@ public class DBFInputStreamReaderIterator implements Iterator<List<DBFItem>> {
         this.header = DBFHeader.builder().build().fromBytes(headerBytes);
 
         // 读取fields
-        int fieldCount = (this.header.getHeaderLength() - 33) / 32;
-        for (int i = 0; i < fieldCount; i++) {
+        // 读取剩余header长度
+        byte[] fieldsBytes = new byte[this.header.getHeaderLength() - 32];
+        inputStream.read(fieldsBytes);
+        // 依次按照32字节读取
+        for (int i = 0; i < fieldsBytes.length; i += 32) {
             byte[] fieldBytes = new byte[32];
-            bytesRead = inputStream.read(fieldBytes);
-            if (bytesRead != 32) {
-                throw new IOException("Failed to read full field");
+            System.arraycopy(fieldsBytes, i, fieldBytes, 0, 32);
+            if (fieldBytes[0] == DBFConstant.END_OF_FIELD) {
+                break;
             }
             DBFField field = DBFField.builder().build().fromBytes(fieldBytes);
             this.fields.add(field);
-        }
-        // 跳过结束符
-        long skipped = inputStream.skip(1);
-        if (skipped != 1) {
-            throw new IOException("Failed to skip end of header");
         }
     }
 
