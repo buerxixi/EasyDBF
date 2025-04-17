@@ -1,21 +1,13 @@
 package com.github.buerxixi.easydbf;
 
-import com.github.buerxixi.easydbf.condition.Condition;
-import com.github.buerxixi.easydbf.condition.QueryCondition;
-import com.github.buerxixi.easydbf.model.DBFField;
 import com.github.buerxixi.easydbf.pojo.DBFConstant;
 import com.github.buerxixi.easydbf.pojo.DBFItem;
 import com.github.buerxixi.easydbf.pojo.DBFReaderIterator;
 import lombok.SneakyThrows;
-import java.io.IOException;
+
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * 该类用于读取DBF文件，实现了Iterable接口，可迭代获取DBF文件中的数据项列表。

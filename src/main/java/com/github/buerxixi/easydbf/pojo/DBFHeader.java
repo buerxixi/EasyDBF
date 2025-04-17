@@ -1,6 +1,5 @@
 package com.github.buerxixi.easydbf.pojo;
 
-import com.github.buerxixi.easydbf.util.ByteUtils;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;

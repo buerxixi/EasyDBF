@@ -1,9 +1,10 @@
 package com.github.buerxixi.easydbf.util;
 
-import com.github.buerxixi.easydbf.pojo.DBFConstant;
 import com.github.buerxixi.easydbf.model.DBFField;
+import com.github.buerxixi.easydbf.pojo.DBFConstant;
 import com.github.buerxixi.easydbf.pojo.DBFHeader;
 import com.github.buerxixi.easydbf.pojo.DBFItem;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;

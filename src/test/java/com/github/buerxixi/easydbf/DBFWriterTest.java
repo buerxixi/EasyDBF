@@ -4,6 +4,7 @@ import com.github.buerxixi.easydbf.model.DBFCharField;
 import com.github.buerxixi.easydbf.model.DBFDateField;
 import com.github.buerxixi.easydbf.model.DBFNumField;
 import org.junit.Test;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -2,8 +2,8 @@ package com.github.buerxixi.easydbf;
 
 import com.github.buerxixi.easydbf.convert.TypeConverterStrategy;
 import com.github.buerxixi.easydbf.convert.TypeConverterStrategyFactory;
-import com.github.buerxixi.easydbf.pojo.DBFConstant;
 import com.github.buerxixi.easydbf.model.DBFField;
+import com.github.buerxixi.easydbf.pojo.DBFConstant;
 import com.github.buerxixi.easydbf.pojo.DBFHeader;
 import com.github.buerxixi.easydbf.util.ByteUtils;
 import com.github.buerxixi.easydbf.util.CommonUtils;
@@ -12,8 +12,6 @@ import com.github.buerxixi.easydbf.util.DBFUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.nio.channels.FileChannel;
-import java.nio.channels.FileLock;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.ArrayList;

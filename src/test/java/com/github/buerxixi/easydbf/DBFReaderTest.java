@@ -1,6 +1,5 @@
 package com.github.buerxixi.easydbf;
 
-import com.github.buerxixi.easydbf.condition.QueryCondition;
 import com.github.buerxixi.easydbf.model.DBFField;
 import com.github.buerxixi.easydbf.pojo.DBFHeader;
 import com.github.buerxixi.easydbf.pojo.DBFInputStreamReaderIterator;
@@ -15,7 +14,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * <p>
@@ -54,12 +52,14 @@ public class DBFReaderTest {
 
     @Test
     public void readDbfHeader() throws IOException {
+        String filename = "D:\\赢时胜\\ACS\\Prop2000\\Public\\Config\\Model\\trade.out";
         DBFHeader header = DBFUtils.getHeader(filename);
         System.out.println(header);
     }
 
     @Test
     public void readDbfFields() throws IOException {
+        String filename = "D:\\赢时胜\\ACS\\Prop2000\\Public\\Config\\Model\\trade.out";
         List<DBFField> fields = DBFUtils.getFields(filename);
         for (DBFField field : fields) {
             System.out.println(field);
