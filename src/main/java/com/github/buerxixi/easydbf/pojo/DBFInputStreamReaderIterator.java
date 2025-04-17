@@ -49,7 +49,12 @@ public class DBFInputStreamReaderIterator implements Iterator<List<DBFItem>> {
         byte[] fieldsBytes = new byte[this.header.getHeaderLength() - 32];
         inputStream.read(fieldsBytes);
         // 依次按照32字节读取
-        for (int i = 0; i < fieldsBytes.length; i += 32) {
+        for (int i = 0;; i += 32) {
+
+            // 区间范围超过就退出
+            if (i + 32 > fieldsBytes.length) {
+                break;
+            }
             byte[] fieldBytes = new byte[32];
             System.arraycopy(fieldsBytes, i, fieldBytes, 0, 32);
             if (fieldBytes[0] == DBFConstant.END_OF_FIELD) {
