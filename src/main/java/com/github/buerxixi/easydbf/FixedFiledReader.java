@@ -106,7 +106,7 @@ public class FixedFiledReader {
                 // 获取相关字节
                 byte[] subBytes = ArrayUtil.sub(bytes, sumOffset, sumOffset + length);
                 if (dcomField.dynamic()) { // 动态字段返回最后长度
-                    subBytes = ArrayUtil.sub(bytes, sumOffset, bytes.length - 1);
+                    subBytes = ArrayUtil.sub(bytes, sumOffset, bytes.length);
                 }
 
                 // 从 line 中截取数据并设置到 field 中
