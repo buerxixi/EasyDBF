@@ -9,9 +9,13 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface DcomField {
+public @interface FixedField {
     // 长度
     int length();
+
     // 距离上一个值的偏移量默认为0
     int offset() default 0;
+
+    // 动态字段
+    boolean dynamic() default false;
 }
