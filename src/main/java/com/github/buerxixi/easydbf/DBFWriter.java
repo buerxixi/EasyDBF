@@ -43,7 +43,7 @@ public class DBFWriter {
      * @param filename 要操作的DBF文件的文件名。
      * @param charset  用于读取和写入DBF文件的字符集。
      */
-    DBFWriter(String filename, Charset charset) {
+    public DBFWriter(String filename, Charset charset) {
         this.filename = filename;
         this.charset = charset;
     }
@@ -53,7 +53,7 @@ public class DBFWriter {
      *
      * @param filename 要操作的DBF文件的文件名。
      */
-    DBFWriter(String filename) {
+    public DBFWriter(String filename) {
         this(filename, DBFConstant.DEFAULT_CHARSET);
     }
 
