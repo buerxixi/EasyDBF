@@ -23,7 +23,7 @@
 <dependency>
     <groupId>io.github.buerxixi</groupId>
     <artifactId>EasyDBF</artifactId>
-    <version>0.3.0-RELEASE</version>
+    <version>0.3.1-RELEASE</version>
 </dependency>
 ```
 
