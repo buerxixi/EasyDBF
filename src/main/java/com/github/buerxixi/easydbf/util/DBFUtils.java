@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -110,4 +111,40 @@ public class DBFUtils {
                         LinkedHashMap::new
                 ));
     }
+
+    /**
+     * DBFPojo转化为JSON
+     * name C(25); age N(3,0); birth D
+     */
+    public static String toStr(List<DBFField> fields) {
+        return null;
+    }
+
+    /**
+     * String转化为List<DBFItem>
+     * name C(25); age N(3,0); birth D
+     */
+    public static List<DBFField> fromStr(String str) {
+        return null;
+    }
+
+    /**
+     * 根据注解转化数据
+     */
+    public static <E>List<Object> fromList(List<DBFItem> rows, Class<E> clazz) {
+        return null;
+    }
+
+    /**
+     * 根据注解插入数据
+     */
+    public static <E>List<Map<String, String>> toList(List<E> rows) {
+        return null;
+    }
+
+    /**
+     * TODO
+     * 1.插入的时候返回行号
+     * 2.可以通过行号直接查询数据 不需要遍历数据
+     */
 }

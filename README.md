@@ -220,6 +220,9 @@ mvn clean package
 mvn clean deploy -DskipTests=true
 ```
 
+
+TODO: key全部转化为大写
+
 ## 参考
 
 > https://github.com/ethanfurman/dbf/tree/master/dbf

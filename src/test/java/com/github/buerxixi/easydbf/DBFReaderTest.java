@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class DBFReaderTest {
 
-    private static  String filename = "D://dbf_test/test6.dbf";
+    private static final String filename = "D://dbf_test/test6.dbf";
 
     @Test
     public void readerDbfItems2() throws IOException {
@@ -38,6 +38,7 @@ public class DBFReaderTest {
 
     @Test
     public void inputStreamReaderDbfItems2() throws IOException {
+        String filename = "D:\\赢时胜\\ACS\\Prop2000\\Tmp\\20210120\\zgedhisr202101150001.dbf";
         try (InputStream inputStream = Files.newInputStream(Paths.get(filename))){
             DBFInputStreamReaderIterator readerIterator = new DBFInputStreamReaderIterator(inputStream);
             System.out.println(readerIterator.getHeader());
