@@ -23,7 +23,7 @@ public class CommonUtils {
             FileChannel channel = raf.getChannel();
             FileLock sharedLock = null;
             try {
-                sharedLock = channel.lock(0, Long.MAX_VALUE, true);
+                sharedLock = channel.lock(0, Long.MAX_VALUE, false);
                 callback.call(raf);
             } finally {
                 if (sharedLock != null) {
