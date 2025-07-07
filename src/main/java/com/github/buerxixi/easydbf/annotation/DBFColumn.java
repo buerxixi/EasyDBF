@@ -14,12 +14,14 @@ public @interface DBFColumn {
     /**
      * 字段名
      * 如果为空则字段自动变为大写
+     * @return String
      */
     String name() default "";
 
     /**
      * 字段类型
      * 默认字段名称为CHARACTER类型
+     * @return DBFFieldType
      */
     DBFFieldType type() default DBFFieldType.CHARACTER;
 
@@ -27,6 +29,7 @@ public @interface DBFColumn {
     /**
      * 字段长度
      * 日期字段长度默认为8
+     * @return int
      */
     int size() default 8;
 
@@ -34,6 +37,7 @@ public @interface DBFColumn {
     /**
      * 字段精度
      * 只有num类型才有字段精度默认字段精度为0
+     * @return int
      */
     int digits() default 0;
 }
