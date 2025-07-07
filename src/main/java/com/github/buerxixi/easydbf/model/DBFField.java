@@ -46,13 +46,13 @@ public class DBFField implements IConverter<DBFField> {
      * 16
      * 字段长度
      */
-    private byte size;
+    private Integer size;
     /**
      * 17
      * 字段精度
      */
     @Builder.Default
-    private byte digits = 0;
+    private Integer digits = 0;
 
     @Override
     public DBFField fromBytes(byte[] bytes) {
@@ -61,8 +61,8 @@ public class DBFField implements IConverter<DBFField> {
                 .name(ByteUtils.byteToStr(bytes))
                 .type(DBFFieldType.from((char) bytes[11]))
                 .offset(ByteUtils.readIntLE(bytes, 12))
-                .size(bytes[16])
-                .digits(bytes[17])
+                .size(bytes[16] & 0xFF)
+                .digits(bytes[17] & 0xFF)
                 .build();
     }
 
@@ -78,9 +78,9 @@ public class DBFField implements IConverter<DBFField> {
         byte[] offsetBytes = ByteUtils.intToBytesLE(offset);
         System.arraycopy(offsetBytes, 0, bytes, 12, 4);
         // 字段长度
-        bytes[16] = size;
+        bytes[16] = size.byteValue();
         // 字段经度
-        bytes[17] = digits;
+        bytes[17] = digits.byteValue();
 
         return bytes;
     }
