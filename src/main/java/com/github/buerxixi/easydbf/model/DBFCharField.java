@@ -18,6 +18,6 @@ public class DBFCharField extends DBFField {
     }
 
     DBFCharField(Charset charset, String name, Integer size) {
-        super(charset, name, DBFFieldType.CHARACTER,-1, size.byteValue(), (byte) 0);
+        super(charset, name, DBFFieldType.CHARACTER,-1, size,0);
     }
 }

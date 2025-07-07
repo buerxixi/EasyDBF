@@ -284,8 +284,8 @@ public class DBFWriter {
             // 计算并更新文件头部的记录长度信息
             Short recordLength = (short) (fields.stream()
                     .map(DBFField::getSize)
-                    .reduce((pre, cur) -> (byte) (pre.intValue() + cur.intValue()))
-                    .get().intValue() + 1);
+                    .reduce(Integer::sum)
+                    .get() + 1);
             updateRecordLength(raf, recordLength);
         });
     }

@@ -12,6 +12,6 @@ import com.github.buerxixi.easydbf.pojo.DBFFieldType;
 public class DBFNumField extends DBFField {
 
     public DBFNumField(String name, Integer size, Integer digits) {
-        super(DBFConstant.DEFAULT_CHARSET, name,  DBFFieldType.NUMERIC,-1, size.byteValue(), digits.byteValue());
+        super(DBFConstant.DEFAULT_CHARSET, name,  DBFFieldType.NUMERIC,-1, size, digits);
     }
 }
