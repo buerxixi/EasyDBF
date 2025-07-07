@@ -6,7 +6,7 @@
 
     <groupId>io.github.buerxixi</groupId>
     <artifactId>EasyDBF</artifactId>
-    <version>0.3.1-RELEASE</version>
+    <version>0.3.2-RELEASE</version>
 
     <!-- 添加个人信息 -->
     <name>EasyDBF</name>

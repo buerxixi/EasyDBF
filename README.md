@@ -15,6 +15,9 @@
 
 [深市登记结算数据接口规范 （Ver5.16）](http://www.chinaclear.cn/zdjs/jszsc/202501/917200e703ea4708b3f6b424ac957fa9/files/%E6%B7%B1%E5%B8%82%E7%99%BB%E8%AE%B0%E7%BB%93%E7%AE%97%E6%95%B0%E6%8D%AE%E6%8E%A5%E5%8F%A3%E8%A7%84%E8%8C%83%EF%BC%88%E7%BB%93%E7%AE%97%E5%8F%82%E4%B8%8E%E4%BA%BA%E7%89%88Ver5.16%EF%BC%89.pdf)
 
+## 更新日志
+- 0.3.2-RELEASE 修复字段长度超过128长度问题，修改锁问题
+
 
 ## 安装
 
@@ -23,7 +26,7 @@
 <dependency>
     <groupId>io.github.buerxixi</groupId>
     <artifactId>EasyDBF</artifactId>
-    <version>0.3.1-RELEASE</version>
+    <version>0.3.2-RELEASE</version>
 </dependency>
 ```
 
